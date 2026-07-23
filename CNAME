@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page Not Found | Boys to Men Mentorship Camp</title>
+<meta name="description" content="This page could not be found on Boys to Men Mentorship Camp.">
+<link rel="canonical" href="https://boystomencamp.com/">
+<meta property="og:title" content="Page Not Found | Boys to Men Mentorship Camp">
+<meta property="og:description" content="This page could not be found on Boys to Men Mentorship Camp.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://boystomencamp.com/assets/img/group-camp.jpg">
+<link rel="icon" href="assets/img/b2m-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="index.html">
+      <img src="assets/img/b2m-logo.png" alt="Boys to Men Mentorship Camp logo">
+    </a>
+    <nav class="main-nav" aria-label="Primary">
+      <a href="index.html" class="active">Home</a>
+<a href="why-enrol-now.html">Why Enrol Now</a>
+<a href="the-journey.html">The Journey</a>
+<a href="programmes.html">Programmes</a>
+<a href="mentors.html">Mentors</a>
+<a href="partner-with-us.html">Partner With Us</a>
+<a href="learning-resources.html">Resources</a>
+<a href="stories.html">Stories</a>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+      <a class="btn btn-gold nav-cta" href="apply.html">Apply Now</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+<main id="main">
+<section class="page-head center">
+  <div class="container">
+    <h1>Page not found</h1>
+    <p class="lede" style="margin:0 auto 20px;">The page you're looking for may have moved. Let's get you back on the path.</p>
+    <a class="btn btn-gold" href="index.html">Return Home</a>
+  </div>
+</section>
+</main><footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <img src="assets/img/pul-logo.png" alt="Potential Unexplored Ltd logo">
+        </div>
+        <p class="muted" style="color:#B9CCB9;max-width:32ch;">Boys to Men Mentorship Camp is a flagship youth development initiative of Potential Unexplored Ltd, building bridges to manhood across Uganda and Africa.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <a href="why-enrol-now.html">Why Enrol Now</a>
+        <a href="the-journey.html">The Journey</a>
+        <a href="programmes.html">Programmes</a>
+        <a href="stories.html">Stories</a>
+        <a href="blog.html">Blog</a>
+      </div>
+      <div>
+        <h4>Get Involved</h4>
+        <a href="apply.html">Apply for Camp</a>
+        <a href="mentors.html">Meet the Mentors</a>
+        <a href="partner-with-us.html">Partner With Us</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <a href="about.html">About &amp; Founder</a>
+        <a href="contact.html">Contact</a>
+        <a href="https://potentialunexplored.com" target="_blank" rel="noopener">Potential Unexplored Ltd</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Boys to Men Mentorship Camp, a Potential Unexplored Ltd initiative. All rights reserved.</span>
+      <span>Uganda &middot; Africa &middot; and beyond</span>
+    </div>
+  </div>
+</footer>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
