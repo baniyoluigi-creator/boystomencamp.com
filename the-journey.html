@@ -1,76 +1,146 @@
-# Boys to Men Mentorship Camp — boystomencamp.com
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Journey | Boys to Men Mentorship Camp</title>
+<meta name="description" content="The Discover, Develop, Deploy framework behind every Boys to Men Mentorship Camp session, from self-awareness to real-world impact.">
+<link rel="canonical" href="https://boystomencamp.com/the-journey.html">
+<meta property="og:title" content="The Journey | Boys to Men Mentorship Camp">
+<meta property="og:description" content="The Discover, Develop, Deploy framework behind every Boys to Men Mentorship Camp session, from self-awareness to real-world impact.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://boystomencamp.com/story.jpg">
+<link rel="icon" href="b2m-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="index.html">
+      <img src="b2m-logo.png" alt="Boys to Men Mentorship Camp logo">
+    </a>
+    <nav class="main-nav" aria-label="Primary">
+      <a href="index.html">Home</a>
+<a href="why-enrol-now.html">Why Enrol Now</a>
+<a href="the-journey.html" class="active">The Journey</a>
+<a href="programmes.html">Programmes</a>
+<a href="mentors.html">Mentors</a>
+<a href="partner-with-us.html">Partner With Us</a>
+<a href="learning-resources.html">Resources</a>
+<a href="stories.html">Stories</a>
+<a href="about.html">About</a>
+<a href="contact.html">Contact</a>
+      <a class="btn btn-gold nav-cta" href="apply.html">Apply Now</a>
+    </nav>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+<main id="main">
+<section class="page-head">
+  <div class="container">
+    <p class="crumb">The Journey</p>
+    <h1>Discover. Develop. Deploy.</h1>
+    <p class="lede">Every boy carries potential. Potential alone does not create results. It has to move through three deliberate stages to become real progress. This is the framework behind every Boys to Men session, from the first camp to the last follow-up call.</p>
+  </div>
+</section>
 
-Static website for Boys to Men Mentorship Camp, a Potential Unexplored Ltd initiative.
-Built as plain HTML, CSS, and JavaScript, no build tools required to run it, ready for
-GitHub Pages.
+<section>
+  <div class="container">
+    <div class="grid grid-3">
+      <div class="card">
+        <div class="icon">1</div>
+        <h3>Discover Your Potential</h3>
+        <p class="muted">The journey begins by discovering what already exists within.</p>
+        <ul style="padding-left:18px;color:var(--ink-soft);font-size:.95rem;">
+          <li><b>Identity:</b> my strengths, my personality, my values, my uniqueness</li>
+          <li><b>Purpose:</b> my dreams, my contribution, my responsibility</li>
+          <li><b>Self-awareness:</b> my emotions, my thoughts, my choices, my habits</li>
+          <li><b>Potential:</b> my abilities, my gifts, my possibilities</li>
+        </ul>
+        <p class="path-outcome">Outcome: a stronger understanding of himself and the potential within him.</p>
+      </div>
+      <div class="card">
+        <div class="icon">2</div>
+        <h3>Develop Your Potential</h3>
+        <p class="muted">Building the person required to achieve the future he desires.</p>
+        <ul style="padding-left:18px;color:var(--ink-soft);font-size:.95rem;">
+          <li><b>Personal Mastery:</b> discipline, emotional intelligence, resilience, growth mindset</li>
+          <li><b>Practical Mastery:</b> communication, financial literacy, problem solving, career readiness</li>
+          <li><b>People Mastery:</b> relationships, conflict resolution, positive influence, teamwork</li>
+        </ul>
+        <p class="path-outcome">Outcome: the character, mindset, and skills to turn potential into capability.</p>
+      </div>
+      <div class="card">
+        <div class="icon">3</div>
+        <h3>Deploy Your Potential</h3>
+        <p class="muted">Potential creates value only when it is applied.</p>
+        <ul style="padding-left:18px;color:var(--ink-soft);font-size:.95rem;">
+          <li><b>Lead Yourself:</b> ownership, goal setting, responsible choices</li>
+          <li><b>Lead Others:</b> positive influence, service, becoming a role model</li>
+          <li><b>Create Impact:</b> contributing to family, community, society, and Africa's future</li>
+        </ul>
+        <p class="path-outcome">Outcome: a young man who uses his potential to create real impact.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-## Structure
-
-```
-index.html               Home
-why-enrol-now.html        Why Enrol Now (Africa / Diaspora / Single Mothers)
-the-journey.html          Discover, Develop, Deploy framework
-programmes.html           Age bands and upcoming intakes
-apply.html                Application form (Formspree)
-mentors.html               Mentor profiles
-partner-with-us.html       Mentor / Donor / Partner organisation paths
-learning-resources.html    Resources for parents, boys, and books
-stories.html                Testimonials and Beyond the Camp
-blog.html                   Dated updates
-about.html                  Founder and PUL connection
-faq.html                    Frequently asked questions
-contact.html                 General contact form (Formspree)
-404.html                     Not found page
-
-assets/css/styles.css     Design system (colors, type, components)
-assets/js/main.js          Mobile nav + tab interactions
-assets/img/                 Logos and photography
-
-generate.js                 Node script that generated the HTML pages from
-                             shared header/footer templates. Re-run after editing
-                             page content inside generate.js, or edit the .html
-                             files directly for small changes.
-
-CNAME                       Custom domain for GitHub Pages
-robots.txt / sitemap.xml    Basic SEO files
-```
-
-## Before you deploy
-
-1. **Formspree**: both `apply.html` and `contact.html` currently point to
-   `https://formspree.io/f/yourFormID`. Replace `yourFormID` with your real
-   Formspree form IDs (create one form for each, or reuse one and filter by
-   the hidden "Enquiry Type" field).
-2. **Intake dates**: `programmes.html` has placeholder "dates to be confirmed"
-   text for each region. Update these once real dates are set.
-3. **Mentor profiles**: `mentors.html` currently lists Banio, Eduardo, and
-   Patricia. Add further mentors as they're confirmed.
-4. **Images**: all photography and both logos already sit in `assets/img/`,
-   compressed for web use. Swap in higher-resolution or additional images
-   the same way, keeping filenames consistent or updating the HTML references.
-
-## Deploying to GitHub Pages
-
-1. Create a new GitHub repository (for example `boystomencamp-website`).
-2. Push the contents of this folder to the `main` branch:
-   ```
-   git init
-   git add .
-   git commit -m "Initial Boys to Men website"
-   git branch -M main
-   git remote add origin https://github.com/<your-username>/<repo-name>.git
-   git push -u origin main
-   ```
-3. In the repository, go to **Settings → Pages**, set the source to the
-   `main` branch, root folder.
-4. In **Settings → Pages → Custom domain**, enter `boystomencamp.com`.
-   GitHub will detect the existing `CNAME` file automatically.
-5. In Namecheap, point the domain's DNS to GitHub Pages:
-   - Add four `A` records for `@` pointing to GitHub's IPs:
-     `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
-   - Add a `CNAME` record for `www` pointing to `<your-username>.github.io`
-6. Wait for DNS to propagate, then enable **Enforce HTTPS** in the Pages
-   settings once available.
-
-This mirrors the same GitHub Pages plus Namecheap DNS approach already used
-for potentialunexplored.com.
+<section class="section-alt">
+  <div class="container two-col">
+    <div>
+      <p class="eyebrow">Why This Framework</p>
+      <h2>This is not a slogan. It is how every session is planned.</h2>
+      <p>Discover, Develop, Deploy is the same philosophy that runs through every Potential Unexplored Ltd programme. At Boys to Men, it is adapted specifically to the journey from boyhood to manhood, and it shapes everything from camp activities to what happens in the months after a boy goes home.</p>
+      <p><a class="btn btn-outline-dark" href="programmes.html">See how it plays out at camp</a></p>
+    </div>
+    <div>
+      <img src="session-indoor.jpg" alt="A Boys to Men mentorship session in progress" style="border-radius:14px;box-shadow:var(--shadow-soft);">
+    </div>
+  </div>
+</section>
+</main><footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <img src="pul-logo.png" alt="Potential Unexplored Ltd logo">
+        </div>
+        <p class="muted" style="color:#B9CCB9;max-width:32ch;">Boys to Men Mentorship Camp is a flagship youth development initiative of Potential Unexplored Ltd, building bridges to manhood across Uganda and Africa.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <a href="why-enrol-now.html">Why Enrol Now</a>
+        <a href="the-journey.html">The Journey</a>
+        <a href="programmes.html">Programmes</a>
+        <a href="stories.html">Stories</a>
+        <a href="blog.html">Blog</a>
+      </div>
+      <div>
+        <h4>Get Involved</h4>
+        <a href="apply.html">Apply for Camp</a>
+        <a href="mentors.html">Meet the Mentors</a>
+        <a href="partner-with-us.html">Partner With Us</a>
+        <a href="faq.html">FAQ</a>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <a href="about.html">About &amp; Founder</a>
+        <a href="contact.html">Contact</a>
+        <a href="https://potentialunexplored.com" target="_blank" rel="noopener">Potential Unexplored Ltd</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Boys to Men Mentorship Camp, a Potential Unexplored Ltd initiative. All rights reserved.</span>
+      <span>Uganda &middot; Africa &middot; and beyond</span>
+    </div>
+  </div>
+</footer>
+<script src="main.js"></script>
+</body>
+</html>
