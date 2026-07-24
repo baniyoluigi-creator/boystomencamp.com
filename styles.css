@@ -148,23 +148,23 @@ header.site-header{
 .brand-name{font-family:var(--font-display);font-weight:800;color:var(--green-800);font-size:1.02rem;line-height:1.15;}
 .brand-name span{display:block;font-size:.68rem;letter-spacing:.12em;color:var(--gold-600);font-weight:700;text-transform:uppercase;}
 
-nav.main-nav{display:flex;align-items:center;gap:2px;}
+nav.main-nav{display:flex;align-items:center;gap:0;}
 nav.main-nav > a{
-  font-family:var(--font-display);font-size:.86rem;font-weight:600;
-  padding:9px 12px;border-radius:8px;color:var(--ink-soft);
+  font-family:var(--font-display);font-size:.82rem;font-weight:600;
+  padding:9px 10px;border-radius:8px;color:var(--ink-soft);white-space:nowrap;
   transition:background .15s ease,color .15s ease;
 }
 nav.main-nav > a:hover,nav.main-nav > a.active{background:var(--green-700);color:var(--white);}
-.nav-cta{margin-left:6px;}
+.nav-cta{margin-left:10px;}
 .nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:6px;}
 .nav-toggle span{display:block;width:24px;height:2px;background:var(--green-800);margin:5px 0;}
 
 /* ---- Dropdown submenus ---- */
 .has-dropdown{position:relative;}
 .dropdown-trigger{
-  display:flex;align-items:center;gap:5px;cursor:pointer;
-  font-family:var(--font-display);font-size:.86rem;font-weight:600;
-  padding:9px 12px;border-radius:8px;color:var(--ink-soft);background:none;border:none;
+  display:flex;align-items:center;gap:4px;cursor:pointer;
+  font-family:var(--font-display);font-size:.82rem;font-weight:600;
+  padding:9px 10px;border-radius:8px;color:var(--ink-soft);background:none;border:none;white-space:nowrap;
 }
 .dropdown-trigger::after{content:"";width:6px;height:6px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin-top:-3px;transition:transform .15s ease;}
 .has-dropdown:hover .dropdown-trigger,.dropdown-trigger.active{background:var(--green-700);color:var(--white);}
@@ -180,7 +180,7 @@ nav.main-nav > a:hover,nav.main-nav > a.active{background:var(--green-700);color
 }
 .dropdown-menu a:hover{background:var(--cream-dark);color:var(--green-800);}
 
-@media (max-width:1040px){
+@media (max-width:1220px){
   nav.main-nav{
     position:fixed;inset:70px 0 0 0;background:var(--cream);
     flex-direction:column;align-items:stretch;padding:18px;

@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function () {
   // Dropdown: click-to-toggle on mobile/touch, hover handles desktop via CSS
   document.querySelectorAll('.dropdown-trigger').forEach(function (trigger) {
     trigger.addEventListener('click', function (e) {
-      if (window.innerWidth <= 1040) {
+      if (window.innerWidth <= 1220) {
         e.preventDefault();
         trigger.closest('.has-dropdown').classList.toggle('mobile-open');
       }
@@ -117,5 +117,22 @@ document.addEventListener('DOMContentLoaded', function () {
     if (whereFromField) whereFromField.addEventListener('change', evaluateConditionals);
 
     evaluateConditionals();
+  }
+
+  // Deep-linking: if the URL hash points at a tab panel (e.g. support.html#panel-mentor),
+  // activate the right tab and scroll to it, instead of landing on a hidden panel.
+  if (window.location.hash) {
+    var targetId = window.location.hash.slice(1);
+    var targetPanel = document.getElementById(targetId);
+    if (targetPanel && targetPanel.classList.contains('voice-panel')) {
+      var ownerTabs = document.querySelector('.voice-tabs[data-target="' + targetPanel.parentElement.id + '"]');
+      if (ownerTabs) {
+        var matchingBtn = ownerTabs.querySelector('[data-panel="' + targetId + '"]');
+        if (matchingBtn) {
+          matchingBtn.click();
+          setTimeout(function () { ownerTabs.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50);
+        }
+      }
+    }
   }
 });
