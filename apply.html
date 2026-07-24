@@ -53,7 +53,23 @@
 <section>
   <div class="container two-col" style="align-items:flex-start;">
     <div>
-      <form class="stack" action="https://formspree.io/f/yourFormID" method="POST">
+      <div class="voice-tabs" data-target="program-panels" id="program-panels-tabs">
+        <button class="voice-tab active" data-panel="panel-local">Local Intake</button>
+        <button class="voice-tab" data-panel="panel-summer">Diaspora Summer Camp</button>
+      </div>
+
+      <form class="stack" id="applyForm" action="https://formspree.io/f/yourFormID" method="POST">
+        <input type="hidden" id="subjectField" name="_subject" value="New Application: Boys to Men">
+
+        <div id="program-panels">
+          <div class="voice-panel active" id="panel-local">
+            <p class="form-note" style="margin-bottom:14px;">Every location, Kampala, Arua, and Gulu, runs all four age bands. Choose whichever is closest to your family.</p>
+          </div>
+          <div class="voice-panel" id="panel-summer">
+            <p class="form-note" style="margin-bottom:14px;">A 9-day intake in July, in Kampala, built specifically for boys and young men visiting from the diaspora.</p>
+          </div>
+        </div>
+
         <div class="field-row">
           <div class="field">
             <label for="parentName">Parent / Guardian Name</label>
@@ -64,14 +80,15 @@
             <input type="text" id="boyName" name="Applicant Name" required>
           </div>
         </div>
+
         <div class="field-row">
           <div class="field">
             <label for="age">Age</label>
             <input type="number" id="age" name="Age" min="8" max="23" required>
           </div>
           <div class="field">
-            <label for="location">Where are you applying from?</label>
-            <select id="location" name="Location" required>
+            <label for="whereFrom">Where are you applying from?</label>
+            <select id="whereFrom" name="Applying From" required>
               <option value="">Select one</option>
               <option>Based in Uganda</option>
               <option>Based elsewhere in Africa</option>
@@ -79,6 +96,59 @@
             </select>
           </div>
         </div>
+
+        <!-- Conditional: Local Intake fields -->
+        <div class="field-row conditional-field" data-show-when="panel-local">
+          <div class="field">
+            <label for="location">Which location?</label>
+            <select id="location" name="Location">
+              <option value="">Select one</option>
+              <option>Kampala</option>
+              <option>Arua</option>
+              <option>Gulu</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="ageBand">Which age band fits?</label>
+            <select id="ageBand" name="Age Band">
+              <option value="">Select one</option>
+              <option>Young Men (23&ndash;18)</option>
+              <option>Rising Men (17&ndash;14)</option>
+              <option>Path Finders (13&ndash;11)</option>
+              <option>Young Explorers (10&ndash;8)</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Conditional: Diaspora Summer Camp fields -->
+        <div class="conditional-field" data-show-when="panel-summer">
+          <div class="field-row">
+            <div class="field">
+              <label for="country">Country of residence</label>
+              <input type="text" id="country" name="Country of Residence">
+            </div>
+            <div class="field">
+              <label for="visaHelp">Need travel or visa guidance?</label>
+              <select id="visaHelp" name="Needs Travel Guidance">
+                <option value="">Select one</option>
+                <option>Yes, please advise</option>
+                <option>No, we have this covered</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label for="currency">Preferred fee currency</label>
+            <select id="currency" name="Preferred Currency">
+              <option>USD ($250)</option>
+              <option>UGX (990,000)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="fee-card" id="feeDisplay">Local intake fee: contact us for current pricing by region.</div>
+
         <div class="field-row">
           <div class="field">
             <label for="email">Email Address</label>
@@ -89,20 +159,12 @@
             <input type="tel" id="phone" name="Phone">
           </div>
         </div>
-        <div class="field">
-          <label for="intake">Which age band fits?</label>
-          <select id="intake" name="Age Band">
-            <option>Young Men (23&ndash;18)</option>
-            <option>Rising Men (17&ndash;14)</option>
-            <option>Path Finders (13&ndash;11)</option>
-            <option>Young Explorers (10&ndash;8)</option>
-            <option>Not sure yet</option>
-          </select>
-        </div>
+
         <div class="field">
           <label for="message">Anything you'd like us to know?</label>
           <textarea id="message" name="Message" rows="4"></textarea>
         </div>
+
         <button class="btn btn-gold" type="submit">Submit Application</button>
         <p class="form-note">By submitting, you agree to be contacted by the Boys to Men team about this application.</p>
       </form>
@@ -116,7 +178,11 @@
       </div>
       <div class="card mt-lg">
         <h3>Applying from the diaspora?</h3>
-        <p class="muted">Select "Diaspora" above so we can route your enquiry to the team handling travel logistics, timing, and communication across time zones.</p>
+        <p class="muted">Choose "Diaspora Summer Camp" above so we can route your enquiry to the team handling travel logistics, timing, and communication across time zones.</p>
+      </div>
+      <div class="card mt-lg">
+        <h3>Summer Camp at a glance</h3>
+        <p class="muted">9 days in July &middot; Kampala &middot; Ages 8&ndash;23<br>UGX 990,000 or USD 250</p>
       </div>
     </div>
   </div>
@@ -126,9 +192,12 @@
     <div class="footer-grid">
       <div>
         <div class="footer-brand">
-          <img src="pul-logo.png" alt="Potential Unexplored Ltd logo">
+          <a class="footer-brand-logo" href="https://potentialunexplored.com" target="_blank" rel="noopener">
+            <img src="pul-logo.png" alt="Potential Unexplored Ltd logo">
+          </a>
         </div>
         <p class="muted" style="color:#B9CCB9;max-width:32ch;">Boys to Men Mentorship Camp is a flagship youth development initiative of Potential Unexplored Ltd, building bridges to manhood across Uganda and Africa.</p>
+        <p><a href="https://potentialunexplored.com" target="_blank" rel="noopener" style="color:var(--gold-400);font-weight:700;font-family:var(--font-display);font-size:.88rem;">Visit potentialunexplored.com &rarr;</a></p>
       </div>
       <div>
         <h4>Explore</h4>
