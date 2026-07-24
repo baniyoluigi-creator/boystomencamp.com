@@ -34,14 +34,30 @@ document.addEventListener('DOMContentLoaded', function () {
      --------------------------------------------------------------- */
   var applyForm = document.getElementById('applyForm');
   if (applyForm) {
-    var programType = document.getElementById('programType'); // 'local' or 'diaspora-summer'
+    var ageField = document.getElementById('age');
     var locationField = document.getElementById('location');
-    var ageBandField = document.getElementById('ageBand');
+    var whereFromField = document.getElementById('whereFrom');
     var subjectField = document.getElementById('subjectField');
     var feeDisplay = document.getElementById('feeDisplay');
 
     var LOCAL_FEE = 'Local intake fee: contact us for current pricing by region.';
     var SUMMER_FEE = 'Diaspora Summer Camp fee: UGX 990,000 or USD 250 (covers the full 9-day camp).';
+
+    var UGANDA_DISTRICTS = ["Kampala","Wakiso","Mukono","Jinja","Mbale","Mbarara","Gulu","Arua","Lira","Soroti","Kabale","Kabarole (Fort Portal)","Masaka","Hoima","Masindi","Kasese","Iganga","Tororo","Kitgum","Pader","Moyo","Adjumani","Nebbi","Zombo","Yumbe","Koboko","Maracha","Pakwach","Buliisa","Kiryandongo","Kayunga","Luwero","Nakasongola","Kiboga","Mityana","Mubende","Sembabule","Rakai","Kalangala","Bushenyi","Ntungamo","Kanungu","Kisoro","Rukungiri","Ibanda","Kiruhura","Isingiro","Buhweju","Rubirizi","Sheema","Mitooma","Bundibugyo","Ntoroko","Kyenjojo","Kyegegwa","Kamwenge","Bulambuli","Sironko","Kapchorwa","Kween","Bukwo","Manafwa","Namisindwa","Budaka","Butaleja","Busia","Bugiri","Namayingo","Mayuge","Kamuli","Kaliro","Buyende","Luuka","Namutumba","Pallisa","Kibuku","Butebo","Ngora","Serere","Kumi","Bukedea","Amuria","Katakwi","Napak","Moroto","Nakapiripirit","Amudat","Kotido","Kaabong","Abim","Agago","Amuru","Nwoya","Omoro","Lamwo","Otuke","Alebtong","Dokolo","Amolatar","Apac","Oyam","Kole","Kwania","Buikwe","Buvuma","Kalungu","Lyantonde","Lwengo","Bukomansimbi","Gomba","Other"];
+
+    var COUNTRIES = ["Afghanistan","Albania","Algeria","Angola","Argentina","Australia","Austria","Bahrain","Bangladesh","Belgium","Botswana","Brazil","Burundi","Cameroon","Canada","Chad","China","Congo (DRC)","Denmark","Egypt","Ethiopia","Finland","France","Germany","Ghana","Greece","India","Indonesia","Ireland","Israel","Italy","Japan","Jordan","Kenya","Kuwait","Lesotho","Malawi","Malaysia","Mexico","Morocco","Mozambique","Namibia","Netherlands","New Zealand","Niger","Nigeria","Norway","Oman","Pakistan","Philippines","Portugal","Qatar","Rwanda","Saudi Arabia","Singapore","Somalia","South Africa","South Sudan","Spain","Sudan","Sweden","Switzerland","Tanzania","Thailand","Turkey","Uganda (elsewhere)","Ukraine","United Arab Emirates","United Kingdom","United States","Zambia","Zimbabwe","Other"];
+
+    function populateSelect(id, list) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      list.forEach(function (name) {
+        var opt = document.createElement('option');
+        opt.textContent = name;
+        el.appendChild(opt);
+      });
+    }
+    populateSelect('district', UGANDA_DISTRICTS);
+    populateSelect('country2', COUNTRIES);
 
     window.updateApplySubject = function () {
       if (!subjectField) return;
@@ -49,8 +65,8 @@ document.addEventListener('DOMContentLoaded', function () {
       var type = activePanel ? activePanel.id : '';
       if (type === 'panel-local') {
         var loc = locationField ? locationField.value : '';
-        var band = ageBandField ? ageBandField.value : '';
-        subjectField.value = 'New Application: Boys to Men ' + (loc || 'Location TBC') + ' \u2014 ' + (band || 'Age Band TBC');
+        var age = ageField ? ageField.value : '';
+        subjectField.value = 'New Application: Boys to Men ' + (loc || 'Location TBC') + ' \u2014 Age ' + (age || 'TBC');
         if (feeDisplay) feeDisplay.textContent = LOCAL_FEE;
       } else if (type === 'panel-summer') {
         subjectField.value = 'New Application: Boys to Men Diaspora Summer Camp (July, 9 days)';
@@ -58,24 +74,35 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     };
 
-    document.querySelectorAll('.conditional-field').forEach(function (el) { el.classList.remove('show'); });
-
-    function syncConditionalFields() {
+    function evaluateConditionals() {
       var activePanel = applyForm.querySelector('.voice-panel.active');
-      var type = activePanel ? activePanel.id : '';
+      var activeTab = activePanel ? activePanel.id : '';
+      var whereFromVal = whereFromField ? whereFromField.value : '';
+
       document.querySelectorAll('.conditional-field').forEach(function (el) {
-        var showFor = el.getAttribute('data-show-when');
-        if (showFor === type) { el.classList.add('show'); } else { el.classList.remove('show'); }
+        var wantTab = el.getAttribute('data-cond-tab');
+        var wantField = el.getAttribute('data-cond-field');
+        var wantValue = el.getAttribute('data-cond-value');
+
+        var tabOK = !wantTab || wantTab === activeTab;
+        var fieldOK = true;
+        if (wantField && wantValue) {
+          var values = wantValue.split(',');
+          var current = wantField === 'whereFrom' ? whereFromVal : '';
+          fieldOK = values.indexOf(current) !== -1;
+        }
+        if (tabOK && fieldOK) { el.classList.add('show'); } else { el.classList.remove('show'); }
       });
       updateApplySubject();
     }
 
     document.querySelectorAll('#program-panels-tabs .voice-tab').forEach(function (btn) {
-      btn.addEventListener('click', syncConditionalFields);
+      btn.addEventListener('click', evaluateConditionals);
     });
     if (locationField) locationField.addEventListener('change', updateApplySubject);
-    if (ageBandField) ageBandField.addEventListener('change', updateApplySubject);
+    if (ageField) ageField.addEventListener('change', updateApplySubject);
+    if (whereFromField) whereFromField.addEventListener('change', evaluateConditionals);
 
-    syncConditionalFields();
+    evaluateConditionals();
   }
 });

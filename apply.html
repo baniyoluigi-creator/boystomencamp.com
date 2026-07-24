@@ -84,7 +84,13 @@
         <div class="field-row">
           <div class="field">
             <label for="age">Age</label>
-            <input type="number" id="age" name="Age" min="8" max="23" required>
+            <select id="age" name="Age" required>
+              <option value="">Select age</option>
+              <option>23</option><option>22</option><option>21</option><option>20</option>
+              <option>19</option><option>18</option><option>17</option><option>16</option>
+              <option>15</option><option>14</option><option>13</option><option>12</option>
+              <option>11</option><option>10</option><option>9</option><option>8</option>
+            </select>
           </div>
           <div class="field">
             <label for="whereFrom">Where are you applying from?</label>
@@ -97,8 +103,24 @@
           </div>
         </div>
 
+        <div class="fee-card" style="border-style:solid;">
+          Boys are placed into age-appropriate clusters automatically once they arrive, Young Explorers, Path Finders, Rising Men, or Young Men, based on age. There is nothing to choose here, every cluster is fully mentored and cared for.
+        </div>
+
+        <!-- Conditional: District, shown only when Applying From = Based in Uganda -->
+        <div class="field conditional-field" data-cond-field="whereFrom" data-cond-value="Based in Uganda">
+          <label for="district">District</label>
+          <select id="district" name="District"><option value="">Select district</option></select>
+        </div>
+
+        <!-- Conditional: Country, shown when Applying From = Diaspora or Based elsewhere in Africa -->
+        <div class="field conditional-field" data-cond-field="whereFrom" data-cond-value="Diaspora,Based elsewhere in Africa">
+          <label for="country2">Country</label>
+          <select id="country2" name="Country"><option value="">Select country</option></select>
+        </div>
+
         <!-- Conditional: Local Intake fields -->
-        <div class="field-row conditional-field" data-show-when="panel-local">
+        <div class="field-row conditional-field" data-cond-tab="panel-local">
           <div class="field">
             <label for="location">Which location?</label>
             <select id="location" name="Location">
@@ -108,26 +130,16 @@
               <option>Gulu</option>
             </select>
           </div>
-          <div class="field">
-            <label for="ageBand">Which age band fits?</label>
-            <select id="ageBand" name="Age Band">
-              <option value="">Select one</option>
-              <option>Young Men (23&ndash;18)</option>
-              <option>Rising Men (17&ndash;14)</option>
-              <option>Path Finders (13&ndash;11)</option>
-              <option>Young Explorers (10&ndash;8)</option>
-              <option>Not sure yet</option>
-            </select>
-          </div>
         </div>
 
         <!-- Conditional: Diaspora Summer Camp fields -->
-        <div class="conditional-field" data-show-when="panel-summer">
+        <div class="conditional-field" data-cond-tab="panel-summer">
           <div class="field-row">
             <div class="field">
               <label for="country">Country of residence</label>
               <input type="text" id="country" name="Country of Residence">
             </div>
+
             <div class="field">
               <label for="visaHelp">Need travel or visa guidance?</label>
               <select id="visaHelp" name="Needs Travel Guidance">
@@ -177,6 +189,10 @@
         3. You complete registration and receive a full preparation guide before camp.</p>
       </div>
       <div class="card mt-lg">
+        <h3>A calm, coaching-based approach</h3>
+        <p class="muted">Boys to Men is not a disciplinary camp. Every mentor is vetted and supervised, and our approach is built on coaching and mentorship, not punishment. Read our full <a class="btn-ghost" href="safeguarding.html">Safeguarding commitment</a>.</p>
+      </div>
+      <div class="card mt-lg">
         <h3>Applying from the diaspora?</h3>
         <p class="muted">Choose "Diaspora Summer Camp" above so we can route your enquiry to the team handling travel logistics, timing, and communication across time zones.</p>
       </div>
@@ -212,6 +228,7 @@
         <a href="apply.html">Apply for Camp</a>
         <a href="mentors.html">Meet the Mentors</a>
         <a href="partner-with-us.html">Partner With Us</a>
+        <a href="safeguarding.html">Safeguarding</a>
         <a href="faq.html">FAQ</a>
       </div>
       <div>
