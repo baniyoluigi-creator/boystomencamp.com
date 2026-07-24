@@ -50,10 +50,15 @@ document.addEventListener('DOMContentLoaded', function () {
     var ageField = document.getElementById('age');
     var locationField = document.getElementById('location');
     var whereFromField = document.getElementById('whereFrom');
+    var payMethodField = document.getElementById('payMethod');
     var subjectField = document.getElementById('subjectField');
     var feeDisplay = document.getElementById('feeDisplay');
 
-    var LOCAL_FEE = 'Local intake fee: contact us for current pricing by region.';
+    var LOCAL_FEES = {
+      'Kampala': 'Kampala fee: UGX 500,000 or USD 150.',
+      'Arua': 'Arua fee: UGX 300,000.',
+      'Gulu': 'Gulu fee: UGX 300,000 (next intake to be announced).'
+    };
     var SUMMER_FEE = 'Diaspora Summer Camp fee: UGX 990,000 or USD 250 (covers the full 9-day camp).';
 
     var UGANDA_DISTRICTS = ["Kampala","Wakiso","Mukono","Jinja","Mbale","Mbarara","Gulu","Arua","Lira","Soroti","Kabale","Kabarole (Fort Portal)","Masaka","Hoima","Masindi","Kasese","Iganga","Tororo","Kitgum","Pader","Moyo","Adjumani","Nebbi","Zombo","Yumbe","Koboko","Maracha","Pakwach","Buliisa","Kiryandongo","Kayunga","Luwero","Nakasongola","Kiboga","Mityana","Mubende","Sembabule","Rakai","Kalangala","Bushenyi","Ntungamo","Kanungu","Kisoro","Rukungiri","Ibanda","Kiruhura","Isingiro","Buhweju","Rubirizi","Sheema","Mitooma","Bundibugyo","Ntoroko","Kyenjojo","Kyegegwa","Kamwenge","Bulambuli","Sironko","Kapchorwa","Kween","Bukwo","Manafwa","Namisindwa","Budaka","Butaleja","Busia","Bugiri","Namayingo","Mayuge","Kamuli","Kaliro","Buyende","Luuka","Namutumba","Pallisa","Kibuku","Butebo","Ngora","Serere","Kumi","Bukedea","Amuria","Katakwi","Napak","Moroto","Nakapiripirit","Amudat","Kotido","Kaabong","Abim","Agago","Amuru","Nwoya","Omoro","Lamwo","Otuke","Alebtong","Dokolo","Amolatar","Apac","Oyam","Kole","Kwania","Buikwe","Buvuma","Kalungu","Lyantonde","Lwengo","Bukomansimbi","Gomba","Other"];
@@ -74,23 +79,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
     window.updateApplySubject = function () {
       if (!subjectField) return;
-      var activePanel = applyForm.querySelector('.voice-panel.active');
+      var activePanel = document.querySelector('#program-panels .voice-panel.active');
       var type = activePanel ? activePanel.id : '';
       if (type === 'panel-local') {
-        var loc = locationField ? locationField.value : '';
+        var locRaw = locationField ? locationField.value : '';
+        var locName = locRaw.split(' \u2014')[0].trim();
         var age = ageField ? ageField.value : '';
-        subjectField.value = 'New Application: Boys to Men ' + (loc || 'Location TBC') + ' \u2014 Age ' + (age || 'TBC');
-        if (feeDisplay) feeDisplay.textContent = LOCAL_FEE;
+        subjectField.value = 'New Registration: Boys to Men ' + (locName || 'Location TBC') + ' \u2014 Age ' + (age || 'TBC');
+        if (feeDisplay) feeDisplay.textContent = LOCAL_FEES[locName] || 'Select a location above to see the exact fee.';
       } else if (type === 'panel-summer') {
-        subjectField.value = 'New Application: Boys to Men Diaspora Summer Camp (July, 9 days)';
+        subjectField.value = 'New Registration: Boys to Men Diaspora Summer Camp (July 2027, 9 days)';
         if (feeDisplay) feeDisplay.textContent = SUMMER_FEE;
       }
     };
 
+    function fieldValue(name) {
+      var el = document.getElementById(name);
+      if (!el) return '';
+      return el.value;
+    }
+
     function evaluateConditionals() {
-      var activePanel = applyForm.querySelector('.voice-panel.active');
+      var activePanel = document.querySelector('#program-panels .voice-panel.active');
       var activeTab = activePanel ? activePanel.id : '';
-      var whereFromVal = whereFromField ? whereFromField.value : '';
 
       document.querySelectorAll('.conditional-field').forEach(function (el) {
         var wantTab = el.getAttribute('data-cond-tab');
@@ -101,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var fieldOK = true;
         if (wantField && wantValue) {
           var values = wantValue.split(',');
-          var current = wantField === 'whereFrom' ? whereFromVal : '';
+          var current = fieldValue(wantField);
           fieldOK = values.indexOf(current) !== -1;
         }
         if (tabOK && fieldOK) { el.classList.add('show'); } else { el.classList.remove('show'); }
@@ -115,6 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (locationField) locationField.addEventListener('change', updateApplySubject);
     if (ageField) ageField.addEventListener('change', updateApplySubject);
     if (whereFromField) whereFromField.addEventListener('change', evaluateConditionals);
+    if (payMethodField) payMethodField.addEventListener('change', evaluateConditionals);
 
     evaluateConditionals();
   }

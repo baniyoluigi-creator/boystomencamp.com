@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Apply | Boys to Men Mentorship Camp</title>
-<meta name="description" content="Apply for the next Boys to Men Mentorship Camp intake. Boys are clustered by age automatically. December, January, and July intake windows.">
+<meta name="description" content="Apply for the next Boys to Men Mentorship Camp intake. Real dates and fees for Kampala, Arua, Gulu, and the Diaspora Summer Camp.">
 <meta property="og:title" content="Apply | Boys to Men Mentorship Camp">
-<meta property="og:description" content="Apply for the next Boys to Men Mentorship Camp intake. Boys are clustered by age automatically. December, January, and July intake windows.">
+<meta property="og:description" content="Apply for the next Boys to Men Mentorship Camp intake. Real dates and fees for Kampala, Arua, Gulu, and the Diaspora Summer Camp.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://boystomencamp.com/story.jpg">
 <link rel="icon" href="b2m-logo.png">
@@ -81,8 +81,8 @@
 <section class="page-head">
   <div class="container">
     <p class="crumb">Apply</p>
-    <h1>Start the application</h1>
-    <p class="lede">This is the first real step toward camp. It takes a few minutes, and our team will follow up personally with next steps.</p>
+    <h1>Start the registration</h1>
+    <p class="lede">This is the first real step toward camp. It takes a few minutes, and our team will confirm his place within 24 hours.</p>
   </div>
 </section>
 
@@ -94,42 +94,61 @@
         <button class="voice-tab" data-panel="panel-summer">Diaspora Summer Camp</button>
       </div>
 
-      <form class="stack" id="applyForm" action="https://formspree.io/f/yourFormID" method="POST">
-        <input type="hidden" id="subjectField" name="_subject" value="New Application: Boys to Men">
-
-        <div id="program-panels">
-          <div class="voice-panel active" id="panel-local">
-            <p class="form-note" style="margin-bottom:14px;">Kampala, Arua, and Gulu each run all four age clusters, every December and January.</p>
-          </div>
-          <div class="voice-panel" id="panel-summer">
-            <p class="form-note" style="margin-bottom:14px;">9 days, July 7&ndash;16, 2027, Kampala only, built specifically for diaspora families.</p>
-          </div>
+      <div id="program-panels">
+        <div class="voice-panel active" id="panel-local">
+          <div class="card card-gold" style="max-width:760px;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;">
+      <h3 style="margin-bottom:4px;">9th Intake: Kampala</h3>
+      <span class="pill pill-open">Applications Open</span>
+    </div>
+    <p class="muted" style="margin-bottom:14px;">7-Day Residential Camp &middot; 13 to 20 December 2026 &middot; St. Elizabeth SSS Nkoowe</p>
+    <div class="fee-card">
+      <b>Fee:</b> UGX 500,000 or USD 150<br>
+      <b>Instalment plans available.</b> Balance cleared before camp begins.
+    </div>
+    <p class="muted mt-lg">Boys are placed into age-appropriate clusters automatically once they arrive, Young Explorers, Path Finders, Rising Men, and Young Men, so this one intake covers every age from 8 to 23.</p>
+    <p><a class="btn btn-outline-dark" href="apply.html">Apply for This Intake</a></p>
+  </div>
+          <p class="form-note mt-lg">Prefer Arua (30 Aug&ndash;5 Sep 2026, UGX 300,000) or Gulu (next intake to be announced)? Select the location in the form below.</p>
         </div>
+        <div class="voice-panel" id="panel-summer">
+          <div class="card card-gold" style="max-width:760px;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;">
+      <h3 style="margin-bottom:4px;">Summer Camp: Kampala Only</h3>
+      <span class="pill pill-open">Applications Open</span>
+    </div>
+    <p class="muted" style="margin-bottom:14px;">9-Day Residential Camp &middot; 7 to 16 July 2027 &middot; Kampala (venue confirmed on registration)</p>
+    <div class="fee-card">
+      <b>Fee:</b> UGX 990,000 or USD 250<br>
+      <b>Instalment plans available.</b> Balance cleared before camp begins.
+    </div>
+    <p class="muted mt-lg">Boys are placed into age-appropriate clusters automatically once they arrive, Young Explorers, Path Finders, Rising Men, and Young Men, so this one intake covers every age from 8 to 23.</p>
+    <p><a class="btn btn-outline-dark" href="apply.html">Apply for This Intake</a></p>
+  </div>
+        </div>
+      </div>
 
+      <form class="stack mt-lg" id="applyForm" action="https://formspree.io/f/xdardbqz" method="POST">
+        <input type="hidden" id="subjectField" name="_subject" value="New Registration: Boys to Men">
+
+        <h3>Your Details (Person Registering)</h3>
         <div class="field-row">
           <div class="field">
-            <label for="parentName">Parent / Guardian Name</label>
-            <input type="text" id="parentName" name="Parent Name" required>
+            <label for="parentName">Full Name *</label>
+            <input type="text" id="parentName" name="Full Name" required>
           </div>
           <div class="field">
-            <label for="boyName">Boy's / Young Man's Name</label>
-            <input type="text" id="boyName" name="Applicant Name" required>
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" name="Email" required>
           </div>
         </div>
-
         <div class="field-row">
           <div class="field">
-            <label for="age">Age</label>
-            <select id="age" name="Age" required>
-              <option value="">Select age</option>
-              <option>23</option><option>22</option><option>21</option><option>20</option>
-              <option>19</option><option>18</option><option>17</option><option>16</option>
-              <option>15</option><option>14</option><option>13</option><option>12</option>
-              <option>11</option><option>10</option><option>9</option><option>8</option>
-            </select>
+            <label for="phone">Phone Number *</label>
+            <input type="tel" id="phone" name="Phone" required>
           </div>
           <div class="field">
-            <label for="whereFrom">Where are you applying from?</label>
+            <label for="whereFrom">Where are you applying from? *</label>
             <select id="whereFrom" name="Applying From" required>
               <option value="">Select one</option>
               <option>Based in Uganda</option>
@@ -139,38 +158,58 @@
           </div>
         </div>
 
-        <div class="fee-card" style="border-style:solid;">
-          Boys are placed into age-appropriate clusters automatically once they arrive, Young Explorers, Path Finders, Rising Men, or Young Men, based on age. There is nothing to choose here.
-        </div>
-
         <div class="field conditional-field" data-cond-field="whereFrom" data-cond-value="Based in Uganda">
           <label for="district">District</label>
           <select id="district" name="District"><option value="">Select district</option></select>
         </div>
-
         <div class="field conditional-field" data-cond-field="whereFrom" data-cond-value="Diaspora,Based elsewhere in Africa">
-          <label for="country2">Country</label>
+          <label for="country2">Country *</label>
           <select id="country2" name="Country"><option value="">Select country</option></select>
+        </div>
+
+        <div class="field">
+          <label>Who is attending the camp?</label>
+          <select name="Who Is Attending">
+            <option>My son / the young man himself is registering</option>
+            <option>I am registering on his behalf</option>
+          </select>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="boyName">Boy's / Young Man's Name *</label>
+            <input type="text" id="boyName" name="Applicant Name" required>
+          </div>
+          <div class="field">
+            <label for="age">Age *</label>
+            <select id="age" name="Age" required>
+              <option value="">Select age</option>
+              <option>23</option><option>22</option><option>21</option><option>20</option>
+              <option>19</option><option>18</option><option>17</option><option>16</option>
+              <option>15</option><option>14</option><option>13</option><option>12</option>
+              <option>11</option><option>10</option><option>9</option><option>8</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="fee-card" style="border-style:solid;">
+          Boys are placed into age-appropriate clusters automatically once they arrive, Young Explorers, Path Finders, Rising Men, or Young Men, based on age. There is nothing to choose here.
         </div>
 
         <div class="field-row conditional-field" data-cond-tab="panel-local">
           <div class="field">
-            <label for="location">Which location?</label>
+            <label for="location">Which location? *</label>
             <select id="location" name="Location">
               <option value="">Select one</option>
-              <option>Kampala</option>
-              <option>Arua</option>
-              <option>Gulu</option>
+              <option>Kampala &mdash; 13&ndash;20 Dec 2026 &mdash; UGX 500,000 / USD 150</option>
+              <option>Arua &mdash; 30 Aug&ndash;5 Sep 2026 &mdash; UGX 300,000</option>
+              <option>Gulu &mdash; next intake to be announced &mdash; UGX 300,000</option>
             </select>
           </div>
         </div>
 
         <div class="conditional-field" data-cond-tab="panel-summer">
           <div class="field-row">
-            <div class="field">
-              <label for="country">Country of residence</label>
-              <input type="text" id="country" name="Country of Residence">
-            </div>
             <div class="field">
               <label for="visaHelp">Need travel or visa guidance?</label>
               <select id="visaHelp" name="Needs Travel Guidance">
@@ -180,52 +219,77 @@
                 <option>Not sure yet</option>
               </select>
             </div>
-          </div>
-          <div class="field">
-            <label for="currency">Preferred fee currency</label>
-            <select id="currency" name="Preferred Currency">
-              <option>USD ($250)</option>
-              <option>UGX (990,000)</option>
-            </select>
+            <div class="field">
+              <label for="currency">Preferred fee currency</label>
+              <select id="currency" name="Preferred Currency">
+                <option>USD ($250)</option>
+                <option>UGX (990,000)</option>
+              </select>
+            </div>
           </div>
         </div>
 
-        <div class="fee-card" id="feeDisplay">Local intake fee: contact us for current pricing by region.</div>
+        <div class="fee-card" id="feeDisplay">Select a location above to see the exact fee.</div>
 
-        <div class="field-row">
-          <div class="field">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="Email" required>
-          </div>
-          <div class="field">
-            <label for="phone">Phone / WhatsApp</label>
-            <input type="tel" id="phone" name="Phone">
-          </div>
+        <h3 class="mt-lg">What change are you hoping this camp will produce?</h3>
+        <p class="form-note">Select what resonates for him.</p>
+        <div class="grid grid-2" style="gap:10px;">
+          <label class="field" style="font-weight:400;"><input type="checkbox" name="Desired Outcome" value="Discovers who he truly is"> He discovers who he truly is, beyond what others have told him or labelled him</label>
+          <label class="field" style="font-weight:400;"><input type="checkbox" name="Desired Outcome" value="Breaks free from destructive habits"> He breaks free from destructive habits, addictions, or patterns that have been controlling him</label>
+          <label class="field" style="font-weight:400;"><input type="checkbox" name="Desired Outcome" value="Finds healing"> He finds healing for wounds he has never had space or language to name</label>
+          <label class="field" style="font-weight:400;"><input type="checkbox" name="Desired Outcome" value="Builds a vision"> He builds a vision for his life and writes a plan he actually owns</label>
+          <label class="field" style="font-weight:400;"><input type="checkbox" name="Desired Outcome" value="Financial intelligence"> He develops financial intelligence and the entrepreneurial mindset to create his own opportunities</label>
+          <label class="field" style="font-weight:400;"><input type="checkbox" name="Desired Outcome" value="Becomes confident"> He becomes confident in who he is as a young man, without being told who to be</label>
+          <label class="field" style="font-weight:400;"><input type="checkbox" name="Desired Outcome" value="Communicates and leads"> He learns to communicate, lead, and carry himself with respect and maturity</label>
+          <label class="field" style="font-weight:400;"><input type="checkbox" name="Desired Outcome" value="Finds brotherhood"> He leaves with a brotherhood of peers who hold him to the best version of himself</label>
+          <label class="field" style="font-weight:400;"><input type="checkbox" name="Desired Outcome" value="Understands healthy manhood"> He understands what healthy manhood actually looks like and makes it his own</label>
         </div>
+
+        <div class="field mt-lg">
+          <label for="message">Anything else we should know</label>
+          <textarea id="message" name="Message" rows="3"></textarea>
+        </div>
+
+        <h3 class="mt-lg">How will you pay?</h3>
+        <div class="field">
+          <select id="payMethod" name="Payment Method">
+            <option value="">Select payment method</option>
+            <option value="MTN MoMo">MTN MoMo</option>
+            <option value="Airtel Money">Airtel Money</option>
+            <option value="Bank Transfer">Bank Transfer</option>
+          </select>
+        </div>
+        <div class="fee-card conditional-field" data-cond-field="payMethod" data-cond-value="MTN MoMo">Send to MTN MoMo: <b>+256 775 495 431</b>. A merchant code is also provided on confirmation.</div>
+        <div class="fee-card conditional-field" data-cond-field="payMethod" data-cond-value="Airtel Money">Send to Airtel Money: <b>+256 740 132 573</b>. A merchant code is also provided on confirmation.</div>
+        <div class="fee-card conditional-field" data-cond-field="payMethod" data-cond-value="Bank Transfer">Centenary Bank, Wakiso Branch<br>Account Name: <b>Potential Unexplored Limited</b><br>Account Number: <b>3100125782</b></div>
 
         <div class="field">
-          <label for="message">Anything you'd like us to know?</label>
-          <textarea id="message" name="Message" rows="4"></textarea>
+          <label for="amount">Amount you are paying now</label>
+          <input type="text" id="amount" name="Amount Paying Now" placeholder="e.g. Full fee, or a deposit amount">
+          <p class="form-note">Edit if you are paying a deposit. The full amount must be cleared before camp begins.</p>
         </div>
 
-        <button class="btn btn-gold" type="submit">Submit Application</button>
-        <p class="form-note">By submitting, you agree to be contacted by the Boys to Men team about this application.</p>
+        <h3 class="mt-lg">Communication preferences</h3>
+        <label class="field" style="font-weight:400;"><input type="checkbox" name="Wants Call"> I would like a team member to call me.</label>
+        <label class="field" style="font-weight:400;"><input type="checkbox" name="Wants WhatsApp Group"> Add me to the WhatsApp group for camp updates.</label>
+
+        <button class="btn btn-gold mt-lg" type="submit">Submit Registration &rarr;</button>
+        <p class="form-note">We will confirm his place within 24 hours.</p>
       </form>
+
+      <div class="card mt-lg">
+        <h3>After You Pay</h3>
+        <p class="muted">Send a screenshot or payment confirmation to <b>+256 775 495 431</b> on WhatsApp, or to <b>info@potentialunexplored.com</b>. Include your full name and programme. You will receive confirmation and all joining instructions within 24 hours.</p>
+      </div>
     </div>
     <div>
-      <div class="card card-gold">
-        <h3>What happens after you apply</h3>
-        <p class="muted">1. Our team reviews your application within a few working days.<br><br>
-        2. We confirm intake dates, location, and cost.<br><br>
-        3. You complete registration and receive a full preparation guide.</p>
-      </div>
       <div class="card mt-lg">
         <h3>A calm, coaching-based approach</h3>
         <p class="muted">Boys to Men is not a disciplinary camp. Read our full <a class="btn-ghost" href="safeguarding.html">Safeguarding commitment</a>.</p>
       </div>
       <div class="card mt-lg">
-        <h3>Summer Camp at a glance</h3>
-        <p class="muted">July 7&ndash;16, 2027 &middot; Kampala &middot; Ages 8&ndash;23<br>UGX 990,000 or USD 250</p>
+        <h3>Applying from the diaspora?</h3>
+        <p class="muted">Choose "Diaspora Summer Camp" above so we can route your enquiry to the team handling travel logistics and communication across time zones.</p>
       </div>
     </div>
   </div>
