@@ -7,10 +7,23 @@ document.addEventListener('DOMContentLoaded', function () {
       var expanded = toggle.getAttribute('aria-expanded') === 'true';
       toggle.setAttribute('aria-expanded', String(!expanded));
     });
-    nav.querySelectorAll('a').forEach(function (a) {
+    nav.querySelectorAll(':scope > a').forEach(function (a) {
+      a.addEventListener('click', function () { nav.classList.remove('open'); });
+    });
+    nav.querySelectorAll('.dropdown-menu a').forEach(function (a) {
       a.addEventListener('click', function () { nav.classList.remove('open'); });
     });
   }
+
+  // Dropdown: click-to-toggle on mobile/touch, hover handles desktop via CSS
+  document.querySelectorAll('.dropdown-trigger').forEach(function (trigger) {
+    trigger.addEventListener('click', function (e) {
+      if (window.innerWidth <= 1040) {
+        e.preventDefault();
+        trigger.closest('.has-dropdown').classList.toggle('mobile-open');
+      }
+    });
+  });
 
   // Voice tabs (used on Why Enrol Now, Partner With Us, Apply, Learning Resources)
   document.querySelectorAll('.voice-tabs').forEach(function (tabGroup) {
