@@ -252,8 +252,8 @@ nav.main-nav > a:hover,nav.main-nav > a.active{background:var(--green-700);color
   border:1px solid rgba(224,180,76,.5);
 }
 .hero-panel-slim{max-width:560px;padding:20px 26px;}
-.hero-panel-slim h1{font-size:clamp(1.3rem,2.4vw,1.9rem);}
-.hero-panel-slim .lede{margin-bottom:.2em;}
+.hero-panel-slim h1{font-size:clamp(1.05rem,2vw,1.5rem);line-height:1.18;margin-bottom:.35em;}
+.hero-panel-slim .lede{font-size:.92rem;margin-bottom:.2em;}
 
 /* ---- Intake list: one intake per line, colored, no crowding ---- */
 .intake-list{
@@ -262,19 +262,19 @@ nav.main-nav > a:hover,nav.main-nav > a.active{background:var(--green-700);color
 }
 .intake-line{
   display:flex;align-items:center;gap:10px;
-  font-family:var(--font-display);font-weight:700;font-size:1.05rem;
-  text-decoration:none;padding:8px 4px;
-  border-bottom:1px solid rgba(255,255,255,.22);
-  text-shadow:0 2px 8px rgba(0,0,0,.55);
+  font-family:var(--font-display);font-weight:700;font-size:1.32rem;
+  text-decoration:none;padding:9px 14px;border-radius:10px;
+  background:rgba(9,20,13,.42);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
+  text-shadow:0 2px 6px rgba(0,0,0,.7);
 }
 .intake-line:last-child{border-bottom:none;}
-.intake-line .line-dot{width:11px;height:11px;border-radius:50%;flex:0 0 auto;}
-.line-green{color:#BEEAC7;}
-.line-green .line-dot{background:var(--green-500);box-shadow:0 0 0 3px rgba(46,114,72,.3);}
-.line-gold{color:var(--gold-400);}
-.line-gold .line-dot{background:var(--gold-400);box-shadow:0 0 0 3px rgba(224,180,76,.3);}
-.line-teal{color:#A9E8E3;}
-.line-teal .line-dot{background:var(--teal-500);box-shadow:0 0 0 3px rgba(21,140,134,.3);}
+.intake-line .line-dot{width:12px;height:12px;border-radius:50%;flex:0 0 auto;}
+.line-green{color:#D9F5DE;}
+.line-green .line-dot{background:var(--green-500);box-shadow:0 0 0 3px rgba(46,114,72,.35);}
+.line-gold{color:#FFF3D2;}
+.line-gold .line-dot{background:var(--gold-400);box-shadow:0 0 0 3px rgba(224,180,76,.4);}
+.line-teal{color:#DFFAF7;}
+.line-teal .line-dot{background:var(--teal-500);box-shadow:0 0 0 3px rgba(21,140,134,.35);}
 .hero h1{color:var(--white);font-size:clamp(1.5rem,2.8vw,2.3rem);margin-bottom:.4em;}
 .hero-tag{
   font-family:var(--font-display);font-weight:700;color:var(--gold-400);
