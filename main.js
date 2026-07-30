@@ -56,10 +56,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var LOCAL_FEES = {
       'Kampala': 'Kampala fee: UGX 500,000 or USD 150.',
-      'Arua': 'Arua fee: UGX 300,000.',
-      'Gulu': 'Gulu fee: UGX 300,000 (next intake to be announced).'
+      'Arua': 'Arua fee: UGX 300,000.'
     };
-    var SUMMER_FEE = 'Diaspora Summer Camp fee: UGX 990,000 or USD 250 (covers the full 9-day camp).';
+    var SUMMER_FEE = 'Diaspora Summer Camp fee: UGX 990,000 or USD 300 (covers the full 9-day camp).';
 
     var UGANDA_DISTRICTS = ["Kampala","Wakiso","Mukono","Jinja","Mbale","Mbarara","Gulu","Arua","Lira","Soroti","Kabale","Kabarole (Fort Portal)","Masaka","Hoima","Masindi","Kasese","Iganga","Tororo","Kitgum","Pader","Moyo","Adjumani","Nebbi","Zombo","Yumbe","Koboko","Maracha","Pakwach","Buliisa","Kiryandongo","Kayunga","Luwero","Nakasongola","Kiboga","Mityana","Mubende","Sembabule","Rakai","Kalangala","Bushenyi","Ntungamo","Kanungu","Kisoro","Rukungiri","Ibanda","Kiruhura","Isingiro","Buhweju","Rubirizi","Sheema","Mitooma","Bundibugyo","Ntoroko","Kyenjojo","Kyegegwa","Kamwenge","Bulambuli","Sironko","Kapchorwa","Kween","Bukwo","Manafwa","Namisindwa","Budaka","Butaleja","Busia","Bugiri","Namayingo","Mayuge","Kamuli","Kaliro","Buyende","Luuka","Namutumba","Pallisa","Kibuku","Butebo","Ngora","Serere","Kumi","Bukedea","Amuria","Katakwi","Napak","Moroto","Nakapiripirit","Amudat","Kotido","Kaabong","Abim","Agago","Amuru","Nwoya","Omoro","Lamwo","Otuke","Alebtong","Dokolo","Amolatar","Apac","Oyam","Kole","Kwania","Buikwe","Buvuma","Kalungu","Lyantonde","Lwengo","Bukomansimbi","Gomba","Other"];
 
@@ -147,4 +146,33 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
   }
+
+  // Homepage hero: rotate background photos with a gentle crossfade
+  var heroLayers = document.querySelectorAll('#homeHero .hero-bg-layer');
+  if (heroLayers.length > 1) {
+    var heroIndex = 0;
+    setInterval(function () {
+      heroLayers[heroIndex].classList.remove('is-active');
+      heroIndex = (heroIndex + 1) % heroLayers.length;
+      heroLayers[heroIndex].classList.add('is-active');
+    }, 3000);
+  }
+
+  // Per-camp "Apply for This Intake" buttons: pre-select the location
+  // in the shared form and scroll the person straight to it.
+  document.querySelectorAll('[data-select-location]').forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      var loc = document.getElementById('location');
+      var form = document.getElementById('applyForm');
+      if (loc) {
+        loc.value = btn.getAttribute('data-select-location');
+        loc.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      if (typeof window.updateApplySubject === 'function') window.updateApplySubject();
+      if (form) {
+        e.preventDefault();
+        form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
 });
