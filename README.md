@@ -1,130 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Learning Resources | Boys to Men Mentorship Camp</title>
-<meta name="description" content="Learning resources for parents and boys, plus books by founder Banio Luiji Nobert, on raising boys, identity, and life readiness.">
-<link rel="canonical" href="https://boystomencamp.com/learning-resources.html">
-<meta property="og:title" content="Learning Resources | Boys to Men Mentorship Camp">
-<meta property="og:description" content="Learning resources for parents and boys, plus books by founder Banio Luiji Nobert, on raising boys, identity, and life readiness.">
-<meta property="og:type" content="website">
-<meta property="og:image" content="https://boystomencamp.com/assets/img/group-camp.jpg">
-<link rel="icon" href="assets/img/b2m-logo.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/styles.css">
-</head>
-<body>
-<a class="skip-link" href="#main">Skip to content</a>
-<header class="site-header">
-  <div class="nav-wrap">
-    <a class="brand" href="index.html">
-      <img src="assets/img/b2m-logo.png" alt="Boys to Men Mentorship Camp logo">
-    </a>
-    <nav class="main-nav" aria-label="Primary">
-      <a href="index.html">Home</a>
-<a href="why-enrol-now.html">Why Enrol Now</a>
-<a href="the-journey.html">The Journey</a>
-<a href="programmes.html">Programmes</a>
-<a href="mentors.html">Mentors</a>
-<a href="partner-with-us.html">Partner With Us</a>
-<a href="learning-resources.html" class="active">Resources</a>
-<a href="stories.html">Stories</a>
-<a href="about.html">About</a>
-<a href="contact.html">Contact</a>
-      <a class="btn btn-gold nav-cta" href="apply.html">Apply Now</a>
-    </nav>
-    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</header>
-<main id="main">
-<section class="page-head">
-  <div class="container">
-    <p class="crumb">Learning Resources</p>
-    <h1>Resources for the whole journey, not just camp week</h1>
-    <p class="lede">Some of the most important work happens outside camp entirely. These resources are for parents raising boys, and for boys and young men working through their own questions.</p>
-  </div>
-</section>
+# Mentors Page + Nav Update — Ready to Deploy
 
-<section>
-  <div class="container">
-    <div class="section-head">
-      <p class="eyebrow">For Parents</p>
-      <h2>Raising boys, and supporting them after camp</h2>
-    </div>
-    <div class="grid grid-3">
-      <div class="card"><h3>How to Raise Responsible Boys</h3><p class="muted">Practical, culturally grounded guidance for the day-to-day work of raising a son with character.</p></div>
-      <div class="card"><h3>Why Boys Need Mentors</h3><p class="muted">What positive male mentorship actually does for a boy's development, and why it cannot be replaced.</p></div>
-      <div class="card"><h3>Supporting Your Son After Camp</h3><p class="muted">How to reinforce what camp started, at home, in the months that follow.</p></div>
-    </div>
-  </div>
-</section>
+I worked directly against your live repo (cloned from
+github.com/baniyoluigi-creator/boystomencamp.com), so everything here matches
+your real header, footer, and CSS exactly. Nothing has been pushed to GitHub —
+I don't have write access to your repo, so you'll need to add these files
+yourself.
 
-<section class="section-alt">
-  <div class="container">
-    <div class="section-head">
-      <p class="eyebrow">For Boys</p>
-      <h2>Written directly to you</h2>
-    </div>
-    <div class="grid grid-3">
-      <div class="card"><h3>Figuring Out Who You Are</h3><p class="muted">Honest, direct writing on identity and self-awareness, no lecture, just real talk.</p></div>
-      <div class="card"><h3>Building Real Confidence</h3><p class="muted">The difference between confidence and bravado, and how to actually build the former.</p></div>
-      <div class="card"><h3>What Leadership Looks Like at Your Age</h3><p class="muted">Practical ways to start leading yourself and others, starting now, not someday.</p></div>
-    </div>
-  </div>
-</section>
+## What changed (22 pages + mentors.html rebuilt)
 
-<section>
-  <div class="container">
-    <div class="section-head">
-      <p class="eyebrow">Books</p>
-      <h2>By Banio Luiji Nobert</h2>
-      <p class="lede">Twelve books on leadership, accountability, and self-leadership form part of the intellectual foundation behind Boys to Men Mentorship Camp.</p>
-    </div>
-    <p><a class="btn btn-outline-dark" href="about.html">Learn more about the founder's work</a></p>
-  </div>
-</section>
-</main><footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div>
-        <div class="footer-brand">
-          <img src="assets/img/pul-logo.png" alt="Potential Unexplored Ltd logo">
-        </div>
-        <p class="muted" style="color:#B9CCB9;max-width:32ch;">Boys to Men Mentorship Camp is a flagship youth development initiative of Potential Unexplored Ltd, building bridges to manhood across Uganda and Africa.</p>
-      </div>
-      <div>
-        <h4>Explore</h4>
-        <a href="why-enrol-now.html">Why Enrol Now</a>
-        <a href="the-journey.html">The Journey</a>
-        <a href="programmes.html">Programmes</a>
-        <a href="stories.html">Stories</a>
-        <a href="blog.html">Blog</a>
-      </div>
-      <div>
-        <h4>Get Involved</h4>
-        <a href="apply.html">Apply for Camp</a>
-        <a href="mentors.html">Meet the Mentors</a>
-        <a href="partner-with-us.html">Partner With Us</a>
-        <a href="faq.html">FAQ</a>
-      </div>
-      <div>
-        <h4>Connect</h4>
-        <a href="about.html">About &amp; Founder</a>
-        <a href="contact.html">Contact</a>
-        <a href="https://potentialunexplored.com" target="_blank" rel="noopener">Potential Unexplored Ltd</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>&copy; 2026 Boys to Men Mentorship Camp, a Potential Unexplored Ltd initiative. All rights reserved.</span>
-      <span>Uganda &middot; Africa &middot; and beyond</span>
-    </div>
-  </div>
-</footer>
-<script src="assets/js/main.js"></script>
-</body>
-</html>
+1. **Nav update, every page**: "Intakes" dropdown removed from the top nav.
+   "Mentors" added as the first link right after "Apply Now", so it's the
+   first thing visitors see. Footer links untouched (still has the full
+   Intakes column for anyone who wants deep links).
+2. **mentors.html rebuilt from scratch** with all 12 mentors from your
+   Mentor Profiles document: photo, title, and bio. Each bio shows about
+   5 lines by default, with a "Read full profile" button that expands it in
+   place and reveals "Next mentor" / "Back to all mentors" links so a visitor
+   can move straight through all 12 without hunting. Full bio text sits in
+   the HTML at all times (not loaded by JS), with Person/ItemList structured
+   data for SEO.
+3. **apply.html**: added a collapsible "Read more: Age clusters, all
+   regions, and past intakes" panel, pulling in the age-band table and
+   region links that used to live only on the standalone Intakes page. Your
+   existing Kampala/Arua/Summer Camp fee cards are untouched.
+
+## How to deploy
+
+### 1. Copy these files into your repo, overwriting the originals
+All 22 changed `.html` files are in this folder, flat, matching your repo's
+flat structure. Copy them straight over the top of your existing files.
+
+### 2. Add the two new mentor photos
+`mentor-daniel-dratibi-drileba.jpg` and `mentor-benard-alamiga-oku.jpg` are
+included, cropped and resized from what you sent. Drop both into your repo
+root (same level as `founder-banio.jpg`).
+
+### 3. Add the remaining 10 mentor photos
+The other 10 mentors are showing a placeholder initials badge until you add
+their photos. Save each one from your Google Drive Graphics folder into your
+repo root using these **exact filenames**:
+
+| Mentor | Filename needed |
+|---|---|
+| Banio Luiji Nobert | already live as `founder-banio.jpg` (reused, no action needed) |
+| Alionzi Lawrence Dangote | `mentor-alionzi-dangote.jpg` |
+| Dr. Joel Jaffer A'ita | `mentor-joel-aita.jpg` |
+| Omia Razak Iganaci | `mentor-omia-razak.jpg` |
+| Daniel Choudry | `mentor-daniel-choudry.jpg` |
+| Thomas Malunda | `mentor-thomas-malunda.jpg` |
+| Vincent Matsiko | `mentor-vincent-matsiko.jpg` |
+| Nathan Odeke | `mentor-nathan-odeke.jpg` |
+| Dr. Lawrence Okidi | `mentor-lawrence-okidi.jpg` |
+| Gala Winfred | `mentor-gala-winfred.jpg` |
+
+The page is built to fail gracefully: if a photo is missing it just shows the
+initials badge, so you can add these gradually without anything looking
+broken in the meantime.
+
+### 4. Commit and push
+```
+git add .
+git commit -m "Add Mentors page, promote Mentors in nav, fold intake details into Apply page"
+git push
+```
+
+Alternatively, `boystomencamp-changes.patch` (in the parent folder) is a
+git patch of the exact same change. If you're comfortable with git, you can
+apply it directly instead of copying files by hand:
+```
+git apply boystomencamp-changes.patch
+```
+
+## Notes
+- `intakes.html` and the individual `intake-*.html` pages are untouched and
+  still live at their URLs (still linked from your footer, and now also
+  linked from the new read-more panel on Apply). They're just no longer in
+  the top nav dropdown.
+- No em dashes were introduced anywhere in this content, per your standing
+  style rule.
+- Age range on the apply.html summary line follows your 23–8 (oldest first)
+  convention.
