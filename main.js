@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
       'Kampala': 'Kampala fee: UGX 500,000 or USD 150.',
       'Arua': 'Arua fee: UGX 400,000 or USD 120.'
     };
-    var SUMMER_FEE = 'Diaspora Summer Camp fee: UGX 990,000 or USD 300 (covers the full 8-day camp).';
+    var SUMMER_FEE = 'Diaspora Summer Camp fee: USD 300 (covers the full 8-day camp). A UGX equivalent can be arranged on request at time of payment.';
 
     var UGANDA_DISTRICTS = ["Kampala","Wakiso","Mukono","Jinja","Mbale","Mbarara","Gulu","Arua","Lira","Soroti","Kabale","Kabarole (Fort Portal)","Masaka","Hoima","Masindi","Kasese","Iganga","Tororo","Kitgum","Pader","Moyo","Adjumani","Nebbi","Zombo","Yumbe","Koboko","Maracha","Pakwach","Buliisa","Kiryandongo","Kayunga","Luwero","Nakasongola","Kiboga","Mityana","Mubende","Sembabule","Rakai","Kalangala","Bushenyi","Ntungamo","Kanungu","Kisoro","Rukungiri","Ibanda","Kiruhura","Isingiro","Buhweju","Rubirizi","Sheema","Mitooma","Bundibugyo","Ntoroko","Kyenjojo","Kyegegwa","Kamwenge","Bulambuli","Sironko","Kapchorwa","Kween","Bukwo","Manafwa","Namisindwa","Budaka","Butaleja","Busia","Bugiri","Namayingo","Mayuge","Kamuli","Kaliro","Buyende","Luuka","Namutumba","Pallisa","Kibuku","Butebo","Ngora","Serere","Kumi","Bukedea","Amuria","Katakwi","Napak","Moroto","Nakapiripirit","Amudat","Kotido","Kaabong","Abim","Agago","Amuru","Nwoya","Omoro","Lamwo","Otuke","Alebtong","Dokolo","Amolatar","Apac","Oyam","Kole","Kwania","Buikwe","Buvuma","Kalungu","Lyantonde","Lwengo","Bukomansimbi","Gomba","Other"];
 

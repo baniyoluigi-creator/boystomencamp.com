@@ -235,18 +235,18 @@ nav.main-nav > a:hover,nav.main-nav > a.active{background:var(--green-700);color
 }
 .hero-bg-layer.is-active{opacity:1;}
 .hero-bg-layer.layer-contain{background-size:contain;background-repeat:no-repeat;background-position:center center;background-color:var(--green-900);}
-.hero-bg-layer.layer-logo-split{
-  background-image:url('logo-hero.jpg'), url('logo-hero.jpg');
-  background-repeat:no-repeat, no-repeat;
-  background-position:left 3% center, right 3% center;
-  background-size:min(30vw,280px) auto, min(30vw,280px) auto;
+.hero-bg-layer.hero-logo-pair{background-color:var(--green-900);}
+.hero-logo-pair img{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:min(26vw,240px);height:auto;display:block;
+  border-radius:16px;background:rgba(255,255,255,.94);
+  padding:14px;box-shadow:var(--shadow-soft);
 }
+.hero-logo-pair img.hero-logo-left{left:3%;}
+.hero-logo-pair img.hero-logo-right{right:3%;}
 @media (max-width:900px){
-  .hero-bg-layer.layer-logo-split{
-    background-image:url('logo-hero.jpg');
-    background-position:center center;
-    background-size:min(60vw,260px) auto;
-  }
+  .hero-logo-pair img.hero-logo-right{display:none;}
+  .hero-logo-pair img.hero-logo-left{left:50%;transform:translate(-50%,-50%);width:min(55vw,220px);}
 }
 .hero::before{
   content:"";position:absolute;inset:0;
@@ -326,6 +326,13 @@ nav.main-nav > a:hover,nav.main-nav > a.active{background:var(--green-700);color
 .page-head .container{position:relative;z-index:2;}
 .page-head h1{color:var(--white);}
 .page-head .lede{color:#EEF4EC;}
+.page-head.page-head-gold{
+  background:linear-gradient(150deg,var(--gold-600) 0%,var(--gold-500) 55%,var(--gold-400) 100%);
+}
+.page-head.page-head-gold::before{background:radial-gradient(circle,rgba(15,46,29,.20) 0%,rgba(15,46,29,0) 70%);}
+.page-head.page-head-gold::after{background:radial-gradient(circle,rgba(255,255,255,.18) 0%,rgba(255,255,255,0) 70%);}
+.page-head.page-head-gold h1,.page-head.page-head-gold .lede{color:var(--green-900);}
+.page-head.page-head-gold .crumb{color:var(--green-800);}
 .crumb{
   display:inline-flex;align-items:center;gap:8px;
   font-size:.8rem;color:var(--green-900);font-weight:700;letter-spacing:.1em;text-transform:uppercase;
