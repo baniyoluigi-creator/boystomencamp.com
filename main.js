@@ -176,3 +176,28 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 });
+
+/* ---------------------------------------------------------------
+   Floating WhatsApp contact button (appears on every page while
+   scrolling, so emerging interest can be captured instantly)
+   --------------------------------------------------------------- */
+document.addEventListener('DOMContentLoaded', function () {
+  if (document.querySelector('.wa-float')) return; // avoid duplicates
+
+  var waNumber = '256775495431'; // +256 775 495 431, international format, no leading +
+  var waMessage = "Hello Boys to Men Mentorship Camp, I'd like to find out more.";
+  var waLink = document.createElement('a');
+  waLink.href = 'https://wa.me/' + waNumber + '?text=' + encodeURIComponent(waMessage);
+  waLink.className = 'wa-float';
+  waLink.target = '_blank';
+  waLink.rel = 'noopener';
+  waLink.setAttribute('aria-label', 'Chat with us on WhatsApp');
+  waLink.innerHTML = '<svg viewBox="0 0 32 32" fill="#fff" xmlns="http://www.w3.org/2000/svg"><path d="M16.004 3C9.376 3 4 8.373 4 15c0 2.362.687 4.564 1.872 6.417L4 29l7.77-1.84A11.94 11.94 0 0 0 16.004 27C22.63 27 28 21.627 28 15S22.63 3 16.004 3zm0 21.75c-1.98 0-3.86-.53-5.48-1.46l-.393-.23-4.61 1.09 1.12-4.49-.256-.406A9.71 9.71 0 0 1 5.75 15c0-5.652 4.6-10.25 10.254-10.25 5.652 0 10.246 4.598 10.246 10.25 0 5.653-4.594 10.25-10.246 10.25zm5.63-7.66c-.308-.155-1.82-.898-2.102-1-.282-.103-.487-.155-.692.155-.205.31-.795 1-.975 1.205-.18.206-.36.232-.667.078-.308-.155-1.3-.48-2.475-1.53-.915-.816-1.533-1.824-1.713-2.132-.18-.31-.02-.477.135-.63.138-.138.308-.36.462-.54.154-.18.205-.31.308-.516.103-.206.052-.386-.026-.541-.077-.155-.692-1.67-.949-2.287-.25-.6-.505-.518-.692-.528-.18-.008-.386-.01-.59-.01-.206 0-.542.078-.826.386-.283.31-1.082 1.058-1.082 2.58 0 1.522 1.108 2.993 1.262 3.2.154.206 2.18 3.33 5.284 4.67.738.319 1.314.51 1.763.652.741.236 1.415.203 1.948.123.594-.089 1.82-.744 2.076-1.463.257-.72.257-1.335.18-1.463-.077-.128-.283-.206-.59-.36z"/></svg>';
+
+  var tooltip = document.createElement('span');
+  tooltip.className = 'wa-float-tooltip';
+  tooltip.textContent = 'Chat with us on WhatsApp';
+
+  document.body.appendChild(waLink);
+  document.body.appendChild(tooltip);
+});

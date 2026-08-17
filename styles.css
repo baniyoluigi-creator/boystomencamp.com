@@ -604,3 +604,29 @@ details.faq-item p{margin-top:12px;color:var(--ink-soft);}
   html{scroll-behavior:auto;}
   *{transition:none !important;animation:none !important;}
 }
+
+/* ---- Floating WhatsApp contact button ---- */
+.wa-float{
+  position:fixed;right:20px;bottom:20px;z-index:999;
+  width:58px;height:58px;border-radius:50%;
+  background:#25D366;box-shadow:0 6px 18px rgba(0,0,0,.28);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .18s ease, box-shadow .18s ease;
+  text-decoration:none;
+}
+.wa-float:hover{transform:scale(1.08);box-shadow:0 8px 22px rgba(0,0,0,.34);}
+.wa-float svg{width:30px;height:30px;display:block;}
+.wa-float-tooltip{
+  position:fixed;right:88px;bottom:34px;z-index:999;
+  background:var(--green-800,#1b3a2b);color:#fff;
+  font-family:var(--font-display);font-weight:600;font-size:.82rem;
+  padding:8px 14px;border-radius:8px;white-space:nowrap;
+  opacity:0;pointer-events:none;transform:translateX(6px);
+  transition:opacity .18s ease, transform .18s ease;
+}
+.wa-float:hover + .wa-float-tooltip{opacity:1;transform:translateX(0);}
+@media (max-width:640px){
+  .wa-float{right:14px;bottom:14px;width:52px;height:52px;}
+  .wa-float svg{width:27px;height:27px;}
+  .wa-float-tooltip{display:none;}
+}
