@@ -1,0 +1,7 @@
+HOW TO UPLOAD (GitHub website)
+1. Open github.com/baniyoluigi-creator/boystomencamp.com
+2. Click Add file > Upload files
+3. Drag in EVERYTHING inside this folder, keeping the "blog" folder as it is
+   (the files in the blog folder must go into the blog folder).
+4. Write a short note such as "Site corrections" and click Commit changes.
+Files here replace the old ones with the same names. Nothing else is deleted.
