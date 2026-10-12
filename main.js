@@ -50,8 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var ageField = document.getElementById('age');
     var locationField = document.getElementById('location');
     var whereFromField = document.getElementById('whereFrom');
-    var payMethodField = document.getElementById('payMethod');
-    var subjectField = document.getElementById('subjectField');
+      var subjectField = document.getElementById('subjectField');
     var feeDisplay = document.getElementById('feeDisplay');
 
     var LOCAL_FEES = {
@@ -125,7 +124,6 @@ document.addEventListener('DOMContentLoaded', function () {
     if (locationField) locationField.addEventListener('change', updateApplySubject);
     if (ageField) ageField.addEventListener('change', updateApplySubject);
     if (whereFromField) whereFromField.addEventListener('change', evaluateConditionals);
-    if (payMethodField) payMethodField.addEventListener('change', evaluateConditionals);
 
     evaluateConditionals();
   }
@@ -200,4 +198,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
   document.body.appendChild(waLink);
   document.body.appendChild(tooltip);
+});
+
+/* ---------------------------------------------------------------
+   Registration form spam guard: a hidden trap field (_gotcha) and a
+   minimum fill time. Real people take more than a few seconds to
+   complete the form; scripts do not. Blocked submissions never
+   reach Formspree, so they do not use up the monthly limit.
+   --------------------------------------------------------------- */
+document.addEventListener('DOMContentLoaded', function () {
+  var form = document.getElementById('applyForm');
+  if (!form) return;
+  var openedAt = Date.now();
+  var stamp = document.getElementById('formOpenedAt');
+  if (stamp) stamp.value = new Date(openedAt).toISOString();
+  form.addEventListener('submit', function (e) {
+    var trap = form.querySelector('input[name="_gotcha"]');
+    var tooFast = (Date.now() - openedAt) < 8000;
+    if ((trap && trap.value) || tooFast) {
+      e.preventDefault();
+      if (tooFast && !(trap && trap.value)) {
+        alert('Please take a moment to check your details, then press Submit again.');
+        openedAt = Date.now() - 8000;
+      }
+    }
+  });
 });

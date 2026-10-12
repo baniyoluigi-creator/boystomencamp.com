@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20260818a">
+<link rel="stylesheet" href="styles.css?v=20261012a">
 <style>
   details.intake-details{max-width:760px;border:1px solid var(--line);border-radius:var(--radius);padding:20px 24px;margin:22px 0;background:var(--white);}
   details.intake-details summary{cursor:pointer;font-family:var(--font-display);font-weight:700;color:var(--green-800);list-style:none;display:flex;align-items:center;gap:8px;}
@@ -106,13 +106,13 @@
       <h3 style="margin-bottom:4px;">9th Intake: KAMPALA</h3>
       <span class="pill pill-open">Applications Open</span>
     </div>
-    <p class="muted" style="margin-bottom:14px;">7-Day Residential Camp &middot; 13 to 20 December 2026 &middot; St. Elizabeth SSS Nkoowe</p>
+    <p class="muted" style="margin-bottom:14px;">7-Day Residential Camp &middot; 13 to 19 December 2026 &middot; St. Elizabeth SSS Nkoowe</p>
     <div class="fee-card">
       <b>Fee:</b> UGX 500,000 or USD 150<br>
       <b>Instalment plans available.</b> Balance cleared before camp begins.
     </div>
     <p class="muted mt-lg">Boys are placed into age-appropriate clusters automatically once they arrive, Young Explorers, Path Finders, Rising Men, and Young Men, so this one intake covers every age from 8 to 23.</p>
-    <p><a class="btn btn-outline-dark" href="#applyForm" data-select-location="Kampala &mdash; 13&ndash;20 Dec 2026 &mdash; UGX 500,000 / USD 150">Apply Now</a></p>
+    <p><a class="btn btn-outline-dark" href="#applyForm" data-select-location="Kampala &mdash; 13&ndash;19 Dec 2026 &mdash; UGX 500,000 / USD 150">Apply Now</a></p>
   </div>
           <div class="card card-gold" style="max-width:760px;">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;">
@@ -127,7 +127,7 @@
     <p class="muted mt-lg">Boys are placed into age-appropriate clusters automatically once they arrive, Young Explorers, Path Finders, Rising Men, and Young Men, so this one intake covers every age from 8 to 23.</p>
     <p><a class="btn btn-outline-dark" href="#applyForm" data-select-location="Arua &mdash; 10&ndash;16 Jan 2027 &mdash; UGX 400,000 / USD 120">Apply Now</a></p>
   </div>
-          <p class="form-note mt-lg">Boys to Men has also run 8 intakes in Gulu, most recently 10&ndash;16 May 2026 (now completed). <a href="intake-gulu.html">See the Gulu intake</a>, the next Gulu date will be announced here.</p>
+          <p class="form-note mt-lg">The 8th intake was held in Gulu, 10&ndash;16 May 2026 (now completed). <a href="intake-gulu.html">See the Gulu intake</a>, the next Gulu date will be announced here.</p>
         </div>
         <div class="voice-panel" id="panel-summer">
           <div class="card card-gold" style="max-width:760px;">
@@ -159,7 +159,7 @@
             <tr><td class="band">10&ndash;8</td><td>Young Explorers</td><td>Early self-discovery and self-awareness</td></tr>
           </table>
           <div class="grid grid-4" style="gap:14px;">
-            <div class="card"><h3 style="font-size:1rem;">Kampala</h3><p class="muted" style="font-size:.88rem;">9th Intake, 13&ndash;20 Dec 2026.</p><p><a class="btn-ghost" href="intake-kampala.html">View Kampala</a></p></div>
+            <div class="card"><h3 style="font-size:1rem;">Kampala</h3><p class="muted" style="font-size:.88rem;">9th Intake, 13&ndash;19 Dec 2026.</p><p><a class="btn-ghost" href="intake-kampala.html">View Kampala</a></p></div>
             <div class="card"><h3 style="font-size:1rem;">Arua</h3><p class="muted" style="font-size:.88rem;">10th Intake, 10&ndash;16 Jan 2027.</p><p><a class="btn-ghost" href="intake-arua.html">View Arua</a></p></div>
             <div class="card"><h3 style="font-size:1rem;">Gulu</h3><p class="muted" style="font-size:.88rem;">8th Intake &middot; Completed May 2026.</p><p><a class="btn-ghost" href="intake-gulu.html">View Gulu</a></p></div>
             <div class="card card-gold"><h3 style="font-size:1rem;">Summer Camp</h3><p class="muted" style="font-size:.88rem;">Diaspora, 7&ndash;16 Jul 2027.</p><p><a class="btn-ghost" href="summer-camp.html">View Summer Camp</a></p></div>
@@ -170,6 +170,10 @@
 
       <form class="stack mt-lg" id="applyForm" action="https://formspree.io/f/xdardbqz" method="POST">
         <input type="hidden" id="subjectField" name="_subject" value="New Registration: Boys to Men">
+        <div aria-hidden="true" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+          <label>Leave this field empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
+        </div>
+        <input type="hidden" id="formOpenedAt" name="_opened_at" value="">
 
         <h3>Your Details (Person Registering)</h3>
         <div class="field-row">
@@ -241,7 +245,7 @@
             <label for="location">Which location? *</label>
             <select id="location" name="Location">
               <option value="">Select one</option>
-              <option>Kampala &mdash; 13&ndash;20 Dec 2026 &mdash; UGX 500,000 / USD 150</option>
+              <option>Kampala &mdash; 13&ndash;19 Dec 2026 &mdash; UGX 500,000 / USD 150</option>
               <option>Arua &mdash; 10&ndash;16 Jan 2027 &mdash; UGX 400,000 / USD 120</option>
             </select>
           </div>
@@ -289,18 +293,8 @@
           <textarea id="message" name="Message" rows="3"></textarea>
         </div>
 
-        <h3 class="mt-lg">How will you pay?</h3>
-        <div class="field">
-          <select id="payMethod" name="Payment Method">
-            <option value="">Select payment method</option>
-            <option value="MTN MoMo">MTN MoMo</option>
-            <option value="Airtel Money">Airtel Money</option>
-            <option value="Bank Transfer">Bank Transfer</option>
-          </select>
-        </div>
-        <div class="fee-card conditional-field" data-cond-field="payMethod" data-cond-value="MTN MoMo">Send to MTN MoMo: <b>+256 775 495 431</b>. A merchant code is also provided on confirmation.</div>
-        <div class="fee-card conditional-field" data-cond-field="payMethod" data-cond-value="Airtel Money">Send to Airtel Money: <b>+256 740 132 573</b>. A merchant code is also provided on confirmation.</div>
-        <div class="fee-card conditional-field" data-cond-field="payMethod" data-cond-value="Bank Transfer">Centenary Bank, Wakiso Branch<br>Account Name: <b>Potential Unexplored Limited</b><br>Account Number: <b>3100125782</b></div>
+        <h3 class="mt-lg">How to pay</h3>
+        <div class="fee-card">Payment is by bank transfer or deposit to:<br>Centenary Bank, Wakiso Branch<br>Account Name: <b>Potential Unexplored Limited</b><br>Account Number: <b>3100125782</b></div>
 
         <div class="field">
           <label for="amount">Amount you are paying now</label>
@@ -385,6 +379,6 @@
     </div>
   </div>
 </footer>
-<script src="main.js?v=20260818a"></script>
+<script src="main.js?v=20261012a"></script>
 </body>
 </html>
