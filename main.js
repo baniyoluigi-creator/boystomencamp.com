@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function () {
    Paste the Google Apps Script web app link between the quotes below.
    While it is empty, the forms keep using Formspree as before.
    --------------------------------------------------------------- */
-var SHEET_ENDPOINT = '';
+var SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbz4TA60MMwRowFJujLeX_JA_v81z8s4cZI5kKACdZQ01kZDLO1ocpqF6EOyFMQp8XGY/exec';
 
 document.addEventListener('DOMContentLoaded', function () {
   if (!SHEET_ENDPOINT) return;
