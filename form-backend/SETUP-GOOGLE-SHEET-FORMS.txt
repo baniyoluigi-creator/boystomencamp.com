@@ -1,0 +1,79 @@
+SETUP: SENDING WEBSITE FORMS TO A GOOGLE SHEET
+Boys to Men Mentorship Camp (boystomencamp.com)
+
+This replaces Formspree. There is no monthly limit. Every registration and
+contact message is saved in a Google Sheet, and you also get an email.
+It takes about 10 minutes, once.
+
+
+PART 1: Create the sheet and the script
+
+1. Sign in to Google with baniyoluigi@gmail.com and open sheets.new
+   (this creates a new blank Google Sheet).
+2. Name the sheet "Boys to Men Registrations".
+3. In the menu, click Extensions, then Apps Script.
+4. Delete everything in the editor.
+5. Open the file google-apps-script.gs from this folder, copy ALL of it,
+   and paste it into the editor.
+6. Click the save icon (or press Ctrl+S).
+
+
+PART 2: Publish it
+
+1. Click Deploy (top right), then New deployment.
+2. Click the small gear icon next to "Select type" and choose Web app.
+3. Set these three things:
+      Description:      Boys to Men forms
+      Execute as:       Me
+      Who has access:   Anyone
+4. Click Deploy.
+5. Google will ask you to authorise. Click Authorise access, choose your
+   account, then Advanced, then "Go to (project name) (unsafe)", then Allow.
+   This is normal for your own script. It only needs to write to this sheet
+   and send you email.
+6. Copy the Web app URL. It starts with https://script.google.com/macros/s/
+   and ends with /exec
+
+
+PART 3: Connect it to the website
+
+1. Open main.js in your GitHub repository (github.com/baniyoluigi-creator/
+   boystomencamp.com) and click the pencil icon to edit.
+2. Near the bottom, find this line:
+      var SHEET_ENDPOINT = '';
+3. Paste your Web app URL between the two quotes, like this:
+      var SHEET_ENDPOINT = 'https://script.google.com/macros/s/XXXXXXXX/exec';
+4. Click Commit changes.
+
+Also upload the updated apply.html and contact.html from this folder
+(Add file, then Upload files, then Commit changes). They carry two small
+additions that tell the sheet which form the entry came from.
+
+If you do Part 3 before Part 2 is finished, nothing breaks: while the line
+is empty, the forms keep using Formspree.
+
+
+PART 4: Test it
+
+1. Wait about a minute for GitHub Pages to update.
+2. Open boystomencamp.com/contact.html in a fresh browser tab and send a
+   test message. Wait at least 8 seconds before pressing Submit on the
+   registration form, because the spam guard needs that time.
+3. Check the sheet. A tab called "Contact Messages" appears with your
+   test entry, and an email arrives in your inbox.
+4. Repeat with the registration form. Its entries go to a tab called
+   "Registrations".
+5. Delete the test rows afterwards.
+
+
+GOOD TO KNOW
+
+* If you ever edit the script, use Deploy, then Manage deployments, then the
+  pencil icon, then Version: New version, then Deploy. The link stays the same.
+* Free Gmail can send about 100 notification emails a day. If that is ever
+  reached, entries are still saved in the sheet; only the email is skipped.
+* To send notices to more people, put their addresses in NOTIFY_EMAIL at
+  the top of the script, separated by commas.
+* New form fields appear in the sheet as new columns automatically.
+* Share the sheet with your team (Share button) so they can follow up.
+* Once everything works you can close or delete the Formspree form.

@@ -86,7 +86,11 @@
 <section>
   <div class="container two-col" style="align-items:flex-start;">
     <div>
-      <form class="stack" action="https://formspree.io/f/xdardbqz" method="POST">
+      <form class="stack" id="contactForm" action="https://formspree.io/f/xdardbqz" method="POST">
+        <input type="hidden" name="_form" value="contact">
+        <div aria-hidden="true" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+          <label>Leave this field empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
+        </div>
         <div class="field">
           <label for="cname">Full Name</label>
           <input type="text" id="cname" name="Name" required>

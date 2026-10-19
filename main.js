@@ -224,3 +224,50 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 });
+
+/* ---------------------------------------------------------------
+   Form delivery: Google Sheet (no monthly limit)
+   Paste the Google Apps Script web app link between the quotes below.
+   While it is empty, the forms keep using Formspree as before.
+   --------------------------------------------------------------- */
+var SHEET_ENDPOINT = '';
+
+document.addEventListener('DOMContentLoaded', function () {
+  if (!SHEET_ENDPOINT) return;
+
+  ['applyForm', 'contactForm'].forEach(function (id) {
+    var form = document.getElementById(id);
+    if (!form) return;
+
+    form.addEventListener('submit', function (e) {
+      // The spam guard above may already have stopped this submission.
+      if (e.defaultPrevented) return;
+      e.preventDefault();
+
+      var button = form.querySelector('button[type="submit"]');
+      var buttonText = button ? button.innerHTML : '';
+      if (button) { button.disabled = true; button.textContent = 'Sending...'; }
+
+      var data = new FormData(form);
+      var body = new URLSearchParams();
+      data.forEach(function (value, key) { body.append(key, value); });
+      body.append('_page', location.pathname);
+
+      fetch(SHEET_ENDPOINT, { method: 'POST', mode: 'no-cors', body: body })
+        .then(function () {
+          var box = document.createElement('div');
+          box.className = 'card card-gold';
+          box.setAttribute('role', 'status');
+          box.innerHTML = id === 'applyForm'
+            ? '<h3>Thank you. Your registration has been received.</h3><p>A member of our team will contact you shortly with the next steps. If you need anything urgently, chat with us on WhatsApp using the green button on this page.</p>'
+            : '<h3>Thank you. Your message has been received.</h3><p>We will get back to you as soon as we can. For anything urgent, chat with us on WhatsApp using the green button on this page.</p>';
+          form.parentNode.replaceChild(box, form);
+          box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        })
+        .catch(function () {
+          if (button) { button.disabled = false; button.innerHTML = buttonText; }
+          alert('Sorry, your details could not be sent. Please check your internet connection and try again, or message us on WhatsApp.');
+        });
+    });
+  });
+});
