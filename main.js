@@ -54,10 +54,10 @@ document.addEventListener('DOMContentLoaded', function () {
     var feeDisplay = document.getElementById('feeDisplay');
 
     var LOCAL_FEES = {
-      'Kampala': 'Kampala fee: UGX 500,000 or USD 150.',
-      'Arua': 'Arua fee: UGX 400,000 or USD 120.'
+      'Kampala': 'Kampala fee: UGX 500,000 or USD 150. Booking fee to secure his place: UGX 50,000 (part of the fee, non-refundable).',
+      'Arua': 'Arua fee: UGX 400,000 or USD 120. Booking fee to secure his place: UGX 50,000 (part of the fee, non-refundable).'
     };
-    var SUMMER_FEE = 'Diaspora Summer Camp fee: USD 300 (covers the full 8-day camp). A UGX equivalent can be arranged on request at time of payment.';
+    var SUMMER_FEE = 'Diaspora Summer Camp fee: USD 300 (covers the full 8-day camp). A UGX equivalent can be arranged on request at time of payment. Booking fee to secure his place: USD 50 (part of the fee, non-refundable).';
 
     var UGANDA_DISTRICTS = ["Kampala","Wakiso","Mukono","Jinja","Mbale","Mbarara","Gulu","Arua","Lira","Soroti","Kabale","Kabarole (Fort Portal)","Masaka","Hoima","Masindi","Kasese","Iganga","Tororo","Kitgum","Pader","Moyo","Adjumani","Nebbi","Zombo","Yumbe","Koboko","Maracha","Pakwach","Buliisa","Kiryandongo","Kayunga","Luwero","Nakasongola","Kiboga","Mityana","Mubende","Sembabule","Rakai","Kalangala","Bushenyi","Ntungamo","Kanungu","Kisoro","Rukungiri","Ibanda","Kiruhura","Isingiro","Buhweju","Rubirizi","Sheema","Mitooma","Bundibugyo","Ntoroko","Kyenjojo","Kyegegwa","Kamwenge","Bulambuli","Sironko","Kapchorwa","Kween","Bukwo","Manafwa","Namisindwa","Budaka","Butaleja","Busia","Bugiri","Namayingo","Mayuge","Kamuli","Kaliro","Buyende","Luuka","Namutumba","Pallisa","Kibuku","Butebo","Ngora","Serere","Kumi","Bukedea","Amuria","Katakwi","Napak","Moroto","Nakapiripirit","Amudat","Kotido","Kaabong","Abim","Agago","Amuru","Nwoya","Omoro","Lamwo","Otuke","Alebtong","Dokolo","Amolatar","Apac","Oyam","Kole","Kwania","Buikwe","Buvuma","Kalungu","Lyantonde","Lwengo","Bukomansimbi","Gomba","Other"];
 

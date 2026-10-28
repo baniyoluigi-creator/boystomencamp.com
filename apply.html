@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261028b">
+<link rel="stylesheet" href="styles.css?v=20261028c">
 <style>
   details.intake-details{max-width:760px;border:1px solid var(--line);border-radius:var(--radius);padding:20px 24px;margin:22px 0;background:var(--white);}
   details.intake-details summary{cursor:pointer;font-family:var(--font-display);font-weight:700;color:var(--green-800);list-style:none;display:flex;align-items:center;gap:8px;}
@@ -87,7 +87,7 @@
   <div class="container">
     <p class="crumb">Apply</p>
     <h1>Start the registration</h1>
-    <p class="lede">This is the first real step toward camp. It takes a few minutes, and our team will confirm his place within 24 hours.</p>
+    <p class="lede">This is the first real step toward camp. It takes a few minutes, and our team will confirm his place once the booking fee is received.</p>
   </div>
 </section>
 
@@ -97,10 +97,10 @@
       <h2 id="upcoming-intakes">Upcoming Intakes</h2>
       <p class="muted" style="margin-bottom:4px;">Choose the camp that suits your son and press Apply Now. Boys are placed into their age cluster when they arrive.</p>
       <div class="age-strip">
-        <div class="age-box age-1"><b>Young Men</b><span>(23&ndash;18)</span></div>
-        <div class="age-box age-2"><b>Rising Men</b><span>(17&ndash;14)</span></div>
-        <div class="age-box age-3"><b>Path Finders</b><span>(13&ndash;11)</span></div>
-        <div class="age-box age-4"><b>Young Explorers</b><span>(10&ndash;8)</span></div>
+        <div class="age-box age-1"><b>Young Men</b><span>(23&ndash;18 years)</span></div>
+        <div class="age-box age-2"><b>Rising Men</b><span>(17&ndash;14 years)</span></div>
+        <div class="age-box age-3"><b>Path Finders</b><span>(13&ndash;11 years)</span></div>
+        <div class="age-box age-4"><b>Young Explorers</b><span>(10&ndash;8 years)</span></div>
       </div>
 
       <div id="upcoming-list">
@@ -112,6 +112,7 @@
     <p class="muted" style="margin-bottom:14px;">7-Day Residential Camp &middot; 13 to 19 December 2026 &middot; St. Elizabeth SSS Nkoowe</p>
     <div class="fee-card">
       <b>Fee:</b> UGX 500,000 or USD 150<br>
+      <b>Booking fee:</b> UGX 50,000 secures his place. It counts toward the fee and is non-refundable.<br>
       <b>Instalment plans available.</b> Balance cleared before camp begins.
     </div>
     <p class="muted mt-lg">One intake covers every age from 8 to 23. Your son joins the cluster for his age when he arrives.</p>
@@ -125,6 +126,7 @@
     <p class="muted" style="margin-bottom:14px;">7-Day Residential Camp &middot; 10 to 16 January 2027 &middot; St. Joseph's College Ombaci, Arua City</p>
     <div class="fee-card">
       <b>Fee:</b> UGX 400,000 or USD 120<br>
+      <b>Booking fee:</b> UGX 50,000 secures his place. It counts toward the fee and is non-refundable.<br>
       <b>Instalment plans available.</b> Balance cleared before camp begins.
     </div>
     <p class="muted mt-lg">One intake covers every age from 8 to 23. Your son joins the cluster for his age when he arrives.</p>
@@ -138,6 +140,7 @@
     <p class="muted" style="margin-bottom:14px;">8-Day Residential Camp &middot; 7 to 16 July 2027 &middot; Kampala (venue confirmed on registration)</p>
     <div class="fee-card">
       <b>Fee:</b> USD 300<br>
+      <b>Booking fee:</b> USD 50 secures his place. It counts toward the fee and is non-refundable.<br>
       <b>Instalment plans available.</b> Balance cleared before camp begins.
     </div>
     <p class="muted" style="margin-top:6px;">A UGX equivalent can be arranged on request at the time of payment.</p>
@@ -299,6 +302,8 @@
         <div class="htp" id="how-to-pay">
           <p class="htp-intro">Payment is by bank transfer or deposit. Not sure how to do it? Choose the way that suits you below and follow the simple steps. It takes only a few minutes.</p>
 
+          <div class="htp-booking"><b>Booking fee to secure his place</b>UGX 50,000 for Kampala and Arua, or USD 50 for the Summer Camp. It counts toward the total fee and is non-refundable.</div>
+
           <div class="htp-account">
             <div class="htp-bank-line"><span class="htp-bank-dot"></span>Centenary Bank, Wakiso Branch</div>
             <div class="htp-row">
@@ -392,8 +397,8 @@
 
         <div class="field">
           <label for="amount">Amount you are paying now</label>
-          <input type="text" id="amount" name="Amount Paying Now" placeholder="e.g. Full fee, or a deposit amount">
-          <p class="form-note">Edit if you are paying a deposit. The full amount must be cleared before camp begins.</p>
+          <input type="text" id="amount" name="Amount Paying Now" placeholder="e.g. Booking fee UGX 50,000, or the full fee">
+          <p class="form-note">Pay the booking fee of UGX 50,000 (USD 50 for the Summer Camp) to secure his place, or pay more if you wish. The booking fee counts toward the total fee and is non-refundable. The full amount must be cleared before camp begins.</p>
         </div>
 
         <h3 class="mt-lg">Communication preferences</h3>
@@ -401,12 +406,12 @@
         <label class="field" style="font-weight:400;"><input type="checkbox" name="Wants WhatsApp Group"> Add me to the WhatsApp group for camp updates.</label>
 
         <button class="btn btn-gold mt-lg" type="submit">Submit Registration &rarr;</button>
-        <p class="form-note">We will confirm his place within 24 hours.</p>
+        <p class="form-note">We will confirm his place within 24 hours of receiving your booking fee.</p>
       </form>
 
       <div class="card mt-lg">
         <h3>After You Pay</h3>
-        <p class="muted">Send a screenshot or payment confirmation to <b>+256 775 495 431</b> on WhatsApp, or to <b>info@potentialunexplored.com</b>. Include your full name and programme. You will receive confirmation and all joining instructions within 24 hours.</p>
+        <p class="muted">Send a screenshot or payment confirmation to the Manager, Eduardo Fortunato, on WhatsApp at <b>+256 779 363 354</b>, or by email to <b>info@potentialunexplored.com</b>. Include your full name and programme. You will receive confirmation and all joining instructions within 24 hours.</p>
       </div>
     </div>
     <div>
@@ -473,6 +478,6 @@
     </div>
   </div>
 </footer>
-<script src="main.js?v=20261028a"></script>
+<script src="main.js?v=20261028b"></script>
 </body>
 </html>

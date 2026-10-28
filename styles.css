@@ -685,3 +685,7 @@ details.faq-item p{margin-top:12px;color:var(--ink-soft);}
 .age-strip .age-box b{font-size:.92rem;margin-bottom:2px;line-height:1.25;}
 .age-strip .age-box span{font-size:.9rem;font-weight:700;}
 @media (max-width:640px){.age-strip{grid-template-columns:1fr 1fr;}}
+
+/* ---- Booking fee callout (apply page payment section) ---- */
+.htp-booking{background:var(--cream);border:2px solid var(--gold-500);border-radius:14px;padding:14px 16px;margin:0 0 18px;line-height:1.55;color:var(--ink-soft);}
+.htp-booking b{display:block;font-family:var(--font-display);font-weight:800;color:var(--green-800);margin-bottom:2px;}
