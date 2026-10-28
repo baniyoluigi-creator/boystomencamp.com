@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261012a">
+<link rel="stylesheet" href="styles.css?v=20261028a">
 <style>
   details.intake-details{max-width:760px;border:1px solid var(--line);border-radius:var(--radius);padding:20px 24px;margin:22px 0;background:var(--white);}
   details.intake-details summary{cursor:pointer;font-family:var(--font-display);font-weight:700;color:var(--green-800);list-style:none;display:flex;align-items:center;gap:8px;}
@@ -295,7 +295,99 @@
         </div>
 
         <h3 class="mt-lg">How to pay</h3>
-        <div class="fee-card">Payment is by bank transfer or deposit to:<br>Centenary Bank, Wakiso Branch<br>Account Name: <b>Potential Unexplored Limited</b><br>Account Number: <b>3100125782</b></div>
+        <div class="htp" id="how-to-pay">
+          <p class="htp-intro">Payment is by bank transfer or deposit. Not sure how to do it? Choose the way that suits you below and follow the simple steps. It takes only a few minutes.</p>
+
+          <div class="htp-account">
+            <div class="htp-bank-line"><span class="htp-bank-dot"></span>Centenary Bank, Wakiso Branch</div>
+            <div class="htp-row">
+              <div><span class="htp-label">Account name</span><strong id="htp-name">Potential Unexplored Limited</strong></div>
+              <button type="button" class="htp-copy" data-copy="htp-name">Copy</button>
+            </div>
+            <div class="htp-row">
+              <div><span class="htp-label">Account number</span><strong id="htp-acc" class="htp-big">3100125782</strong></div>
+              <button type="button" class="htp-copy" data-copy="htp-acc">Copy</button>
+            </div>
+          </div>
+
+          <div class="htp-tabs" role="tablist" aria-label="Choose how you will pay">
+            <button type="button" class="htp-tab" role="tab" aria-selected="true" data-tab="bank">From your bank</button>
+            <button type="button" class="htp-tab htp-mtn" role="tab" aria-selected="false" data-tab="mtn"><span class="htp-dot"></span>MTN MoMo</button>
+            <button type="button" class="htp-tab htp-airtel" role="tab" aria-selected="false" data-tab="airtel"><span class="htp-dot"></span>Airtel Money</button>
+          </div>
+
+          <div class="htp-panel" id="htp-bank">
+            <ol class="htp-steps">
+              <li>Open your bank app or visit your bank, or any Centenary Bank branch or agent.</li>
+              <li>Choose to send money to another bank account, or to make a deposit.</li>
+              <li>Enter the Centenary Bank account name and number shown above.</li>
+              <li>Enter the amount for the camp and confirm.</li>
+              <li>Keep your receipt or confirmation message. You will need it below.</li>
+            </ol>
+          </div>
+
+          <div class="htp-panel" id="htp-mtn" hidden>
+            <ol class="htp-steps">
+              <li>On your MTN line, dial <span class="htp-code">*165#</span></li>
+              <li>Choose <b>Financial Services</b>.</li>
+              <li>Choose <b>Bank Transfer</b> and select <b>Centenary Bank</b>.</li>
+              <li>Enter the account number shown above, then enter the amount.</li>
+              <li>Enter your MoMo PIN to confirm.</li>
+              <li>Wait for the MTN confirmation message and keep it. You will need it below.</li>
+            </ol>
+          </div>
+
+          <div class="htp-panel" id="htp-airtel" hidden>
+            <ol class="htp-steps">
+              <li>On your Airtel line, dial <span class="htp-code">*185#</span></li>
+              <li>Choose <b>Financial Services</b>, then <b>Banks</b>.</li>
+              <li>Select <b>Centenary Bank</b>. If you do not see it, choose <b>Next</b> until it appears.</li>
+              <li>Enter the account number shown above, then enter the amount.</li>
+              <li>Enter your Airtel Money PIN to confirm.</li>
+              <li>Wait for the Airtel confirmation message and keep it. You will need it below.</li>
+            </ol>
+          </div>
+
+          <div class="htp-note"><b>Good to know.</b> The menu on your phone may look a little different, so follow what appears on your screen. Mobile money has daily limits and small charges. Check your limit before you start. If the camp fee is more than your limit, pay in parts on different days and send proof for each part.</div>
+
+          <div class="htp-after">
+            <h4>After you pay</h4>
+            <p>Send a screenshot of your confirmation message, or the transaction ID, to the Manager, Eduardo Fortunato, on WhatsApp or by email. Please include the name of the boy and the camp he is joining. You will receive a reply once your payment is confirmed.</p>
+            <ul class="htp-check">
+              <li>Check the account name before you confirm any payment.</li>
+              <li>Keep your transaction ID safe.</li>
+              <li>Send your proof of payment on WhatsApp or by email.</li>
+            </ul>
+            <div class="htp-actions">
+              <a class="htp-btn htp-btn-wa" target="_blank" rel="noopener" href="https://wa.me/256779363354?text=Hello%2C%20I%20have%20paid%20for%20the%20Boys%20to%20Men%20camp.%20The%20boy%27s%20name%20is%20___.%20The%20camp%20is%20___.%20My%20transaction%20ID%20is%20___.">Send proof on WhatsApp</a>
+              <a class="htp-btn htp-btn-mail" href="mailto:info@potentialunexplored.com?subject=Proof%20of%20payment%20for%20the%20Boys%20to%20Men%20camp&amp;body=Hello%2C%20I%20have%20paid%20for%20the%20Boys%20to%20Men%20camp.%20The%20boy%27s%20name%20is%20___.%20The%20camp%20is%20___.%20My%20transaction%20ID%20is%20___.%20I%20have%20attached%20my%20confirmation.">Send proof by email</a>
+            </div>
+            <p class="htp-warn">The WhatsApp number and the email address are for proof of payment only. Please do not send money to them. Pay only into the Centenary Bank account shown above.</p>
+          </div>
+        </div>
+        <script>
+        (function(){
+          var root=document.getElementById('how-to-pay');
+          if(!root)return;
+          var tabs=root.querySelectorAll('.htp-tab');
+          tabs.forEach(function(t){
+            t.addEventListener('click',function(){
+              tabs.forEach(function(x){x.setAttribute('aria-selected','false');});
+              t.setAttribute('aria-selected','true');
+              root.querySelectorAll('.htp-panel').forEach(function(p){p.hidden=true;});
+              document.getElementById('htp-'+t.getAttribute('data-tab')).hidden=false;
+            });
+          });
+          root.querySelectorAll('.htp-copy').forEach(function(b){
+            b.addEventListener('click',function(){
+              var text=document.getElementById(b.getAttribute('data-copy')).textContent.trim();
+              var ok=function(){b.textContent='Copied';b.classList.add('done');setTimeout(function(){b.textContent='Copy';b.classList.remove('done');},1800);};
+              if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(ok,function(){});}
+              else{var a=document.createElement('textarea');a.value=text;document.body.appendChild(a);a.select();try{document.execCommand('copy');ok();}catch(e){}document.body.removeChild(a);}
+            });
+          });
+        })();
+        </script>
 
         <div class="field">
           <label for="amount">Amount you are paying now</label>
