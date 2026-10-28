@@ -724,3 +724,11 @@ nav.main-nav > a.nav-pay{font-weight:700}
 .steps-3>div{background:#fff;border-radius:12px;padding:20px;box-shadow:var(--shadow-soft)}
 .steps-3 h3{margin:10px 0 6px;color:var(--green-800);font-size:1.1rem}
 .steps-3 p{margin:0;line-height:1.55;color:var(--ink-soft)}
+
+.reg-banner{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:linear-gradient(120deg,var(--green-800),var(--teal-700));color:#fff;border-radius:14px;padding:18px 20px;margin:0 0 18px;box-shadow:var(--shadow-soft)}
+.reg-banner b{display:block;font-family:var(--font-display);font-size:1.05rem;margin-bottom:3px}
+.reg-banner span{font-size:.95rem;line-height:1.45;color:#E6F1E8}
+.reg-banner>div:first-child{flex:1 1 280px}
+.reg-actions{display:flex;gap:10px;flex-wrap:wrap}
+.reg-banner .btn-outline-dark{background:#fff}
+.reg-bottom{margin-top:22px}
