@@ -732,3 +732,11 @@ nav.main-nav > a.nav-pay{font-weight:700}
 .reg-actions{display:flex;gap:10px;flex-wrap:wrap}
 .reg-banner .btn-outline-dark{background:#fff}
 .reg-bottom{margin-top:22px}
+
+/* Our Story */
+.story-body{max-width:760px}
+.story-body h2{margin:34px 0 10px;color:var(--green-800);font-size:1.5rem}
+.story-body p{font-size:1.08rem;line-height:1.75;margin:0 0 16px}
+.story-body .eyebrow{margin-bottom:10px}
+.story-quote{margin-top:28px!important;padding:18px 20px;border-left:5px solid var(--gold-500);background:var(--cream);border-radius:0 10px 10px 0;font-family:var(--font-display);font-weight:600;color:var(--green-800);font-size:1.2rem!important}
+.story-bridge{font-family:var(--font-display);font-weight:700;color:var(--gold-600);letter-spacing:.02em}
