@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261028c">
+<link rel="stylesheet" href="styles.css?v=20261028d">
 <style>
   details.intake-details{max-width:760px;border:1px solid var(--line);border-radius:var(--radius);padding:20px 24px;margin:22px 0;background:var(--white);}
   details.intake-details summary{cursor:pointer;font-family:var(--font-display);font-weight:700;color:var(--green-800);list-style:none;display:flex;align-items:center;gap:8px;}
@@ -282,15 +282,15 @@
         <h3 class="mt-lg">What change are you hoping this camp will produce?</h3>
         <p class="form-note">Select what resonates for him.</p>
         <div class="grid grid-2" style="gap:10px;">
-          <label class="field" style="font-weight:400;"><input type="checkbox" name="Desired Outcome" value="Discovers who he truly is"> He discovers who he truly is, beyond what others have told him or labelled him</label>
-          <label class="field" style="font-weight:400;"><input type="checkbox" name="Desired Outcome" value="Breaks free from destructive habits"> He breaks free from destructive habits, addictions, or patterns that have been controlling him</label>
-          <label class="field" style="font-weight:400;"><input type="checkbox" name="Desired Outcome" value="Finds healing"> He finds healing for wounds he has never had space or language to name</label>
-          <label class="field" style="font-weight:400;"><input type="checkbox" name="Desired Outcome" value="Builds a vision"> He builds a vision for his life and writes a plan he actually owns</label>
-          <label class="field" style="font-weight:400;"><input type="checkbox" name="Desired Outcome" value="Financial intelligence"> He develops financial intelligence and the entrepreneurial mindset to create his own opportunities</label>
-          <label class="field" style="font-weight:400;"><input type="checkbox" name="Desired Outcome" value="Becomes confident"> He becomes confident in who he is as a young man, without being told who to be</label>
-          <label class="field" style="font-weight:400;"><input type="checkbox" name="Desired Outcome" value="Communicates and leads"> He learns to communicate, lead, and carry himself with respect and maturity</label>
-          <label class="field" style="font-weight:400;"><input type="checkbox" name="Desired Outcome" value="Finds brotherhood"> He leaves with a brotherhood of peers who hold him to the best version of himself</label>
-          <label class="field" style="font-weight:400;"><input type="checkbox" name="Desired Outcome" value="Understands healthy manhood"> He understands what healthy manhood actually looks like and makes it his own</label>
+          <label class="field check-row"><input type="checkbox" name="Desired Outcome" value="Discovers who he truly is"> He discovers who he truly is, beyond what others have told him or labelled him</label>
+          <label class="field check-row"><input type="checkbox" name="Desired Outcome" value="Breaks free from destructive habits"> He breaks free from destructive habits, addictions, or patterns that have been controlling him</label>
+          <label class="field check-row"><input type="checkbox" name="Desired Outcome" value="Finds healing"> He finds healing for wounds he has never had space or language to name</label>
+          <label class="field check-row"><input type="checkbox" name="Desired Outcome" value="Builds a vision"> He builds a vision for his life and writes a plan he actually owns</label>
+          <label class="field check-row"><input type="checkbox" name="Desired Outcome" value="Financial intelligence"> He develops financial intelligence and the entrepreneurial mindset to create his own opportunities</label>
+          <label class="field check-row"><input type="checkbox" name="Desired Outcome" value="Becomes confident"> He becomes confident in who he is as a young man, without being told who to be</label>
+          <label class="field check-row"><input type="checkbox" name="Desired Outcome" value="Communicates and leads"> He learns to communicate, lead, and carry himself with respect and maturity</label>
+          <label class="field check-row"><input type="checkbox" name="Desired Outcome" value="Finds brotherhood"> He leaves with a brotherhood of peers who hold him to the best version of himself</label>
+          <label class="field check-row"><input type="checkbox" name="Desired Outcome" value="Understands healthy manhood"> He understands what healthy manhood actually looks like and makes it his own</label>
         </div>
 
         <div class="field mt-lg">
@@ -298,11 +298,48 @@
           <textarea id="message" name="Message" rows="3"></textarea>
         </div>
 
-        <h3 class="mt-lg">How to pay</h3>
+        <h3 class="mt-lg">Booking fee</h3>
+        <p class="form-note">A booking fee secures his place. It is UGX 50,000 (USD 50 for the Summer Camp), counts toward the total fee, and is non-refundable. After you submit, you will see exactly how to pay.</p>
+        <div class="field">
+          <label for="paidStatus">Have you already paid the booking fee?</label>
+          <select id="paidStatus" name="Booking Fee Paid">
+            <option value="">Select one</option>
+            <option>Not yet (I will pay after submitting)</option>
+            <option>Yes (I have paid)</option>
+          </select>
+        </div>
+        <div class="conditional-field" data-cond-field="paidStatus" data-cond-value="Yes (I have paid)">
+          <div class="field-row">
+            <div class="field">
+              <label for="txnId">Transaction ID (optional)</label>
+              <input type="text" id="txnId" name="Transaction ID" placeholder="From your confirmation message">
+            </div>
+            <div class="field">
+              <label for="amount">Amount you have paid (optional)</label>
+              <input type="text" id="amount" name="Amount Paying Now" placeholder="e.g. UGX 50,000">
+            </div>
+          </div>
+          <div class="field" id="proofWrap" hidden>
+            <label for="proofFile">Attach your proof of payment (optional)</label>
+            <input type="file" id="proofFile" accept="image/*,application/pdf">
+            <p class="form-note">A screenshot of your confirmation message works well.</p>
+          </div>
+        </div>
+
+        <h3 class="mt-lg">Communication preferences</h3>
+        <label class="field check-row"><input type="checkbox" name="Wants Call"> I would like a team member to call me.</label>
+        <label class="field check-row"><input type="checkbox" name="Wants WhatsApp Group"> Add me to the WhatsApp group for camp updates.</label>
+
+        <button class="btn btn-gold mt-lg" type="submit">Submit Registration &rarr;</button>
+        <p class="form-note">After you submit, you will see how to pay the booking fee. We will confirm his place within 24 hours of receiving it.</p>
+      </form>
+
+      <div id="payPanel" hidden>
+        <h3 id="payHeading" class="mt-lg">Pay the booking fee to secure his place</h3>
         <div class="htp" id="how-to-pay">
           <p class="htp-intro">Payment is by bank transfer or deposit. Not sure how to do it? Choose the way that suits you below and follow the simple steps. It takes only a few minutes.</p>
 
-          <div class="htp-booking"><b>Booking fee to secure his place</b>UGX 50,000 for Kampala and Arua, or USD 50 for the Summer Camp. It counts toward the total fee and is non-refundable.</div>
+          <div class="htp-booking"><b>Booking fee to secure his place</b><span id="htp-booking-text">UGX 50,000 for Kampala and Arua, or USD 50 for the Summer Camp. It counts toward the total fee and is non-refundable.</span></div>
 
           <div class="htp-account">
             <div class="htp-bank-line"><span class="htp-bank-dot"></span>Centenary Bank, Wakiso Branch</div>
@@ -371,47 +408,6 @@
             <p class="htp-warn">The WhatsApp number and the email address are for proof of payment only. Please do not send money to them. Pay only into the Centenary Bank account shown above.</p>
           </div>
         </div>
-        <script>
-        (function(){
-          var root=document.getElementById('how-to-pay');
-          if(!root)return;
-          var tabs=root.querySelectorAll('.htp-tab');
-          tabs.forEach(function(t){
-            t.addEventListener('click',function(){
-              tabs.forEach(function(x){x.setAttribute('aria-selected','false');});
-              t.setAttribute('aria-selected','true');
-              root.querySelectorAll('.htp-panel').forEach(function(p){p.hidden=true;});
-              document.getElementById('htp-'+t.getAttribute('data-tab')).hidden=false;
-            });
-          });
-          root.querySelectorAll('.htp-copy').forEach(function(b){
-            b.addEventListener('click',function(){
-              var text=document.getElementById(b.getAttribute('data-copy')).textContent.trim();
-              var ok=function(){b.textContent='Copied';b.classList.add('done');setTimeout(function(){b.textContent='Copy';b.classList.remove('done');},1800);};
-              if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(ok,function(){});}
-              else{var a=document.createElement('textarea');a.value=text;document.body.appendChild(a);a.select();try{document.execCommand('copy');ok();}catch(e){}document.body.removeChild(a);}
-            });
-          });
-        })();
-        </script>
-
-        <div class="field">
-          <label for="amount">Amount you are paying now</label>
-          <input type="text" id="amount" name="Amount Paying Now" placeholder="e.g. Booking fee UGX 50,000, or the full fee">
-          <p class="form-note">Pay the booking fee of UGX 50,000 (USD 50 for the Summer Camp) to secure his place, or pay more if you wish. The booking fee counts toward the total fee and is non-refundable. The full amount must be cleared before camp begins.</p>
-        </div>
-
-        <h3 class="mt-lg">Communication preferences</h3>
-        <label class="field" style="font-weight:400;"><input type="checkbox" name="Wants Call"> I would like a team member to call me.</label>
-        <label class="field" style="font-weight:400;"><input type="checkbox" name="Wants WhatsApp Group"> Add me to the WhatsApp group for camp updates.</label>
-
-        <button class="btn btn-gold mt-lg" type="submit">Submit Registration &rarr;</button>
-        <p class="form-note">We will confirm his place within 24 hours of receiving your booking fee.</p>
-      </form>
-
-      <div class="card mt-lg">
-        <h3>After You Pay</h3>
-        <p class="muted">Send a screenshot or payment confirmation to the Manager, Eduardo Fortunato, on WhatsApp at <b>+256 779 363 354</b>, or by email to <b>info@potentialunexplored.com</b>. Include your full name and programme. You will receive confirmation and all joining instructions within 24 hours.</p>
       </div>
     </div>
     <div>
@@ -478,6 +474,6 @@
     </div>
   </div>
 </footer>
-<script src="main.js?v=20261028b"></script>
+<script src="main.js?v=20261028c"></script>
 </body>
 </html>

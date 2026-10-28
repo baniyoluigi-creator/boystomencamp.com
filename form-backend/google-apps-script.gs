@@ -18,7 +18,14 @@ var TABS = {
 };
 
 // Fields that are only used for spam checks and are not saved.
-var SKIP_FIELDS = ['_gotcha', '_subject', '_form', '_page'];
+// The proof of payment file fields are handled separately below, so the
+// large file data never goes into a sheet cell.
+var SKIP_FIELDS = ['_gotcha', '_subject', '_form', '_page',
+                   'Proof File Name', 'Proof File Type', 'Proof File Data'];
+
+// Drive folder where proof of payment pictures are kept. It is created
+// automatically in your Google Drive on the first upload. Files are private.
+var PROOF_FOLDER_NAME = 'Boys to Men Payment Proofs';
 
 function doPost(e) {
   var lock = LockService.getScriptLock();
@@ -45,6 +52,21 @@ function doPost(e) {
       row[label] = p[key].join('; ');
     });
     row['Page'] = first_(p._page) || '';
+
+    // Optional proof of payment: save the picture or PDF to Drive and put
+    // the link in the sheet. If this step fails, the registration is still saved.
+    if (first_(p['Proof File Data'])) {
+      try {
+        row['Proof of Payment Link'] = saveProof_(
+          first_(p['Proof File Data']),
+          first_(p['Proof File Type']) || 'image/jpeg',
+          first_(p['Proof File Name']) || 'proof',
+          first_(p['Full Name']) || first_(p['Name']) || 'Registration'
+        );
+      } catch (fileErr) {
+        row['Proof of Payment Link'] = 'Upload failed: ' + String(fileErr);
+      }
+    }
 
     // Make sure every field has a column; add new columns when needed.
     var lastCol = sheet.getLastColumn();
@@ -97,6 +119,15 @@ function notify_(formType, row) {
   } catch (err) {
     // If the daily email limit is ever reached, the entry is still safe in the sheet.
   }
+}
+
+function saveProof_(base64, type, name, who) {
+  var folders = DriveApp.getFoldersByName(PROOF_FOLDER_NAME);
+  var folder = folders.hasNext() ? folders.next() : DriveApp.createFolder(PROOF_FOLDER_NAME);
+  var stamp = Utilities.formatDate(new Date(), 'Africa/Kampala', 'yyyy-MM-dd HH.mm');
+  var safeWho = String(who).replace(/[^A-Za-z0-9 ]/g, '').trim() || 'Registration';
+  var blob = Utilities.newBlob(Utilities.base64Decode(base64), type, stamp + ' ' + safeWho + ' ' + name);
+  return folder.createFile(blob).getUrl();
 }
 
 function first_(arr) {

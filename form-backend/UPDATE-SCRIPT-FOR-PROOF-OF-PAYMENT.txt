@@ -1,0 +1,50 @@
+UPDATE: LET PARENTS ATTACH PROOF OF PAYMENT ON THE REGISTRATION FORM
+Boys to Men Mentorship Camp (boystomencamp.com)
+
+The website already asks parents for a transaction ID. This update also lets
+them attach a screenshot or PDF. Pictures are saved in a private folder in
+your Google Drive called "Boys to Men Payment Proofs", and a link to each
+one appears in a new column called "Proof of Payment Link" in the sheet.
+
+Do this once. It keeps the same web app link, so nothing on the website
+changes until the last step.
+
+
+PART 1: Replace the script
+
+1. Sign in to Google with baniyoluigi@gmail.com and open the sheet
+   "Boys to Men Registrations".
+2. Click Extensions, then Apps Script.
+3. Delete everything in the editor.
+4. Open google-apps-script.gs from this folder (the new copy), copy ALL of
+   it, and paste it into the editor.
+5. Click the save icon.
+
+
+PART 2: Publish the new version (same link)
+
+1. Click Deploy, then Manage deployments.
+2. Click the pencil (edit) icon on your existing deployment.
+3. Under Version, choose "New version".
+4. Click Deploy.
+5. Google will ask for one more permission, to use Google Drive. Click
+   Authorise access, choose your account, then Advanced, then
+   "Go to (project name) (unsafe)", then Allow. This is normal. It only
+   needs Drive to save the payment pictures.
+
+Please do not click "New deployment". That would create a new link.
+
+
+PART 3: Switch it on in the website
+
+1. Tell Claude that the script is updated, and it will switch the upload on.
+   Or open main.js on GitHub and change this line:
+      var PROOF_UPLOAD_ENABLED = false;
+   to:
+      var PROOF_UPLOAD_ENABLED = true;
+2. Wait about a minute, then test: open the Apply page in a fresh tab, fill
+   the form, choose "Yes (I have paid)", attach a screenshot, and submit.
+   Check that a new row appears with a link in "Proof of Payment Link".
+
+IMPORTANT: do not switch the upload on before Part 2 is finished. The old
+script cannot handle the picture data and the registration could fail.

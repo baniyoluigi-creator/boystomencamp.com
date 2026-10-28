@@ -122,6 +122,8 @@ document.addEventListener('DOMContentLoaded', function () {
     if (locationField) locationField.addEventListener('change', evaluateConditionals);
     if (ageField) ageField.addEventListener('change', updateApplySubject);
     if (whereFromField) whereFromField.addEventListener('change', evaluateConditionals);
+    var paidStatusField = document.getElementById('paidStatus');
+    if (paidStatusField) paidStatusField.addEventListener('change', evaluateConditionals);
 
     evaluateConditionals();
   }
@@ -230,6 +232,93 @@ document.addEventListener('DOMContentLoaded', function () {
    --------------------------------------------------------------- */
 var SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbz4TA60MMwRowFJujLeX_JA_v81z8s4cZI5kKACdZQ01kZDLO1ocpqF6EOyFMQp8XGY/exec';
 
+// Optional proof of payment upload on the Apply form.
+// Keep this false until the updated Google script has been published
+// (see form-backend/UPDATE-SCRIPT-FOR-PROOF-OF-PAYMENT.txt). The
+// transaction ID box works whether this is true or false.
+var PROOF_UPLOAD_ENABLED = false;
+
+/* ---------------------------------------------------------------
+   How to pay guide: tabs and copy buttons.
+   Used on the Apply page after submitting, and on pay.html
+   --------------------------------------------------------------- */
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.htp').forEach(function (root) {
+    var tabs = root.querySelectorAll('.htp-tab');
+    tabs.forEach(function (t) {
+      t.addEventListener('click', function () {
+        tabs.forEach(function (x) { x.setAttribute('aria-selected', 'false'); });
+        t.setAttribute('aria-selected', 'true');
+        root.querySelectorAll('.htp-panel').forEach(function (p) { p.hidden = true; });
+        var panel = root.querySelector('#htp-' + t.getAttribute('data-tab'));
+        if (panel) panel.hidden = false;
+      });
+    });
+    root.querySelectorAll('.htp-copy').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var source = root.querySelector('#' + b.getAttribute('data-copy'));
+        if (!source) return;
+        var text = source.textContent.trim();
+        var ok = function () {
+          b.textContent = 'Copied'; b.classList.add('done');
+          setTimeout(function () { b.textContent = 'Copy'; b.classList.remove('done'); }, 1800);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(ok, function () {});
+        } else {
+          var a = document.createElement('textarea');
+          a.value = text; document.body.appendChild(a); a.select();
+          try { document.execCommand('copy'); ok(); } catch (err) {}
+          document.body.removeChild(a);
+        }
+      });
+    });
+  });
+
+  if (PROOF_UPLOAD_ENABLED) {
+    var proofWrap = document.getElementById('proofWrap');
+    if (proofWrap) proofWrap.hidden = false;
+  }
+});
+
+// Reads the optional proof of payment file. Screenshots are shrunk first so
+// they send quickly on mobile data. Resolves null when nothing is attached.
+function readProof() {
+  return new Promise(function (resolve, reject) {
+    if (!PROOF_UPLOAD_ENABLED) return resolve(null);
+    var input = document.getElementById('proofFile');
+    var file = input && input.files && input.files[0];
+    if (!file) return resolve(null);
+    var reader = new FileReader();
+    reader.onerror = function () { reject('We could not read that file. Please try another one, or send your proof on WhatsApp.'); };
+    if (file.type === 'application/pdf') {
+      if (file.size > 2 * 1024 * 1024) return reject('That PDF is too large. Please attach a screenshot instead, or send the PDF on WhatsApp.');
+      reader.onload = function () {
+        resolve({ name: file.name, type: file.type, data: String(reader.result).split(',')[1] });
+      };
+      reader.readAsDataURL(file);
+    } else if (file.type.indexOf('image/') === 0) {
+      reader.onload = function () {
+        var img = new Image();
+        img.onerror = function () { reject('We could not read that picture. Please try another one, or send your proof on WhatsApp.'); };
+        img.onload = function () {
+          var ratio = Math.min(1, 1400 / Math.max(img.width, img.height));
+          var canvas = document.createElement('canvas');
+          canvas.width = Math.round(img.width * ratio);
+          canvas.height = Math.round(img.height * ratio);
+          canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+          var url = canvas.toDataURL('image/jpeg', 0.72);
+          resolve({ name: file.name.replace(/\.[^.]+$/, '') + '.jpg', type: 'image/jpeg', data: url.split(',')[1] });
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      reject('Please attach a screenshot or a PDF.');
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   if (!SHEET_ENDPOINT) return;
 
@@ -251,20 +340,48 @@ document.addEventListener('DOMContentLoaded', function () {
       data.forEach(function (value, key) { body.append(key, value); });
       body.append('_page', location.pathname);
 
-      fetch(SHEET_ENDPOINT, { method: 'POST', mode: 'no-cors', body: body })
+      var proofStep = id === 'applyForm' ? readProof() : Promise.resolve(null);
+      proofStep
+        .then(function (proof) {
+          if (proof) {
+            body.append('Proof File Name', proof.name);
+            body.append('Proof File Type', proof.type);
+            body.append('Proof File Data', proof.data);
+          }
+          return fetch(SHEET_ENDPOINT, { method: 'POST', mode: 'no-cors', body: body });
+        })
         .then(function () {
           var box = document.createElement('div');
           box.className = 'card card-gold';
           box.setAttribute('role', 'status');
-          box.innerHTML = id === 'applyForm'
-            ? '<h3>Thank you. Your registration has been received.</h3><p>A member of our team will contact you shortly with the next steps. If you need anything urgently, chat with us on WhatsApp using the green button on this page.</p>'
-            : '<h3>Thank you. Your message has been received.</h3><p>We will get back to you as soon as we can. For anything urgent, chat with us on WhatsApp using the green button on this page.</p>';
+          var paid = (data.get('Booking Fee Paid') || '').indexOf('Yes') === 0;
+          if (id === 'applyForm') {
+            box.innerHTML = paid
+              ? '<h3>Thank you. Your registration has been received.</h3><p>We have noted your payment and will confirm his place within 24 hours. If you still have a balance to pay, the details are below.</p>'
+              : '<h3>Thank you. Your registration has been received.</h3><p>One more step to secure his place. Pay the booking fee using the details below, then send us your proof of payment. We will confirm his place within 24 hours of receiving it.</p>';
+          } else {
+            box.innerHTML = '<h3>Thank you. Your message has been received.</h3><p>We will get back to you as soon as we can. For anything urgent, chat with us on WhatsApp using the green button on this page.</p>';
+          }
           form.parentNode.replaceChild(box, form);
-          box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+          var panel = document.getElementById('payPanel');
+          if (id === 'applyForm' && panel) {
+            var loc = data.get('Location') || '';
+            var text = document.getElementById('htp-booking-text');
+            if (text && loc) {
+              text.textContent = loc.indexOf('Summer Camp') === 0
+                ? 'USD 50 secures his place at the Summer Camp. It counts toward the total fee and is non-refundable.'
+                : 'UGX 50,000 secures his place. It counts toward the total fee and is non-refundable.';
+            }
+            var heading = document.getElementById('payHeading');
+            if (heading && paid) heading.textContent = 'Paying the balance';
+            panel.hidden = false;
+          }
+          box.scrollIntoView({ behavior: 'smooth', block: 'start' });
         })
-        .catch(function () {
+        .catch(function (err) {
           if (button) { button.disabled = false; button.innerHTML = buttonText; }
-          alert('Sorry, your details could not be sent. Please check your internet connection and try again, or message us on WhatsApp.');
+          alert(typeof err === 'string' ? err : 'Sorry, your details could not be sent. Please check your internet connection and try again, or message us on WhatsApp.');
         });
     });
   });

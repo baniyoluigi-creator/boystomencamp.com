@@ -689,3 +689,7 @@ details.faq-item p{margin-top:12px;color:var(--ink-soft);}
 /* ---- Booking fee callout (apply page payment section) ---- */
 .htp-booking{background:var(--cream);border:2px solid var(--gold-500);border-radius:14px;padding:14px 16px;margin:0 0 18px;line-height:1.55;color:var(--ink-soft);}
 .htp-booking b{display:block;font-family:var(--font-display);font-weight:800;color:var(--green-800);margin-bottom:2px;}
+
+/* ---- Tick boxes sit on the left of their words ---- */
+.check-row{display:flex;align-items:flex-start;gap:12px;font-weight:400;line-height:1.5;cursor:pointer;}
+.check-row input[type="checkbox"]{flex:0 0 22px;width:22px;height:22px;margin:2px 0 0;padding:0;accent-color:var(--green-700);cursor:pointer;}
