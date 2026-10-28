@@ -77,17 +77,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
     window.updateApplySubject = function () {
       if (!subjectField) return;
-      var activePanel = document.querySelector('#program-panels .voice-panel.active');
-      var type = activePanel ? activePanel.id : '';
-      if (type === 'panel-local') {
-        var locRaw = locationField ? locationField.value : '';
-        var locName = locRaw.split(' \u2014')[0].trim();
-        var age = ageField ? ageField.value : '';
-        subjectField.value = 'New Registration: Boys to Men ' + (locName || 'Location TBC') + ' \u2014 Age ' + (age || 'TBC');
-        if (feeDisplay) feeDisplay.textContent = LOCAL_FEES[locName] || 'Select a location above to see the exact fee.';
-      } else if (type === 'panel-summer') {
+      var locRaw = locationField ? locationField.value : '';
+      var locName = locRaw.split(' \u2014')[0].trim();
+      var age = ageField ? ageField.value : '';
+      if (locName.indexOf('Summer Camp') === 0) {
         subjectField.value = 'New Registration: Boys to Men Diaspora Summer Camp (July 2027, 8 days)';
         if (feeDisplay) feeDisplay.textContent = SUMMER_FEE;
+      } else {
+        subjectField.value = 'New Registration: Boys to Men ' + (locName || 'Location TBC') + ' \u2014 Age ' + (age || 'TBC');
+        if (feeDisplay) feeDisplay.textContent = LOCAL_FEES[locName] || 'Select an intake above to see the exact fee.';
       }
     };
 
@@ -121,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('#program-panels-tabs .voice-tab').forEach(function (btn) {
       btn.addEventListener('click', evaluateConditionals);
     });
-    if (locationField) locationField.addEventListener('change', updateApplySubject);
+    if (locationField) locationField.addEventListener('change', evaluateConditionals);
     if (ageField) ageField.addEventListener('change', updateApplySubject);
     if (whereFromField) whereFromField.addEventListener('change', evaluateConditionals);
 

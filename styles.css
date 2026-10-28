@@ -678,3 +678,10 @@ details.faq-item p{margin-top:12px;color:var(--ink-soft);}
   .htp-row strong.htp-big{font-size:1.25rem;}
   .htp-steps li{padding-left:60px;}
 }
+
+/* ---- Age clusters strip above the upcoming intakes (apply page) ---- */
+.age-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0 24px;max-width:760px;}
+.age-strip .age-box{padding:14px 8px;border-radius:14px;}
+.age-strip .age-box b{font-size:.92rem;margin-bottom:2px;line-height:1.25;}
+.age-strip .age-box span{font-size:.9rem;font-weight:700;}
+@media (max-width:640px){.age-strip{grid-template-columns:1fr 1fr;}}

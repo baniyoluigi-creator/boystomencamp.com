@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=20261028a">
+<link rel="stylesheet" href="styles.css?v=20261028b">
 <style>
   details.intake-details{max-width:760px;border:1px solid var(--line);border-radius:var(--radius);padding:20px 24px;margin:22px 0;background:var(--white);}
   details.intake-details summary{cursor:pointer;font-family:var(--font-display);font-weight:700;color:var(--green-800);list-style:none;display:flex;align-items:center;gap:8px;}
@@ -94,13 +94,16 @@
 <section>
   <div class="container two-col" style="align-items:flex-start;">
     <div>
-      <div class="voice-tabs" data-target="program-panels" id="program-panels-tabs">
-        <button class="voice-tab active" data-panel="panel-local">Local Intake</button>
-        <button class="voice-tab" data-panel="panel-summer">Diaspora Summer Camp</button>
+      <h2 id="upcoming-intakes">Upcoming Intakes</h2>
+      <p class="muted" style="margin-bottom:4px;">Choose the camp that suits your son and press Apply Now. Boys are placed into their age cluster when they arrive.</p>
+      <div class="age-strip">
+        <div class="age-box age-1"><b>Young Men</b><span>(23&ndash;18)</span></div>
+        <div class="age-box age-2"><b>Rising Men</b><span>(17&ndash;14)</span></div>
+        <div class="age-box age-3"><b>Path Finders</b><span>(13&ndash;11)</span></div>
+        <div class="age-box age-4"><b>Young Explorers</b><span>(10&ndash;8)</span></div>
       </div>
 
-      <div id="program-panels">
-        <div class="voice-panel active" id="panel-local">
+      <div id="upcoming-list">
           <div class="card card-gold" style="max-width:760px;margin-bottom:18px;">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;">
       <h3 style="margin-bottom:4px;">9th Intake: KAMPALA</h3>
@@ -111,10 +114,10 @@
       <b>Fee:</b> UGX 500,000 or USD 150<br>
       <b>Instalment plans available.</b> Balance cleared before camp begins.
     </div>
-    <p class="muted mt-lg">Boys are placed into age-appropriate clusters automatically once they arrive, Young Explorers, Path Finders, Rising Men, and Young Men, so this one intake covers every age from 8 to 23.</p>
+    <p class="muted mt-lg">One intake covers every age from 8 to 23. Your son joins the cluster for his age when he arrives.</p>
     <p><a class="btn btn-outline-dark" href="#applyForm" data-select-location="Kampala &mdash; 13&ndash;19 Dec 2026 &mdash; UGX 500,000 / USD 150">Apply Now</a></p>
   </div>
-          <div class="card card-gold" style="max-width:760px;">
+          <div class="card card-gold" style="max-width:760px;margin-bottom:18px;">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;">
       <h3 style="margin-bottom:4px;">10th Intake: ARUA</h3>
       <span class="pill pill-open">Applications Open</span>
@@ -124,12 +127,9 @@
       <b>Fee:</b> UGX 400,000 or USD 120<br>
       <b>Instalment plans available.</b> Balance cleared before camp begins.
     </div>
-    <p class="muted mt-lg">Boys are placed into age-appropriate clusters automatically once they arrive, Young Explorers, Path Finders, Rising Men, and Young Men, so this one intake covers every age from 8 to 23.</p>
+    <p class="muted mt-lg">One intake covers every age from 8 to 23. Your son joins the cluster for his age when he arrives.</p>
     <p><a class="btn btn-outline-dark" href="#applyForm" data-select-location="Arua &mdash; 10&ndash;16 Jan 2027 &mdash; UGX 400,000 / USD 120">Apply Now</a></p>
   </div>
-          <p class="form-note mt-lg">The 8th intake was held in Gulu, 10&ndash;16 May 2026 (now completed). <a href="intake-gulu.html">See the Gulu intake</a>, the next Gulu date will be announced here.</p>
-        </div>
-        <div class="voice-panel" id="panel-summer">
           <div class="card card-gold" style="max-width:760px;">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;">
       <h3 style="margin-bottom:4px;">Summer Camp: KAMPALA Only</h3>
@@ -141,10 +141,10 @@
       <b>Instalment plans available.</b> Balance cleared before camp begins.
     </div>
     <p class="muted" style="margin-top:6px;">A UGX equivalent can be arranged on request at the time of payment.</p>
-    <p class="muted mt-lg">Boys are placed into age-appropriate clusters automatically once they arrive, Young Explorers, Path Finders, Rising Men, and Young Men, so this one intake covers every age from 8 to 23.</p>
-    <p><a class="btn btn-outline-dark" href="apply.html">Apply Now</a></p>
+    <p class="muted mt-lg">One intake covers every age from 8 to 23. Your son joins the cluster for his age when he arrives.</p>
+    <p><a class="btn btn-outline-dark" href="#applyForm" data-select-location="Summer Camp (Diaspora) &mdash; Kampala &mdash; 7&ndash;16 Jul 2027 &mdash; USD 300">Apply Now</a></p>
   </div>
-        </div>
+          <p class="form-note mt-lg">The 8th intake was held in Gulu, 10&ndash;16 May 2026 (now completed). <a href="intake-gulu.html">See the Gulu intake</a>, the next Gulu date will be announced here.</p>
       </div>
 
       <details class="intake-details">
@@ -241,18 +241,19 @@
           Boys are placed into age-appropriate clusters automatically once they arrive, Young Explorers, Path Finders, Rising Men, or Young Men, based on age. There is nothing to choose here.
         </div>
 
-        <div class="field-row conditional-field" data-cond-tab="panel-local">
+        <div class="field-row">
           <div class="field">
-            <label for="location">Which location? *</label>
+            <label for="location">Which intake? *</label>
             <select id="location" name="Location">
               <option value="">Select one</option>
               <option>Kampala &mdash; 13&ndash;19 Dec 2026 &mdash; UGX 500,000 / USD 150</option>
               <option>Arua &mdash; 10&ndash;16 Jan 2027 &mdash; UGX 400,000 / USD 120</option>
+              <option>Summer Camp (Diaspora) &mdash; Kampala &mdash; 7&ndash;16 Jul 2027 &mdash; USD 300</option>
             </select>
           </div>
         </div>
 
-        <div class="conditional-field" data-cond-tab="panel-summer">
+        <div class="conditional-field" data-cond-field="location" data-cond-value="Summer Camp (Diaspora) &mdash; Kampala &mdash; 7&ndash;16 Jul 2027 &mdash; USD 300">
           <div class="field-row">
             <div class="field">
               <label for="visaHelp">Need travel or visa guidance?</label>
@@ -273,7 +274,7 @@
           </div>
         </div>
 
-        <div class="fee-card" id="feeDisplay">Select a location above to see the exact fee.</div>
+        <div class="fee-card" id="feeDisplay">Select an intake above to see the exact fee.</div>
 
         <h3 class="mt-lg">What change are you hoping this camp will produce?</h3>
         <p class="form-note">Select what resonates for him.</p>
@@ -415,7 +416,7 @@
       </div>
       <div class="card mt-lg">
         <h3>Applying from the diaspora?</h3>
-        <p class="muted">Choose "Diaspora Summer Camp" above so we can route your enquiry to the team handling travel logistics and communication across time zones.</p>
+        <p class="muted">Choose the Summer Camp in the list of upcoming intakes so we can route your enquiry to the team handling travel logistics and communication across time zones.</p>
       </div>
     </div>
   </div>
@@ -472,6 +473,6 @@
     </div>
   </div>
 </footer>
-<script src="main.js?v=20261012a"></script>
+<script src="main.js?v=20261028a"></script>
 </body>
 </html>
