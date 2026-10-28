@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
       'Kampala': 'Kampala fee: UGX 500,000 or USD 150. Booking fee to secure his place: UGX 50,000 (part of the fee, non-refundable).',
       'Arua': 'Arua fee: UGX 400,000 or USD 120. Booking fee to secure his place: UGX 50,000 (part of the fee, non-refundable).'
     };
-    var SUMMER_FEE = 'Diaspora Summer Camp fee: USD 300 (covers the full 8-day camp). A UGX equivalent can be arranged on request at time of payment. Booking fee to secure his place: USD 50 (part of the fee, non-refundable).';
+    var SUMMER_FEE = 'Summer Camp fee: USD 300 (covers the full 8-day camp). A UGX equivalent can be arranged on request at time of payment. Booking fee to secure his place: USD 50 (part of the fee, non-refundable).';
 
     var UGANDA_DISTRICTS = ["Kampala","Wakiso","Mukono","Jinja","Mbale","Mbarara","Gulu","Arua","Lira","Soroti","Kabale","Kabarole (Fort Portal)","Masaka","Hoima","Masindi","Kasese","Iganga","Tororo","Kitgum","Pader","Moyo","Adjumani","Nebbi","Zombo","Yumbe","Koboko","Maracha","Pakwach","Buliisa","Kiryandongo","Kayunga","Luwero","Nakasongola","Kiboga","Mityana","Mubende","Sembabule","Rakai","Kalangala","Bushenyi","Ntungamo","Kanungu","Kisoro","Rukungiri","Ibanda","Kiruhura","Isingiro","Buhweju","Rubirizi","Sheema","Mitooma","Bundibugyo","Ntoroko","Kyenjojo","Kyegegwa","Kamwenge","Bulambuli","Sironko","Kapchorwa","Kween","Bukwo","Manafwa","Namisindwa","Budaka","Butaleja","Busia","Bugiri","Namayingo","Mayuge","Kamuli","Kaliro","Buyende","Luuka","Namutumba","Pallisa","Kibuku","Butebo","Ngora","Serere","Kumi","Bukedea","Amuria","Katakwi","Napak","Moroto","Nakapiripirit","Amudat","Kotido","Kaabong","Abim","Agago","Amuru","Nwoya","Omoro","Lamwo","Otuke","Alebtong","Dokolo","Amolatar","Apac","Oyam","Kole","Kwania","Buikwe","Buvuma","Kalungu","Lyantonde","Lwengo","Bukomansimbi","Gomba","Other"];
 
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function () {
       var locName = locRaw.split(' \u2014')[0].trim();
       var age = ageField ? ageField.value : '';
       if (locName.indexOf('Summer Camp') === 0) {
-        subjectField.value = 'New Registration: Boys to Men Diaspora Summer Camp (July 2027, 8 days)';
+        subjectField.value = 'New Registration: Boys to Men Summer Camp (July 2027, 8 days)';
         if (feeDisplay) feeDisplay.textContent = SUMMER_FEE;
       } else {
         subjectField.value = 'New Registration: Boys to Men ' + (locName || 'Location TBC') + ' \u2014 Age ' + (age || 'TBC');
@@ -155,6 +155,26 @@ document.addEventListener('DOMContentLoaded', function () {
       heroLayers[heroIndex].classList.add('is-active');
     }, 3000);
   }
+
+  // Paid-first route: ?paid=1 or the "Paid already" links tick Yes under the booking fee.
+  function markPaid() {
+    var ps = document.getElementById('paidStatus');
+    if (!ps) return;
+    ps.value = 'Yes (I have paid)';
+    ps.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+  if (/[?&]paid=1/.test(window.location.search)) {
+    markPaid();
+    var f0 = document.getElementById('applyForm');
+    if (f0) setTimeout(function () { f0.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 300);
+  }
+  document.querySelectorAll('[data-paid-yes]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      markPaid();
+      var f1 = document.getElementById('applyForm');
+      if (f1) { e.preventDefault(); f1.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
 
   // Per-camp "Apply for This Intake" buttons: pre-select the location
   // in the shared form and scroll the person straight to it.
