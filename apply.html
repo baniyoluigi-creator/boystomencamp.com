@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=20261028h">
-<link rel="stylesheet" href="apply-form.css?v=20261030a">
+<link rel="stylesheet" href="apply-form.css?v=20261030b">
 <style>
   details.intake-details{max-width:760px;border:1px solid var(--line);border-radius:var(--radius);padding:20px 24px;margin:22px 0;background:var(--white);}
   details.intake-details summary{cursor:pointer;font-family:var(--font-display);font-weight:700;color:var(--green-800);list-style:none;display:flex;align-items:center;gap:8px;}
@@ -228,6 +228,7 @@
                   <div class="field">
                     <label for="regPhone">Your phone number *</label>
                     <input type="tel" id="regPhone" name="Registrant Phone" required data-kind="phone" inputmode="tel" autocomplete="tel" placeholder="e.g. 0775 123 456">
+                    <p class="hint">Living outside Uganda? Start with your country code, for example +44 or +254.</p>
                   </div>
                   <div class="field">
                     <label for="regEmail">Your email address *</label>
@@ -379,7 +380,8 @@
                 </div>
               </div>
             </div>
-            <label class="check-row" style="margin-top:18px;"><input type="checkbox" name="Wants Call"> I would like a team member to call me.</label>
+            <label class="check-row" style="margin-top:22px;"><input type="checkbox" name="Consent Confirmed" value="Yes" data-need-check> <span id="consentText">I confirm these details are correct, and the parent or guardian knows about this registration.</span></label>
+            <label class="check-row" style="margin-top:14px;"><input type="checkbox" name="Wants Call"> I would like a team member to call me.</label>
           </section>
         </div>
 
@@ -388,7 +390,7 @@
           <button type="button" class="btn btn-gold" id="wizNext">Next &rarr;</button>
           <button type="submit" class="btn btn-gold" id="wizSubmit" hidden>Submit Registration &rarr;</button>
         </div>
-        <p class="wiz-fine" id="wizFine">After you submit, you will see how to pay the booking fee. We will confirm his place within 24 hours of receiving it.</p>
+        <p class="wiz-fine" id="wizFine">After you submit, you will see how to pay the booking fee. We will confirm his place within 24 hours of receiving it. To help if you get stuck, we keep your name and number once you finish the first page.</p>
         <noscript><p class="wiz-fine">This form needs JavaScript. Please switch it on, or message us on WhatsApp on +256 779 363 354.</p></noscript>
       </form>
 
@@ -533,7 +535,7 @@
     </div>
   </div>
 </footer>
-<script src="main.js?v=20261030a"></script>
-<script src="apply-form.js?v=20261030a"></script>
+<script src="main.js?v=20261030b"></script>
+<script src="apply-form.js?v=20261030b"></script>
 </body>
 </html>

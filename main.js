@@ -377,6 +377,7 @@ document.addEventListener('DOMContentLoaded', function () {
           return fetch(SHEET_ENDPOINT, { method: 'POST', mode: 'no-cors', body: body });
         })
         .then(function () {
+          if (window.b2mClearDraft) window.b2mClearDraft();
           var box = document.createElement('div');
           box.className = 'card card-gold';
           box.setAttribute('role', 'status');

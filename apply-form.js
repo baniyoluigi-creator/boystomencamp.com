@@ -238,13 +238,19 @@ document.addEventListener('DOMContentLoaded', function () {
     btnNext.hidden = last; btnSubmit.hidden = !last;
     refreshLabels(); sync();
     if (list[cur] === scReview) renderReview();
+    if (list[cur] === scPay) sendPartial('Reached payment');
+    queueSave();
     if (!noScroll) {
       form.scrollIntoView({ behavior: 'smooth', block: 'start' });
       var f = list[cur].querySelector('input:not([type=hidden]):not([disabled]),select,textarea');
       if (f && !/radio|checkbox/.test(f.type)) { setTimeout(function () { try { f.focus({ preventScroll: true }); } catch (e) { f.focus(); } }, 350); }
     }
   }
-  function next() { var bad = validate(list[cur]); if (bad) { focusBad(bad); return; } show(cur + 1); }
+  function next() {
+    var bad = validate(list[cur]); if (bad) { focusBad(bad); return; }
+    if (list[cur] === scYou) sendPartial('Finished page 1');
+    show(cur + 1);
+  }
   function back() { show(cur - 1); }
 
   function refreshLabels() {
@@ -271,6 +277,10 @@ document.addEventListener('DOMContentLoaded', function () {
       var g = checkedVal(w.getAttribute('data-wa-for'));
       w.hidden = !(g && !/^Yes/.test(g));
     });
+    var ct = $('#consentText');
+    if (ct) ct.textContent = m === 'self'
+      ? 'I confirm these details are correct, and my parent or guardian knows I am registering.'
+      : 'I confirm these details are correct, and the parent or guardian knows about this registration.';
     $('#youFields').hidden = !m;
     $('#helperRole').hidden = m !== 'helper';
     $('#sameParentWrap').hidden = !(m === 'helper' && n > 1);
@@ -370,6 +380,10 @@ document.addEventListener('DOMContentLoaded', function () {
       if (fs.disabled || !visible(fs, root)) return;
       if (!fs.querySelector('input:checked')) { fail(fs, 'Please choose one.'); if (!first) first = fs.querySelector('input'); }
     });
+    $$('input[data-need-check]', root).forEach(function (c) {
+      if (c.disabled || !visible(c, root)) return;
+      if (!c.checked) { fail(c.closest('.check-row'), 'Please tick this box to continue.'); if (!first) first = c; }
+    });
     return first;
   }
   function focusBad(el) { var box = el.closest('.field, fieldset') || el; box.scrollIntoView({ behavior: 'smooth', block: 'center' }); if (el.type !== 'radio') { try { el.focus({ preventScroll: true }); } catch (e) {} } }
@@ -457,6 +471,8 @@ document.addEventListener('DOMContentLoaded', function () {
       var wasHidden = list[i].hidden; var bad = validate(list[i]);
       if (bad) { e.preventDefault(); e.stopPropagation(); show(i, true); validate(list[i]); focusBad(list[i].querySelector('.err input, .err select, .err textarea') || bad); return; }
     }
+    $$('input[data-kind="phone"]').forEach(function (el) { if (!el.disabled && el.value.trim()) el.value = normPhone(el.value); });
+    sync();
     if (PREVIEW) {
       e.preventDefault(); e.stopPropagation();
       var box = document.createElement('div'); box.className = 'card card-gold'; box.setAttribute('role', 'status');
@@ -464,6 +480,112 @@ document.addEventListener('DOMContentLoaded', function () {
       form.parentNode.replaceChild(box, form); box.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }, true);
+
+  /* ---------- phone numbers: tidy to +256 ---------- */
+  // Is the family based in Uganda? true, false, or null when we do not know yet.
+  function familyUganda() {
+    var w = val('Parent Applying From') || val('Boy 1 Parent Applying From');
+    if (!w) return null;
+    return w === 'Based in Uganda';
+  }
+  // Numbers with a country code are always kept. A local style number (0775...) is only
+  // changed to +256 when we know the family is in Uganda, so numbers from abroad are never changed wrongly.
+  function normPhone(v) {
+    var raw = String(v).trim(), t = raw.replace(/[\s\-().]/g, '');
+    if (/^\+\d+$/.test(t)) return t;
+    if (/^00\d+$/.test(t)) return '+' + t.slice(2);
+    if (familyUganda() === true) {
+      if (/^0\d{9}$/.test(t)) return '+256' + t.slice(1);
+      if (/^256\d{9}$/.test(t)) return '+' + t;
+      if (/^7\d{8}$/.test(t)) return '+256' + t;
+    }
+    return raw;
+  }
+
+  /* ---------- half finished registrations ---------- */
+  var sentStages = {}, finished = false;
+  function sendPartial(stage) {
+    if (finished || sentStages[stage] || typeof SHEET_ENDPOINT === 'undefined' || !SHEET_ENDPOINT || PREVIEW) return;
+    var ph = val('Registrant Phone'), nm = val('Registrant Name');
+    if (!ph && !nm) return;
+    sentStages[stage] = 1;
+    var b = new URLSearchParams();
+    b.append('_form', 'partial'); b.append('Stage', stage);
+    b.append('Registered By', val('Registered By') ? checkedVal('Registered By') : '');
+    b.append('Registrant Name', nm); b.append('Registrant Phone', normPhone(ph)); b.append('Registrant Email', val('Registrant Email'));
+    b.append('Number Of Boys', val('Number Of Boys')); b.append('Boy 1 Name', val('Boy 1 Name'));
+    try { fetch(SHEET_ENDPOINT, { method: 'POST', mode: 'no-cors', body: b, keepalive: true }); } catch (e) {}
+  }
+
+  /* ---------- save and restore a draft on this device ---------- */
+  var DKEY = 'b2m_draft_v1', saveTimer = null;
+  function lsGet() { try { return JSON.parse(localStorage.getItem(DKEY) || 'null'); } catch (e) { return null; } }
+  function lsSet(o) { try { localStorage.setItem(DKEY, JSON.stringify(o)); } catch (e) {} }
+  function lsDel() { try { localStorage.removeItem(DKEY); } catch (e) {} }
+  // The parent block exists three times (parent, helper, self). Only the one in use counts.
+  function inIdleMount(el) { return !!el.closest('#parentMountParent[hidden], #parentMountHelper[hidden], #parentMountSelf[hidden]'); }
+  function collect() {
+    var v = {};
+    $$('input,select,textarea').forEach(function (el) {
+      if (inIdleMount(el)) return;
+      if (!el.name || el.type === 'hidden' || el.type === 'file' || el.type === 'submit' || el.name === '_gotcha' || el.name === 'Consent Confirmed') return;
+      if (el.type === 'radio') { if (el.checked) v[el.name] = el.value; }
+      else if (el.type === 'checkbox') { v[el.name] = v[el.name] || []; if (el.checked) v[el.name].push(el.value); }
+      else v[el.name] = el.value;
+    });
+    return v;
+  }
+  function queueSave() {
+    if (finished) return;
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function () {
+      if (finished) return;
+      var v = collect(); if (!v['Registered By']) return;
+      lsSet({ t: Date.now(), step: cur, v: v });
+    }, 600);
+  }
+  function fire(el) { el.dispatchEvent(new Event('change', { bubbles: true })); }
+  function setEl(name, value) {
+    var els = $$('[name="' + name.replace(/"/g, '\\"') + '"]').filter(function (el) { return !inIdleMount(el); });
+    els.forEach(function (el) {
+      if (el.type === 'radio') el.checked = (el.value === value);
+      else if (el.type === 'checkbox') el.checked = (value || []).indexOf(el.value) !== -1;
+      else el.value = value;
+    });
+    return els;
+  }
+  function restore(d) {
+    var v = d.v;
+    ['Registered By', 'Number Of Boys'].forEach(function (k) {
+      if (!(k in v)) return;
+      var els = setEl(k, v[k]); var on = els.filter(function (x) { return x.checked; })[0] || (els[0] && els[0].tagName === 'SELECT' ? els[0] : null);
+      if (on) fire(on);
+    });
+    Object.keys(v).forEach(function (k) {
+      if (k === 'Registered By' || k === 'Number Of Boys') return;
+      var els = setEl(k, v[k]);
+      els.forEach(function (el) { if ((el.type === 'radio' && el.checked) || el.tagName === 'SELECT') fire(el); });
+    });
+    sync();
+    show(Math.max(0, Math.min(d.step || 0, screens().length - 1)), false);
+  }
+  window.b2mClearDraft = function () { finished = true; clearTimeout(saveTimer); lsDel(); };
+  form.addEventListener('change', queueSave);
+  form.addEventListener('input', queueSave);
+  (function offerDraft() {
+    if (PREVIEW) return;
+    var d = lsGet();
+    if (!d || !d.v || !d.v['Registered By'] || Date.now() - d.t > 7 * 864e5) { if (d) lsDel(); return; }
+    var bar = document.createElement('div'); bar.className = 'draft-bar'; bar.setAttribute('role', 'status');
+    bar.innerHTML = '<p><strong>Welcome back.</strong> We kept your earlier answers on this phone.</p>' +
+      '<div><button type="button" class="btn btn-gold" data-d="go">Continue where I stopped</button> <button type="button" class="wiz-back" data-d="new">Start fresh</button></div>';
+    form.parentNode.insertBefore(bar, form);
+    bar.addEventListener('click', function (e) {
+      var t = e.target.getAttribute && e.target.getAttribute('data-d'); if (!t) return;
+      if (t === 'go') restore(d); else lsDel();
+      bar.parentNode.removeChild(bar);
+    });
+  })();
 
   show(0, true);
 });

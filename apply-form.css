@@ -152,3 +152,9 @@ details.other-parent .wiz-stack{padding:4px 0 18px;}
   .wiz-fine{padding:0 16px 22px;}
   .opt-grid{grid-template-columns:1fr;}
 }
+
+.draft-bar{background:#FFFCF2;border:2px dashed var(--gold-500);border-radius:14px;padding:14px 18px;margin:14px 0 0;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;}
+.draft-bar p{margin:0;}
+.draft-bar .btn{border:0;cursor:pointer;padding:10px 18px;}
+.draft-bar .wiz-back{padding:9px 18px;}
+.check-row .f-err{flex-basis:100%;}
