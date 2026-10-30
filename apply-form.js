@@ -279,8 +279,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     var ct = $('#consentText');
     if (ct) ct.textContent = m === 'self'
-      ? 'I confirm these details are correct, and my parent or guardian knows I am registering.'
-      : 'I confirm these details are correct, and the parent or guardian knows about this registration.';
+      ? 'I confirm these details are correct.'
+      : 'I confirm these details are correct.';
     $('#youFields').hidden = !m;
     $('#helperRole').hidden = m !== 'helper';
     $('#sameParentWrap').hidden = !(m === 'helper' && n > 1);
@@ -392,23 +392,23 @@ document.addEventListener('DOMContentLoaded', function () {
   function renderReview() {
     var m = mode(), h = '';
     function line(a, b) { return b ? '<p>' + esc(a) + ' ' + esc(b) + '</p>' : ''; }
-    h += '<div class="sum-card"><header><h4>You</h4><button type="button" class="chg" data-goto="you">Change</button></header>' +
+    h += '<div class="sum-card"><header><h4>You</h4><button type="button" class="chg" data-goto="you">Edit details</button></header>' +
          '<p><strong>' + esc(val('Registrant Name')) + '</strong></p>' + line('Phone', val('Registrant Phone')) + line('Email', val('Registrant Email')) +
          (m === 'helper' ? line('Helping as', val('Registrant Relationship')) : '') + '</div>';
     if (needParentStep() && (m !== 'self' || val('Parent Name') || val('Parent Phone'))) {
       var pn = m === 'parent' ? val('Registrant Name') : val('Parent Name'), pp = m === 'parent' ? val('Registrant Phone') : val('Parent Phone');
-      h += '<div class="sum-card"><header><h4>Parent or guardian</h4><button type="button" class="chg" data-goto="parent">Change</button></header>' +
+      h += '<div class="sum-card"><header><h4>Parent or guardian</h4><button type="button" class="chg" data-goto="parent">Edit details</button></header>' +
            '<p><strong>' + esc(pn) + '</strong>' + (val('Parent Relationship') ? ', ' + esc(val('Parent Relationship').toLowerCase()) : '') + '</p>' + line('Phone', pp) + line('WhatsApp group', val('Parent WhatsApp Group')) +
            (val('Other Parent Name') ? line('Other parent', val('Other Parent Name') + (val('Other Parent Phone') ? ', ' + val('Other Parent Phone') : '')) : '') + '</div>';
     }
     h += '<div class="sum-card"><header><h4>' + (boyEls.length > 1 ? 'The boys (' + boyEls.length + ')' : 'The boy') + '</h4></header>';
     boyEls.forEach(function (el, i) {
       var n = i + 1, c = campInfo(campOf(el));
-      h += '<div class="sum-boy"><span><strong>' + esc(val('Boy ' + n + ' Name')) + '</strong> <small>age ' + esc(checkedVal('Boy ' + n + ' Age')) + ', ' + esc(c ? c.name : '') + '</small></span><button type="button" class="chg" data-goto-boy="' + i + '">Change</button></div>';
+      h += '<div class="sum-boy"><span><strong>' + esc(val('Boy ' + n + ' Name')) + '</strong> <small>age ' + esc(checkedVal('Boy ' + n + ' Age')) + ', ' + esc(c ? c.name : '') + '</small></span><button type="button" class="chg" data-goto-boy="' + i + '">Edit details</button></div>';
     });
     h += '</div>';
     var paid = checkedVal('How Much Paid So Far');
-    h += '<div class="sum-card"><header><h4>Booking fee</h4><button type="button" class="chg" data-goto="pay">Change</button></header><p><strong>' + esc(feeText()) + '</strong></p>' +
+    h += '<div class="sum-card"><header><h4>Booking fee</h4><button type="button" class="chg" data-goto="pay">Edit details</button></header><p><strong>' + esc(feeText()) + '</strong></p>' +
          '<p>Paid so far: ' + esc(paid || 'not answered') + '</p></div>';
     $('#reviewMount').innerHTML = '<div class="sum">' + h + '</div>';
   }
