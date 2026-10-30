@@ -115,7 +115,9 @@ function buildFamilyRows_(p, n) {
   var self = registeredBy === 'The young man himself';
   var helper = registeredBy === 'Helping to register him';
   var differentParents = helper && n > 1 && g('Same Parent For All') === 'No';
-  var familyId = makeFamilyId_();
+  // Every boy gets his own code, BTM-2650 onwards, never repeated. The family reference is the first boy's code.
+  var firstNo = reserveBoyNumbers_(n);
+  var familyId = 'BTM-' + firstNo;
   var submitted = now_();
 
   // Family level details
@@ -147,7 +149,7 @@ function buildFamilyRows_(p, n) {
     };
 
     var boy = {
-      no: i, name: g(b + 'Name'), age: g(b + 'Age'), camp: g(b + 'Camp'), phone: g(b + 'Phone'),
+      no: i, code: 'BTM-' + (firstNo + i - 1), name: g(b + 'Name'), age: g(b + 'Age'), camp: g(b + 'Camp'), phone: g(b + 'Phone'),
       phoneType: g(b + 'Phone Type'), outcomes: (p[b + 'Desired Outcome'] || []).join('; '), about: g(b + 'About Him')
     };
     boyList.push({ boy: boy, parent: parent });
@@ -155,6 +157,7 @@ function buildFamilyRows_(p, n) {
     var row = {
       'Submitted At': submitted,
       'Family ID': familyId,
+      'Boy ID': 'BTM-' + (firstNo + i - 1),
       'Boy Of Family': i + ' of ' + n,
       'Registered By': registeredBy,
       'Registrant Name': reg.name,
@@ -274,7 +277,7 @@ function notifyFamily_(f) {
   f.boys.forEach(function (x) {
     var b = x.boy;
     L.push('');
-    L.push('BOY ' + b.no + ' OF ' + f.n + ': ' + b.name + ', age ' + b.age);
+    L.push('BOY ' + b.no + ' OF ' + f.n + ': ' + b.name + ', age ' + b.age + ' (' + b.code + ')');
     L.push(line_('Camp', b.camp));
     L.push(line_('How to reach him', (b.phoneType || 'Not given') + (b.phone ? ': ' + b.phone : '')));
     L.push(line_('Changes hoped for', b.outcomes));
@@ -358,7 +361,12 @@ function sendConfirmation_(f) {
   L.push('Hello ' + (f.reg.name || '') + ',');
   L.push('');
   L.push('Thank you for registering ' + nameText + ' for the Boys to Men Mentorship Camp. Your registration has been received.');
-  L.push('Your reference number is ' + f.id + '. Please quote it when you pay or when you talk to us.');
+  if (f.n > 1) {
+    L.push('Your reference number is ' + f.id + '. Please quote it when you pay or when you talk to us. Each boy also has his own code.');
+    f.boys.forEach(function (x) { L.push(x.boy.name + ' is ' + x.boy.code); });
+  } else {
+    L.push('Your reference number is ' + f.id + '. Please quote it when you pay or when you talk to us.');
+  }
   L.push('');
   if (paid && paid !== 'Nothing yet' && paid !== 'Not yet') {
     L.push('You told us you have already paid ' + (/full/i.test(paid) ? 'the full camp fee' : 'some of the fee') + '. We will match your payment and confirm ' + (plural ? 'their places' : 'his place') + ' within 24 hours.');
@@ -430,7 +438,7 @@ function rebuildMaster_(ss, reg) {
     if (!fam[id]) {
       fam[id] = { first: row, boys: [] }; order.push(id);
     }
-    fam[id].boys.push(pick(row, 'Applicant Name') + ' (' + pick(row, 'Age') + ', ' + String(pick(row, 'Location')).split(' — ')[0] + ')');
+    fam[id].boys.push(pick(row, 'Applicant Name') + (pick(row, 'Boy ID') ? ' ' + pick(row, 'Boy ID') : '') + ' (' + pick(row, 'Age') + ', ' + String(pick(row, 'Location')).split(' — ')[0] + ')');
   }
   var head = ['Family ID', 'Submitted At', 'Registered By', 'Parent Or Guardian', 'Phone', 'Email', 'Number Of Boys', 'Boys',
     'Booking Fee Due', 'How Much Paid So Far', 'Amount Paying Now', 'Transaction ID', 'Who Is Paying', 'Proof Of Payment',
@@ -522,6 +530,16 @@ function saveProof_(base64, type, name, who) {
   var safeWho = String(who).replace(/[^A-Za-z0-9 ]/g, '').trim() || 'Registration';
   var blob = Utilities.newBlob(Utilities.base64Decode(base64), type, stamp + ' ' + safeWho + ' ' + name);
   return folder.createFile(blob).getUrl();
+}
+
+// Hands out the next boy numbers. The first boy ever registered here gets 2650.
+// This runs while the script lock is held, so two families can never receive the same number.
+function reserveBoyNumbers_(n) {
+  var props = PropertiesService.getScriptProperties();
+  var next = parseInt(props.getProperty('NEXT_BOY_NO'), 10);
+  if (!(next >= 2650)) next = 2650;
+  props.setProperty('NEXT_BOY_NO', String(next + n));
+  return next;
 }
 
 function makeFamilyId_() {
