@@ -70,6 +70,15 @@ document.addEventListener('DOMContentLoaded', function () {
       options.map(function (x) { return '<option>' + esc(x) + '</option>'; }).join('') + '</select></div>';
   }
 
+  /* Yes or No: is this phone number on WhatsApp? If No, they may give a WhatsApp number. */
+  function waQuestion(prefix) {
+    return '<fieldset class="fs"><legend class="lg">Is this number on WhatsApp?</legend>' +
+      '<div class="chips"><label class="chip"><input type="radio" name="' + prefix + ' Phone On WhatsApp" value="Yes" checked><span>Yes</span></label>' +
+      '<label class="chip"><input type="radio" name="' + prefix + ' Phone On WhatsApp" value="No"><span>No</span></label></div></fieldset>' +
+      '<div class="cond wa-alt" hidden data-wa-alt-for="' + prefix + ' Phone On WhatsApp">' +
+      textField(prefix + ' WhatsApp Number', 'WhatsApp number, if you have one', { type: 'tel', kind: 'phone', inputmode: 'tel', ph: 'e.g. +256 775 123 456' }) + '</div>';
+  }
+
   /* Parent or guardian block. prefix is "Parent" or "Boy 3 Parent".
      When fromRegistrant is true the name, phone and email come from page 1. */
   function parentBlock(prefix, o) {
@@ -79,13 +88,14 @@ document.addEventListener('DOMContentLoaded', function () {
       h += '<input type="hidden" name="' + prefix + ' Name" data-from="reg-name">' +
            '<input type="hidden" name="' + prefix + ' Phone" data-from="reg-phone">' +
            '<input type="hidden" name="' + prefix + ' Phone On WhatsApp" data-from="reg-wa">' +
+           '<input type="hidden" name="' + prefix + ' WhatsApp Number" data-from="reg-wa-alt">' +
            '<input type="hidden" name="' + prefix + ' Email" data-from="reg-email">';
     } else {
       h += textField(prefix + ' Name', 'Full name of the parent or guardian', { req: true, auto: o.auto ? 'name' : 'off' });
       h += '<div class="field-row">' +
            textField(prefix + ' Phone', 'Phone number', { req: true, type: 'tel', kind: 'phone', inputmode: 'tel', auto: o.auto ? 'tel' : 'off', ph: 'e.g. 0775 123 456' }) +
            textField(prefix + ' Email', 'Email address', { type: 'email', kind: 'email', auto: o.auto ? 'email' : 'off' }) + '</div>';
-      h += '<label class="check-row mini-check"><input type="checkbox" name="' + prefix + ' Phone On WhatsApp" value="Yes" checked> This number is on WhatsApp</label>';
+      h += waQuestion(prefix);
     }
     h += radioCards(prefix + ' Relationship', 'Relationship to the boy', RELATIONS, { chips: true, req: true });
     h += whereBlock(prefix);
@@ -99,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function () {
     return '<div class="wiz-stack">' +
       textField('Parent Name', 'Full name of your parent or guardian', { auto: 'off' }) +
       '<div class="field-row">' + textField('Parent Phone', 'Their phone number', { type: 'tel', kind: 'phone', inputmode: 'tel', ph: 'e.g. 0775 123 456' }) + '<div></div></div>' +
-      '<label class="check-row mini-check"><input type="checkbox" name="Parent Phone On WhatsApp" value="Yes" checked> This number is on WhatsApp</label>' +
+      waQuestion('Parent') +
       radioCards('Parent Relationship', 'Who are they to you?', RELATIONS, { chips: true }) + '</div>';
   }
   function whereBlock(prefix) {
@@ -122,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
     '<div class="wiz-stack">' +
     textField('Other Parent Name', 'Full name') +
     '<div class="field-row">' + textField('Other Parent Phone', 'Phone number', { type: 'tel', kind: 'phone', inputmode: 'tel', ph: 'e.g. 0775 123 456' }) + '<div></div></div>' +
-    '<label class="check-row mini-check"><input type="checkbox" name="Other Parent Phone On WhatsApp" value="Yes" checked> This number is on WhatsApp</label>' +
+    waQuestion('Other Parent') +
     radioCards('Other Parent Relationship', 'Relationship to the boy', RELATIONS, { chips: true }) +
     radioCards('Other Parent WhatsApp Group', 'Are they already in the parents’ WhatsApp group?', OTHER_GROUP, { one: true }) +
     '</div>';
@@ -273,6 +283,7 @@ document.addEventListener('DOMContentLoaded', function () {
     $('#selfWaWrap').hidden = m !== 'self';
     var sg = checkedVal('Registrant WhatsApp Group');
     $('#selfWaNum').hidden = !(sg && !/^Yes/.test(sg));
+    $$('.wa-alt').forEach(function (w) { w.hidden = checkedVal(w.getAttribute('data-wa-alt-for')) !== 'No'; });
     $$('.wa-num').forEach(function (w) {
       var g = checkedVal(w.getAttribute('data-wa-for'));
       w.hidden = !(g && !/^Yes/.test(g));
@@ -317,7 +328,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var map = { 'reg-name': 'Registrant Name', 'reg-phone': 'Registrant Phone', 'reg-email': 'Registrant Email' };
     $$('[data-from]').forEach(function (el) {
       var f = el.getAttribute('data-from');
-      if (f === 'reg-wa') { var c = $('input[name="Registrant Phone On WhatsApp"]'); el.value = c && c.checked ? 'Yes' : 'No'; }
+      if (f === 'reg-wa') { el.value = checkedVal('Registrant Phone On WhatsApp') || 'Yes'; }
+      else if (f === 'reg-wa-alt') { el.value = checkedVal('Registrant Phone On WhatsApp') === 'No' ? val('Registrant WhatsApp Number') : ''; }
       else if (map[f]) { var s = form.elements[map[f]]; el.value = s ? s.value : ''; }
     });
     // young man registering himself: his phone is the registrant phone

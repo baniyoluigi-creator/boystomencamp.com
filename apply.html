@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=20261028h">
-<link rel="stylesheet" href="apply-form.css?v=20261030d">
+<link rel="stylesheet" href="apply-form.css?v=20261030e">
 <style>
   details.intake-details{max-width:760px;border:1px solid var(--line);border-radius:var(--radius);padding:20px 24px;margin:22px 0;background:var(--white);}
   details.intake-details summary{cursor:pointer;font-family:var(--font-display);font-weight:700;color:var(--green-800);list-style:none;display:flex;align-items:center;gap:8px;}
@@ -235,7 +235,17 @@
                     <input type="email" id="regEmail" name="Registrant Email" required data-kind="email" autocomplete="email">
                   </div>
                 </div>
-                <label class="check-row mini-check" style="margin-top:-6px;"><input type="checkbox" name="Registrant Phone On WhatsApp" value="Yes" checked> This number is on WhatsApp</label>
+                <fieldset class="fs" style="margin-top:4px;">
+                  <legend class="lg">Is this number on WhatsApp?</legend>
+                  <div class="chips"><label class="chip"><input type="radio" name="Registrant Phone On WhatsApp" value="Yes" checked><span>Yes</span></label>
+                  <label class="chip"><input type="radio" name="Registrant Phone On WhatsApp" value="No"><span>No</span></label></div>
+                </fieldset>
+                <div class="cond wa-alt" hidden data-wa-alt-for="Registrant Phone On WhatsApp" style="margin-top:12px;">
+                  <div class="field">
+                    <label for="regWaAlt">WhatsApp number, if you have one <span class="lbl-opt">(optional)</span></label>
+                    <input type="tel" id="regWaAlt" name="Registrant WhatsApp Number" data-kind="phone" inputmode="tel" placeholder="e.g. +256 775 123 456">
+                  </div>
+                </div>
                 <div class="cond" id="helperRole" hidden>
                   <div class="field">
                     <label for="regRole">How do you know the boy? *</label>
@@ -535,7 +545,7 @@
     </div>
   </div>
 </footer>
-<script src="main.js?v=20261030d"></script>
-<script src="apply-form.js?v=20261030d"></script>
+<script src="main.js?v=20261030e"></script>
+<script src="apply-form.js?v=20261030e"></script>
 </body>
 </html>

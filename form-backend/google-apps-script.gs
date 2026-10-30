@@ -122,11 +122,11 @@ function buildFamilyRows_(p, n) {
   var reg = {
     name: g('Registrant Name'), phone: g('Registrant Phone'), email: g('Registrant Email'),
     wa: yn_(g('Registrant Phone On WhatsApp')), role: g('Registrant Relationship'),
-    group: g('Registrant WhatsApp Group'), waNum: g('Registrant WhatsApp Number To Add')
+    group: g('Registrant WhatsApp Group'), waNum: g('Registrant WhatsApp Number To Add') || g('Registrant WhatsApp Number'), waAlt: g('Registrant WhatsApp Number')
   };
   var other = {
     name: g('Other Parent Name'), phone: g('Other Parent Phone'), wa: yn_(g('Other Parent Phone On WhatsApp')),
-    relation: g('Other Parent Relationship'), group: g('Other Parent WhatsApp Group')
+    relation: g('Other Parent Relationship'), group: g('Other Parent WhatsApp Group'), waAlt: g('Other Parent WhatsApp Number')
   };
   var hasOther = !!(other.name || other.phone);
 
@@ -143,7 +143,7 @@ function buildFamilyRows_(p, n) {
     var parent = {
       name: g(pp + 'Name'), phone: g(pp + 'Phone'), email: g(pp + 'Email'), wa: yn_(g(pp + 'Phone On WhatsApp')),
       relation: g(pp + 'Relationship'), from: g(pp + 'Applying From'), district: g(pp + 'District'),
-      country: g(pp + 'Country'), group: g(pp + 'WhatsApp Group'), waNum: g(pp + 'WhatsApp Number To Add')
+      country: g(pp + 'Country'), group: g(pp + 'WhatsApp Group'), waNum: g(pp + 'WhatsApp Number To Add') || g(pp + 'WhatsApp Number'), waAlt: g(pp + 'WhatsApp Number')
     };
 
     var boy = {
@@ -160,6 +160,7 @@ function buildFamilyRows_(p, n) {
       'Registrant Name': reg.name,
       'Registrant Phone': reg.phone,
       'Registrant Phone On WhatsApp': reg.wa,
+      'Registrant WhatsApp Number': reg.waAlt,
       'Registrant Email': reg.email,
       'Registrant Relationship': reg.role,
 
@@ -190,6 +191,7 @@ function buildFamilyRows_(p, n) {
       'Boy Phone Type': boy.phoneType,
       'Parent Relationship': parent.relation,
       'Parent Phone On WhatsApp': parent.wa,
+      'Parent WhatsApp Number': parent.waAlt,
       'Parent WhatsApp Group': parent.group,
       'Parent WhatsApp Number To Add': parent.waNum,
       'Registrant WhatsApp Group': reg.group,
@@ -197,6 +199,7 @@ function buildFamilyRows_(p, n) {
       'Other Parent Name': hasOther ? other.name : '',
       'Other Parent Phone': hasOther ? other.phone : '',
       'Other Parent Phone On WhatsApp': hasOther ? other.wa : '',
+      'Other Parent WhatsApp Number': hasOther ? other.waAlt : '',
       'Other Parent Relationship': hasOther ? other.relation : '',
       'Other Parent WhatsApp Group': hasOther ? other.group : '',
       'Page': first_(p._page) || ''
@@ -241,7 +244,7 @@ function notifyFamily_(f) {
   L.push('');
   L.push('FILLED IN BY');
   L.push(f.registeredBy);
-  L.push(line_('Name', f.reg.name)); L.push(line_('Phone', f.reg.phone + (f.reg.wa === 'Yes' ? ' (WhatsApp)' : '')));
+  L.push(line_('Name', f.reg.name)); L.push(line_('Phone', f.reg.phone + (f.reg.wa === 'Yes' ? ' (WhatsApp)' : (f.reg.waAlt ? ' (not on WhatsApp, WhatsApp is ' + f.reg.waAlt + ')' : ' (not on WhatsApp)'))));
   L.push(line_('Email', f.reg.email)); if (f.reg.role) L.push(line_('How they know the boy', f.reg.role));
   if (f.self) { L.push(line_('Boys to Men WhatsApp platform', f.reg.group)); L.push(line_('WhatsApp number to add', f.reg.waNum)); }
 
@@ -299,8 +302,8 @@ function notifyFamily_(f) {
     if (x.parent.group && /^No, please/.test(x.parent.group)) todo.push('Add ' + x.parent.name + ' (' + (x.parent.waNum || x.parent.phone) + ') to the parents\' WhatsApp group');
     else if (x.parent.group && /^Not sure/.test(x.parent.group)) todo.push('Check if ' + x.parent.name + ' (' + (x.parent.waNum || x.parent.phone) + ') is in the parents\' WhatsApp group');
   });
-  if (f.hasOther && /^No, please/.test(f.other.group)) todo.push('Add ' + f.other.name + ' (' + f.other.phone + ') to the parents\' WhatsApp group');
-  else if (f.hasOther && /^Not sure/.test(f.other.group)) todo.push('Check if ' + f.other.name + ' (' + f.other.phone + ') is in the parents\' WhatsApp group');
+  if (f.hasOther && /^No, please/.test(f.other.group)) todo.push('Add ' + f.other.name + ' (' + (f.other.waAlt || f.other.phone) + ') to the parents\' WhatsApp group');
+  else if (f.hasOther && /^Not sure/.test(f.other.group)) todo.push('Check if ' + f.other.name + ' (' + (f.other.waAlt || f.other.phone) + ') is in the parents\' WhatsApp group');
   var uniq = todo.filter(function (t, i) { return todo.indexOf(t) === i; });
   if (uniq.length) { L.push(''); L.push('TO DO'); uniq.forEach(function (t) { L.push('- ' + t); }); }
 
