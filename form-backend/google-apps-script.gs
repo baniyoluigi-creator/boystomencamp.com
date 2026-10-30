@@ -360,8 +360,8 @@ function sendConfirmation_(f) {
   L.push('Thank you for registering ' + nameText + ' for the Boys to Men Mentorship Camp. Your registration has been received.');
   L.push('Your reference number is ' + f.id + '. Please quote it when you pay or when you talk to us.');
   L.push('');
-  if (paid && paid !== 'Nothing yet') {
-    L.push('You told us you have already paid ' + (paid === 'The full camp fee' ? 'the full camp fee' : 'the booking fee, or part of it') + '. We will match your payment and confirm ' + (plural ? 'their places' : 'his place') + ' within 24 hours.');
+  if (paid && paid !== 'Nothing yet' && paid !== 'Not yet') {
+    L.push('You told us you have already paid ' + (/full/i.test(paid) ? 'the full camp fee' : 'some of the fee') + '. We will match your payment and confirm ' + (plural ? 'their places' : 'his place') + ' within 24 hours.');
   } else {
     L.push('To secure ' + (plural ? 'their places' : 'his place') + ', please pay the booking fee of ' + (g('Booking Fee Total') || 'UGX 50,000 per boy') + '. It counts toward the camp fee and is non refundable.');
     L.push('');

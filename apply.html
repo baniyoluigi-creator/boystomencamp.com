@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=20261028h">
-<link rel="stylesheet" href="apply-form.css?v=20261030f">
+<link rel="stylesheet" href="apply-form.css?v=20261030g">
 <style>
   details.intake-details{max-width:760px;border:1px solid var(--line);border-radius:var(--radius);padding:20px 24px;margin:22px 0;background:var(--white);}
   details.intake-details summary{cursor:pointer;font-family:var(--font-display);font-weight:700;color:var(--green-800);list-style:none;display:flex;align-items:center;gap:8px;}
@@ -215,7 +215,7 @@
                 <legend class="lg">Who is filling in this form? *</legend>
                 <div class="opt-grid">
                   <label class="opt"><input type="radio" name="Registered By" value="Parent or guardian"><span class="opt-box">I am the parent or guardian<small>Registering my son or sons</small></span></label>
-                  <label class="opt"><input type="radio" name="Registered By" value="Helping to register him"><span class="opt-box">I am helping to register him<small>A relative, friend, mentor or someone else</small></span></label>
+                  <label class="opt"><input type="radio" name="Registered By" value="Helping to register him"><span class="opt-box">I am helping someone register<small>A relative, friend, mentor or someone else</small></span></label>
                   <label class="opt"><input type="radio" name="Registered By" value="The young man himself"><span class="opt-box">I am the young man, registering myself<small>We will use your own number</small></span></label>
                 </div>
               </fieldset>
@@ -308,18 +308,17 @@
             <div class="wiz-stack">
               <div class="fee-total"><small>Booking fee</small><strong id="feeTotalValue"></strong><span id="feeTotalNote"></span></div>
               <fieldset class="fs" data-required id="paidSoFar">
-                <legend class="lg">How much have you paid so far? *</legend>
-                <div class="opt-grid">
-                  <label class="opt"><input type="radio" name="How Much Paid So Far" value="Nothing yet"><span class="opt-box">Nothing yet<small>I will pay after I submit</small></span></label>
-                  <label class="opt"><input type="radio" name="How Much Paid So Far" value="The booking fee, or part of it"><span class="opt-box">The booking fee, or part of it</span></label>
-                  <label class="opt"><input type="radio" name="How Much Paid So Far" value="The booking fee and part of the camp fee"><span class="opt-box">The booking fee and part of the camp fee</span></label>
-                  <label class="opt"><input type="radio" name="How Much Paid So Far" value="The full camp fee"><span class="opt-box">The full camp fee</span></label>
+                <legend class="lg">Have you made any payment yet? *</legend>
+                <div class="opt-grid one">
+                  <label class="opt"><input type="radio" name="How Much Paid So Far" value="Paid in full"><span class="opt-box">I have paid in full<small>The whole camp fee</small></span></label>
+                  <label class="opt"><input type="radio" name="How Much Paid So Far" value="Paid some"><span class="opt-box">I have paid some of it<small>The booking fee, or any part of the camp fee</small></span></label>
+                  <label class="opt"><input type="radio" name="How Much Paid So Far" value="Not yet"><span class="opt-box">Not yet<small>I will pay after I submit</small></span></label>
                 </div>
               </fieldset>
               <div class="cond wiz-stack" id="paidDetails" hidden>
                 <div class="field-row">
                   <div class="field">
-                    <label for="amount">Amount you have paid <span class="lbl-opt">(optional)</span></label>
+                    <label for="amount" id="amountLbl">Amount you have paid <span class="lbl-opt">(optional)</span></label>
                     <input type="text" id="amount" name="Amount Paying Now" placeholder="e.g. UGX 50,000">
                   </div>
                   <div class="field">
@@ -545,7 +544,7 @@
     </div>
   </div>
 </footer>
-<script src="main.js?v=20261030f"></script>
-<script src="apply-form.js?v=20261030f"></script>
+<script src="main.js?v=20261030g"></script>
+<script src="apply-form.js?v=20261030g"></script>
 </body>
 </html>

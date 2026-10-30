@@ -318,7 +318,15 @@ document.addEventListener('DOMContentLoaded', function () {
     var anySummer = boyEls.some(function (el) { return /^Summer/.test(campOf(el)); });
     $('#summerWrap').hidden = !anySummer;
     var paid = checkedVal('How Much Paid So Far');
-    $('#paidDetails').hidden = !(paid && paid !== 'Nothing yet');
+    $('#paidDetails').hidden = !(paid && paid !== 'Not yet');
+    var al = $('#amountLbl'); if (al) al.innerHTML = (paid === 'Paid in full' ? 'Total amount you paid' : 'Amount you have paid so far') + ' <span class="lbl-opt">(optional)</span>';
+    // show the fee in one currency once we know where the family lives
+    var ug = familyUganda();
+    $$('.opt-fee').forEach(function (f) {
+      if (!f.dataset.full) f.dataset.full = f.textContent;
+      var m = f.dataset.full.match(/^(.*?)(UGX [\d,]+) or (USD \d+)/);
+      f.textContent = m ? (m[1] + (ug === true ? m[2] : (ug === false ? m[3] : m[2] + ' or ' + m[3]))) : f.dataset.full;
+    });
   }
   function campOf(el) { var r = $$('input[type="radio"]:checked', el).filter(function (x) { return /Camp$/.test(x.name); })[0]; return r ? r.value : ''; }
   function campInfo(v) { return CAMPS.filter(function (c) { return c.value === v; })[0]; }
@@ -350,7 +358,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (mode() === 'self') { var cs = form.elements['Number Of Boys']; if (cs && cs.value !== '1') { cs.value = '1'; setCount(1); } }
     // booking fee fields
     var paid = checkedVal('How Much Paid So Far');
-    form.elements['Booking Fee Paid'].value = paid && paid !== 'Nothing yet' ? 'Yes (I have paid)' : (paid ? 'Not yet (I will pay after submitting)' : '');
+    form.elements['Booking Fee Paid'].value = paid && paid !== 'Not yet' ? 'Yes (I have paid)' : (paid ? 'Not yet (I will pay after submitting)' : '');
     form.elements['Booking Fee Total'].value = feeText();
     form.elements['Location'].value = boyEls[0] ? (campOf(boyEls[0]) || defaultCamp) : defaultCamp;
     // phone box appears once a phone type that needs a number is chosen
@@ -478,7 +486,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
   // "Paid already" links
   window.addEventListener('b2m:paid', function () { window.b2mPaidPreset = true; presetPaid(); });
-  function presetPaid() { var r = $('input[name="How Much Paid So Far"][value="The booking fee, or part of it"]'); if (r && !checkedVal('How Much Paid So Far')) { r.checked = true; sync(); } }
+  function presetPaid() { var r = $('input[name="How Much Paid So Far"][value="Paid some"]'); if (r && !checkedVal('How Much Paid So Far')) { r.checked = true; sync(); } }
   if (window.b2mPaidPreset) presetPaid();
 
   /* ---------- submit ---------- */

@@ -426,7 +426,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var heading = document.getElementById('payHeading');
             if (heading && paid) heading.textContent = 'Paying the balance';
             else if (heading && boys > 1) heading.textContent = 'Pay the booking fee to secure their places';
-            var fullPaid = data.get('How Much Paid So Far') === 'The full camp fee';
+            var fullPaid = data.get('How Much Paid So Far') === 'Paid in full';
             if (fullPaid) {
               box.querySelector('p').textContent = 'We have noted your payment of the full camp fee and will confirm ' + his + ' within 24 hours. There is nothing more to pay.';
             }
