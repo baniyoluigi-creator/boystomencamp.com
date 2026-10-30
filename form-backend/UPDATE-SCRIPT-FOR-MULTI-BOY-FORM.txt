@@ -1,0 +1,44 @@
+UPDATE: SAVE SEVERAL BOYS FROM ONE REGISTRATION
+Boys to Men Mentorship Camp (boystomencamp.com)
+
+The new registration form lets a parent or helper register several boys in
+one go. This update teaches your Google script to save it properly:
+
+- One row in the "Registrations" sheet for each boy.
+- Boys registered together share a Family ID, so you can see who belongs
+  together.
+- The payment amount, transaction ID and proof are written on the first boy's
+  row only, so a family's payment is never counted twice.
+- You get ONE alert email per family, with a "TO DO" list at the bottom for
+  parents who need adding to the WhatsApp group.
+- New columns appear at the end of the sheet by themselves. Your old columns
+  and old rows are not touched.
+
+Do this once. It keeps the same web app link.
+
+
+PART 1: Replace the script
+
+1. Sign in to Google with baniyoluigi@gmail.com and open the sheet
+   "Boys to Men Registrations".
+2. Click Extensions, then Apps Script.
+3. Delete everything in the editor.
+4. Open google-apps-script.gs from this folder (the new copy), copy ALL of
+   it, and paste it into the editor.
+5. Click the save icon.
+
+
+PART 2: Publish the new version (same link)
+
+1. Click Deploy, then Manage deployments.
+2. Click the pencil (edit) icon on your existing deployment.
+3. Under Version, choose "New version".
+4. Click Deploy.
+
+Please do not click "New deployment". That would create a new link.
+
+
+PART 3: Tell Claude
+
+Say "script updated". The new form then goes live on the Apply page.
+Until then, the current form keeps working as it is.

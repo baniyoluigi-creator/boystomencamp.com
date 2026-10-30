@@ -72,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
         el.appendChild(opt);
       });
     }
+    window.B2M_LISTS = { districts: UGANDA_DISTRICTS, countries: COUNTRIES };
     populateSelect('district', UGANDA_DISTRICTS);
     populateSelect('country2', COUNTRIES);
 
@@ -161,7 +162,12 @@ document.addEventListener('DOMContentLoaded', function () {
     var ps = document.getElementById('paidStatus');
     if (!ps) return;
     ps.value = 'Yes (I have paid)';
-    ps.dispatchEvent(new Event('change', { bubbles: true }));
+    if (ps.tagName === 'SELECT') {
+      ps.dispatchEvent(new Event('change', { bubbles: true }));
+    } else {
+      window.b2mPaidPreset = true;
+      window.dispatchEvent(new Event('b2m:paid'));
+    }
   }
   if (/[?&]paid=1/.test(window.location.search)) {
     markPaid();
@@ -375,10 +381,15 @@ document.addEventListener('DOMContentLoaded', function () {
           box.className = 'card card-gold';
           box.setAttribute('role', 'status');
           var paid = (data.get('Booking Fee Paid') || '').indexOf('Yes') === 0;
+          var boys = parseInt(data.get('Number Of Boys'), 10) || 1;
+          var his = boys > 1 ? 'their places' : 'his place';
           if (id === 'applyForm') {
+            var head = boys > 1
+              ? '<h3>Thank you. Your registration for ' + boys + ' boys has been received.</h3>'
+              : '<h3>Thank you. Your registration has been received.</h3>';
             box.innerHTML = paid
-              ? '<h3>Thank you. Your registration has been received.</h3><p>We have noted your payment and will confirm his place within 24 hours. If you still have a balance to pay, the details are below.</p>'
-              : '<h3>Thank you. Your registration has been received.</h3><p>One more step to secure his place. Pay the booking fee using the details below, then send us your proof of payment. We will confirm his place within 24 hours of receiving it.</p>';
+              ? head + '<p>We have noted your payment and will confirm ' + his + ' within 24 hours. If you still have a balance to pay, the details are below.</p>'
+              : head + '<p>One more step to secure ' + his + '. Pay the booking fee using the details below, then send us your proof of payment. We will confirm ' + his + ' within 24 hours of receiving it.</p>';
           } else {
             box.innerHTML = '<h3>Thank you. Your message has been received.</h3><p>We will get back to you as soon as we can. For anything urgent, chat with us on WhatsApp using the green button on this page.</p>';
           }
@@ -386,15 +397,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
           var panel = document.getElementById('payPanel');
           if (id === 'applyForm' && panel) {
+            var total = data.get('Booking Fee Total') || '';
             var loc = data.get('Location') || '';
             var text = document.getElementById('htp-booking-text');
-            if (text && loc) {
+            if (text && total) {
+              text.textContent = total + ' secures ' + his + '. It counts toward the total fee and is non-refundable.';
+            } else if (text && loc) {
               text.textContent = loc.indexOf('Summer Camp') === 0
                 ? 'USD 50 secures his place at the Summer Camp. It counts toward the total fee and is non-refundable.'
                 : 'UGX 50,000 secures his place. It counts toward the total fee and is non-refundable.';
             }
             var heading = document.getElementById('payHeading');
             if (heading && paid) heading.textContent = 'Paying the balance';
+            else if (heading && boys > 1) heading.textContent = 'Pay the booking fee to secure their places';
             panel.hidden = false;
           }
           box.scrollIntoView({ behavior: 'smooth', block: 'start' });
