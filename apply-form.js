@@ -90,7 +90,17 @@ document.addEventListener('DOMContentLoaded', function () {
     h += radioCards(prefix + ' Relationship', 'Relationship to the boy', RELATIONS, { chips: true, req: true });
     h += whereBlock(prefix);
     h += radioCards(prefix + ' WhatsApp Group', 'Are you already in the Boys to Men parents’ WhatsApp group?', GROUP, { req: true, one: true });
+    h += '<div class="cond wa-num" hidden data-wa-for="' + prefix + ' WhatsApp Group">' +
+         textField(prefix + ' WhatsApp Number To Add', 'WhatsApp number to add <span class="lbl-opt">(only if different from the phone number above)</span>', { type: 'tel', kind: 'phone', inputmode: 'tel', ph: 'e.g. 0775 123 456', optTag: false }) + '</div>';
     return h + '</div>';
+  }
+  /* Optional parent or guardian details for a young man registering himself */
+  function selfParentBlock() {
+    return '<div class="wiz-stack">' +
+      textField('Parent Name', 'Full name of your parent or guardian', { auto: 'off' }) +
+      '<div class="field-row">' + textField('Parent Phone', 'Their phone number', { type: 'tel', kind: 'phone', inputmode: 'tel', ph: 'e.g. 0775 123 456' }) + '<div></div></div>' +
+      '<label class="check-row mini-check"><input type="checkbox" name="Parent Phone On WhatsApp" value="Yes" checked> This number is on WhatsApp</label>' +
+      radioCards('Parent Relationship', 'Who are they to you?', RELATIONS, { chips: true }) + '</div>';
   }
   function whereBlock(prefix) {
     return '<div class="where" data-prefix="' + prefix + '">' +
@@ -107,6 +117,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   $('#parentMountParent').innerHTML = parentBlock('Parent', { fromRegistrant: true });
   $('#parentMountHelper').innerHTML = parentBlock('Parent', { auto: false });
+  $('#parentMountSelf').innerHTML = selfParentBlock();
   $('#otherParentMount').innerHTML =
     '<div class="wiz-stack">' +
     textField('Other Parent Name', 'Full name') +
@@ -131,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   function count() { var n = parseInt(val('Number Of Boys'), 10); return n > 0 ? n : 0; }
   function diffParents() { return mode() === 'helper' && count() > 1 && checkedVal('Same Parent For All') === 'No'; }
-  function needParentStep() { var m = mode(); return m === 'parent' || (m === 'helper' && !diffParents()); }
+  function needParentStep() { var m = mode(); return m === 'parent' || m === 'self' || (m === 'helper' && !diffParents()); }
 
   /* ---------- boy pages ---------- */
   function makeBoy(i) {
@@ -239,7 +250,11 @@ document.addEventListener('DOMContentLoaded', function () {
   function refreshLabels() {
     var m = mode(), n = count();
     var titleP = $('#parentTitle'), subP = $('#parentSub');
-    if (m === 'parent') {
+    $('#otherParentSummary').textContent = m === 'self' ? 'Add a second parent or guardian (optional)' : 'Add the other parent or guardian (optional)';
+    if (m === 'self') {
+      titleP.textContent = 'Your parent or guardian';
+      subP.textContent = 'If you have a father, mother or guardian, please give us their name and number so we can reach them when needed. You can leave this empty and continue.';
+    } else if (m === 'parent') {
       titleP.textContent = 'Your details as parent or guardian';
       subP.textContent = 'We already have your name and number from the first page. Just a few more details.';
     } else {
@@ -248,6 +263,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     $('#parentMountParent').hidden = m !== 'parent';
     $('#parentMountHelper').hidden = m !== 'helper';
+    $('#parentMountSelf').hidden = m !== 'self';
+    $('#selfWaWrap').hidden = m !== 'self';
+    var sg = checkedVal('Registrant WhatsApp Group');
+    $('#selfWaNum').hidden = !(sg && !/^Yes/.test(sg));
+    $$('.wa-num').forEach(function (w) {
+      var g = checkedVal(w.getAttribute('data-wa-for'));
+      w.hidden = !(g && !/^Yes/.test(g));
+    });
     $('#youFields').hidden = !m;
     $('#helperRole').hidden = m !== 'helper';
     $('#sameParentWrap').hidden = !(m === 'helper' && n > 1);
@@ -315,7 +338,7 @@ document.addEventListener('DOMContentLoaded', function () {
     $$('input,select,textarea').forEach(function (el) {
       if (el.id === 'proofFile') return;
       var c = el.closest('.cond[hidden], .phone-block[hidden]');
-      var p1 = el.closest('#parentMountParent[hidden], #parentMountHelper[hidden]');
+      var p1 = el.closest('#parentMountParent[hidden], #parentMountHelper[hidden], #parentMountSelf[hidden]');
       var step = (el.closest('#sc-parent') && !needParentStep());
       el.disabled = !!(c || p1 || step);
     });
@@ -358,7 +381,7 @@ document.addEventListener('DOMContentLoaded', function () {
     h += '<div class="sum-card"><header><h4>You</h4><button type="button" class="chg" data-goto="you">Change</button></header>' +
          '<p><strong>' + esc(val('Registrant Name')) + '</strong></p>' + line('Phone', val('Registrant Phone')) + line('Email', val('Registrant Email')) +
          (m === 'helper' ? line('Helping as', val('Registrant Relationship')) : '') + '</div>';
-    if (needParentStep()) {
+    if (needParentStep() && (m !== 'self' || val('Parent Name') || val('Parent Phone'))) {
       var pn = m === 'parent' ? val('Registrant Name') : val('Parent Name'), pp = m === 'parent' ? val('Registrant Phone') : val('Parent Phone');
       h += '<div class="sum-card"><header><h4>Parent or guardian</h4><button type="button" class="chg" data-goto="parent">Change</button></header>' +
            '<p><strong>' + esc(pn) + '</strong>' + (val('Parent Relationship') ? ', ' + esc(val('Parent Relationship').toLowerCase()) : '') + '</p>' + line('Phone', pp) + line('WhatsApp group', val('Parent WhatsApp Group')) +

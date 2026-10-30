@@ -282,8 +282,9 @@
             <p class="wiz-sub" id="parentSub"></p>
             <div id="parentMountParent" hidden></div>
             <div id="parentMountHelper" hidden></div>
+            <div id="parentMountSelf" hidden></div>
             <details class="other-parent">
-              <summary>Add the other parent or guardian (optional)</summary>
+              <summary id="otherParentSummary">Add the other parent or guardian (optional)</summary>
               <p class="hint" style="margin:0 0 14px;">So they can also join the parents' WhatsApp group and hear camp news. Please let them know we will be in touch.</p>
               <div id="otherParentMount"></div>
             </details>
@@ -362,6 +363,22 @@
             <h3>Check and send</h3>
             <p class="wiz-sub">Have a quick look. Use Change if anything needs fixing.</p>
             <div id="reviewMount"></div>
+            <div class="cond wiz-stack" id="selfWaWrap" hidden style="margin-top:22px;">
+              <fieldset class="fs" data-required>
+                <legend class="lg">Are you already on the Boys to Men WhatsApp platform? *</legend>
+                <div class="opt-grid one">
+                  <label class="opt"><input type="radio" name="Registrant WhatsApp Group" value="Yes, I am already on it"><span class="opt-box">Yes, I am already on it</span></label>
+                  <label class="opt"><input type="radio" name="Registrant WhatsApp Group" value="No, please add me"><span class="opt-box">No, please add me</span></label>
+                  <label class="opt"><input type="radio" name="Registrant WhatsApp Group" value="Not sure, please check"><span class="opt-box">Not sure, please check</span></label>
+                </div>
+              </fieldset>
+              <div class="cond" id="selfWaNum" hidden>
+                <div class="field">
+                  <label for="selfWaNumber">WhatsApp number to add <span class="lbl-opt">(only if different from your phone number)</span></label>
+                  <input type="tel" id="selfWaNumber" name="Registrant WhatsApp Number To Add" data-kind="phone" inputmode="tel" placeholder="e.g. 0775 123 456">
+                </div>
+              </div>
+            </div>
             <label class="check-row" style="margin-top:18px;"><input type="checkbox" name="Wants Call"> I would like a team member to call me.</label>
           </section>
         </div>
