@@ -17,6 +17,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css?v=20261028h">
+<link rel="stylesheet" href="apply-form.css?v=20261030a">
 <style>
   details.intake-details{max-width:760px;border:1px solid var(--line);border-radius:var(--radius);padding:20px 24px;margin:22px 0;background:var(--white);}
   details.intake-details summary{cursor:pointer;font-family:var(--font-display);font-weight:700;color:var(--green-800);list-style:none;display:flex;align-items:center;gap:8px;}
@@ -93,7 +94,7 @@
 </section>
 
 <section>
-  <div class="container two-col" style="align-items:flex-start;">
+  <div class="container two-col apply-grid" style="align-items:flex-start;">
     <div>
       <h2 id="upcoming-intakes">Upcoming Intakes</h2>
       <p class="muted" style="margin-bottom:4px;">Every intake is open to boys and young men from anywhere, including those living abroad. Many of our participants have travelled from beyond Uganda. Choose the camp that suits your son and press Apply Now. Boys are placed into their age cluster when they arrive.</p>
@@ -107,7 +108,7 @@
       <div class="pay-paths">
         <div><b>Register first, pay after</b><span>Press Apply Now on an intake below. Payment details appear as soon as you submit.</span></div>
         <div><b>Registered already?</b><span><a href="pay.html">Find the bank details and how to pay</a></span></div>
-        <div><b>Paid already?</b><span><a href="#applyForm" data-paid-yes>Complete his registration</a> and we will match your payment to his name.</span></div>
+        <div><b>Paid already?</b><span><a href="#applyForm" data-paid-yes>Complete the registration</a> and we will match your payment to his name.</span></div>
       </div>
 
       <div id="upcoming-list">
@@ -179,170 +180,196 @@
         </div>
       </details>
 
-      <form class="stack mt-lg" id="applyForm" action="https://formspree.io/f/xdardbqz" method="POST">
+      <div class="wiz-intro">
+        <h2 id="register">Register</h2>
+        <p class="muted" style="margin:0;">Parent or guardian first, then each boy on his own page. Mostly taps, very little typing.</p>
+      </div>
+
+      <form class="wiz" id="applyForm" method="POST" novalidate aria-label="Boys to Men registration">
         <input type="hidden" id="subjectField" name="_subject" value="New Registration: Boys to Men">
         <input type="hidden" name="_form" value="apply">
+        <input type="hidden" id="paidStatus" name="Booking Fee Paid" value="">
+        <input type="hidden" id="location" name="Location" value="">
+        <input type="hidden" name="Booking Fee Total" value="">
         <div aria-hidden="true" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
           <label>Leave this field empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
         </div>
         <input type="hidden" id="formOpenedAt" name="_opened_at" value="">
 
-        <h3>Your Details (Person Registering)</h3>
-        <div class="field-row">
-          <div class="field">
-            <label for="parentName">Full Name *</label>
-            <input type="text" id="parentName" name="Full Name" required>
-          </div>
-          <div class="field">
-            <label for="email">Email Address *</label>
-            <input type="email" id="email" name="Email" required>
-          </div>
-        </div>
-        <div class="field-row">
-          <div class="field">
-            <label for="phone">Phone Number *</label>
-            <input type="tel" id="phone" name="Phone" required>
-          </div>
-          <div class="field">
-            <label for="whereFrom">Where are you applying from? *</label>
-            <select id="whereFrom" name="Applying From" required>
-              <option value="">Select one</option>
-              <option>Based in Uganda</option>
-              <option>Based elsewhere in Africa</option>
-              <option>Diaspora</option>
-            </select>
-          </div>
+        <div class="wiz-head">
+          <div class="wiz-top"><span class="wiz-section" id="wizSection">About you</span><span class="wiz-count" id="wizCount">Step 1</span></div>
+          <div class="wiz-bar" aria-hidden="true"><i id="wizFill"></i></div>
         </div>
 
-        <div class="field conditional-field" data-cond-field="whereFrom" data-cond-value="Based in Uganda">
-          <label for="district">District</label>
-          <select id="district" name="District"><option value="">Select district</option></select>
-        </div>
-        <div class="field conditional-field" data-cond-field="whereFrom" data-cond-value="Diaspora,Based elsewhere in Africa">
-          <label for="country2">Country *</label>
-          <select id="country2" name="Country"><option value="">Select country</option></select>
-        </div>
+        <div class="wiz-body" id="wizBody">
 
-        <div class="field">
-          <label>Who is attending the camp?</label>
-          <select name="Who Is Attending">
-            <option>My son / the young man himself is registering</option>
-            <option>I am registering on his behalf</option>
-          </select>
-        </div>
-
-        <div class="field-row">
-          <div class="field">
-            <label for="boyName">Boy's / Young Man's Name *</label>
-            <input type="text" id="boyName" name="Applicant Name" required>
-          </div>
-          <div class="field">
-            <label for="age">Age *</label>
-            <select id="age" name="Age" required>
-              <option value="">Select age</option>
-              <option>23</option><option>22</option><option>21</option><option>20</option>
-              <option>19</option><option>18</option><option>17</option><option>16</option>
-              <option>15</option><option>14</option><option>13</option><option>12</option>
-              <option>11</option><option>10</option><option>9</option><option>8</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="fee-card" style="border-style:solid;">
-          Boys are placed into age-appropriate clusters automatically once they arrive, Young Explorers, Path Finders, Rising Men, or Young Men, based on age. There is nothing to choose here.
-        </div>
-
-        <div class="field-row">
-          <div class="field">
-            <label for="location">Which intake? *</label>
-            <select id="location" name="Location">
-              <option value="">Select one</option>
-              <option>Kampala &mdash; 13&ndash;19 Dec 2026 &mdash; UGX 500,000 / USD 150</option>
-              <option>Arua &mdash; 10&ndash;16 Jan 2027 &mdash; UGX 400,000 / USD 120</option>
-              <option>Summer Camp &mdash; Kampala &mdash; 7&ndash;16 Jul 2027 &mdash; USD 300</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="conditional-field" data-cond-field="location" data-cond-value="Summer Camp &mdash; Kampala &mdash; 7&ndash;16 Jul 2027 &mdash; USD 300">
-          <div class="field-row">
-            <div class="field">
-              <label for="visaHelp">Travelling from abroad? Need travel or visa guidance?</label>
-              <select id="visaHelp" name="Needs Travel Guidance">
-                <option value="">Select one</option>
-                <option>Yes, please advise</option>
-                <option>No, we have this covered</option>
-                <option>Not sure yet</option>
-                <option>Not travelling from abroad</option>
-              </select>
+          <!-- 1. About you -->
+          <section class="wiz-screen" id="sc-you">
+            <h3>Let us begin</h3>
+            <p class="wiz-sub" id="youSub">Your details first, so we know who is registering.</p>
+            <div class="wiz-stack">
+              <fieldset class="fs" data-required>
+                <legend class="lg">Who is filling in this form? *</legend>
+                <div class="opt-grid">
+                  <label class="opt"><input type="radio" name="Registered By" value="Parent or guardian"><span class="opt-box">I am the parent or guardian<small>Registering my son or sons</small></span></label>
+                  <label class="opt"><input type="radio" name="Registered By" value="Helping to register him"><span class="opt-box">I am helping to register him<small>A relative, pastor, teacher or mentor</small></span></label>
+                  <label class="opt"><input type="radio" name="Registered By" value="The young man himself"><span class="opt-box">I am the young man, registering myself<small>We will use your own number</small></span></label>
+                </div>
+              </fieldset>
+              <div class="cond wiz-stack" id="youFields" hidden>
+                <div class="field">
+                  <label for="regName">Your full name *</label>
+                  <input type="text" id="regName" name="Registrant Name" required autocomplete="name">
+                </div>
+                <div class="field-row">
+                  <div class="field">
+                    <label for="regPhone">Your phone number *</label>
+                    <input type="tel" id="regPhone" name="Registrant Phone" required data-kind="phone" inputmode="tel" autocomplete="tel" placeholder="e.g. 0775 123 456">
+                  </div>
+                  <div class="field">
+                    <label for="regEmail">Your email address *</label>
+                    <input type="email" id="regEmail" name="Registrant Email" required data-kind="email" autocomplete="email">
+                  </div>
+                </div>
+                <label class="check-row mini-check" style="margin-top:-6px;"><input type="checkbox" name="Registrant Phone On WhatsApp" value="Yes" checked> This number is on WhatsApp</label>
+                <div class="cond" id="helperRole" hidden>
+                  <div class="field">
+                    <label for="regRole">How do you know the boy? *</label>
+                    <select id="regRole" name="Registrant Relationship" required>
+                      <option value="">Choose one</option>
+                      <option>Relative</option><option>Pastor or church leader</option><option>Teacher or school staff</option><option>Mentor</option><option>Family friend</option><option>Other</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="field">
-              <label for="currency">Preferred fee currency</label>
-              <select id="currency" name="Preferred Currency">
-                <option>USD</option>
-                <option>UGX (equivalent on request)</option>
-              </select>
+          </section>
+
+          <!-- 2. How many boys -->
+          <section class="wiz-screen" id="sc-count" hidden>
+            <h3>How many boys?</h3>
+            <p class="wiz-sub">Include every boy you are registering now, and any brother or cousin you plan to bring. You will give each boy's details on his own page.</p>
+            <div class="wiz-stack">
+              <div class="field">
+                <label for="boyCount">Number of boys *</label>
+                <select id="boyCount" name="Number Of Boys" required>
+                  <option value="">Choose a number</option>
+                  <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+                  <option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option>
+                  <option>21</option><option>22</option><option>23</option><option>24</option><option>25</option><option>26</option><option>27</option><option>28</option><option>29</option><option>30</option>
+                  <option>31</option><option>32</option><option>33</option><option>34</option><option>35</option><option>36</option><option>37</option><option>38</option><option>39</option><option>40</option>
+                  <option>41</option><option>42</option><option>43</option><option>44</option><option>45</option><option>46</option><option>47</option><option>48</option><option>49</option><option>50</option>
+                </select>
+              </div>
+              <div class="cond" id="sameParentWrap" hidden>
+                <fieldset class="fs" data-required>
+                  <legend class="lg">Do all these boys have the same parent or guardian? *</legend>
+                  <div class="opt-grid">
+                    <label class="opt"><input type="radio" name="Same Parent For All" value="Yes"><span class="opt-box">Yes, the same parent or guardian</span></label>
+                    <label class="opt"><input type="radio" name="Same Parent For All" value="No"><span class="opt-box">No, they come from different homes<small>We will ask for each boy's parent</small></span></label>
+                  </div>
+                </fieldset>
+              </div>
             </div>
-          </div>
-        </div>
+          </section>
 
-        <div class="fee-card" id="feeDisplay">Select an intake above to see the exact fee.</div>
+          <!-- 3. Parent or guardian -->
+          <section class="wiz-screen" id="sc-parent" hidden>
+            <h3 id="parentTitle">Parent or guardian</h3>
+            <p class="wiz-sub" id="parentSub"></p>
+            <div id="parentMountParent" hidden></div>
+            <div id="parentMountHelper" hidden></div>
+            <details class="other-parent">
+              <summary>Add the other parent or guardian (optional)</summary>
+              <p class="hint" style="margin:0 0 14px;">So they can also join the parents' WhatsApp group and hear camp news. Please let them know we will be in touch.</p>
+              <div id="otherParentMount"></div>
+            </details>
+          </section>
 
-        <h3 class="mt-lg">What change are you hoping this camp will produce?</h3>
-        <p class="form-note">Select what resonates for him.</p>
-        <div class="grid" style="gap:10px;">
-          <label class="field check-row"><input type="checkbox" name="Desired Outcome" value="Knows who he is"> He discovers who he truly is, including his values, purpose, gifts and talents, beyond what others have said about him or labelled him</label>
-          <label class="field check-row"><input type="checkbox" name="Desired Outcome" value="Loves learning and does better at school"> He grows more focused at school, performs better, and builds a lasting love and commitment to education and to learning in its widest sense</label>
-          <label class="field check-row"><input type="checkbox" name="Desired Outcome" value="Breaks free from destructive habits"> He breaks free from destructive habits, addictions and patterns that have been controlling him, including bad peer groups and harmful screen use</label>
-          <label class="field check-row"><input type="checkbox" name="Desired Outcome" value="Finds healing and overcomes limiting beliefs"> He finds healing for emotional wounds he has never had space or language to name, and overcomes the limiting beliefs that hold him back</label>
-          <label class="field check-row"><input type="checkbox" name="Desired Outcome" value="Builds a vision"> He builds a clear vision for his life and writes a plan he owns and works towards after the camp</label>
-          <label class="field check-row"><input type="checkbox" name="Desired Outcome" value="Financial literacy and entrepreneurship"> He grows in financial literacy, learns to manage money well, and develops the mindset and skills of an entrepreneur who can create opportunities, either immediately or in the future</label>
-          <label class="field check-row"><input type="checkbox" name="Desired Outcome" value="Confident and manages anger"> He becomes confident in who he is as a young man, without being told who to be, and learns to manage his anger well</label>
-          <label class="field check-row"><input type="checkbox" name="Desired Outcome" value="Communicates, leads and respects"> He learns to communicate, lead and carry himself with respect and maturity, including in the way he relates to girls and women</label>
-          <label class="field check-row"><input type="checkbox" name="Desired Outcome" value="Finds brotherhood and mentors"> He leaves with a brotherhood of peers and mentors who hold him to the best version of himself</label>
-          <label class="field check-row"><input type="checkbox" name="Desired Outcome" value="Healthy manhood and force for good"> He understands what healthy manhood looks like and grows in appreciation for his family, community, nation and Africa, choosing to rise as a force for good</label>
-        </div>
-
-        <div class="field mt-lg">
-          <label for="message">Anything else we should know</label>
-          <textarea id="message" name="Message" rows="3"></textarea>
-        </div>
-
-        <h3 class="mt-lg">Booking fee</h3>
-        <p class="form-note">A booking fee secures his place. It is UGX 50,000 (USD 50 for the Summer Camp), counts toward the total fee, and is non-refundable. After you submit, you will see exactly how to pay.</p>
-        <div class="field">
-          <label for="paidStatus">Have you already paid the booking fee?</label>
-          <p class="form-note" style="margin:0 0 6px;">Paying before registering is fine. Choose Yes and add the transaction ID, so we can match your payment to his name.</p>
-          <select id="paidStatus" name="Booking Fee Paid">
-            <option value="">Select one</option>
-            <option>Not yet (I will pay after submitting)</option>
-            <option>Yes (I have paid)</option>
-          </select>
-        </div>
-        <div class="conditional-field" data-cond-field="paidStatus" data-cond-value="Yes (I have paid)">
-          <div class="field-row">
-            <div class="field">
-              <label for="txnId">Transaction ID (optional)</label>
-              <input type="text" id="txnId" name="Transaction ID" placeholder="From your confirmation message">
+          <!-- 5. Payment -->
+          <section class="wiz-screen" id="sc-pay" hidden>
+            <h3>The booking fee</h3>
+            <p class="wiz-sub">A booking fee secures each boy's place. After you submit, you will see exactly how to pay. Paying before registering is fine, just tell us below.</p>
+            <div class="wiz-stack">
+              <div class="fee-total"><small>Booking fee</small><strong id="feeTotalValue"></strong><span id="feeTotalNote"></span></div>
+              <fieldset class="fs" data-required id="paidSoFar">
+                <legend class="lg">How much have you paid so far? *</legend>
+                <div class="opt-grid">
+                  <label class="opt"><input type="radio" name="How Much Paid So Far" value="Nothing yet"><span class="opt-box">Nothing yet<small>I will pay after I submit</small></span></label>
+                  <label class="opt"><input type="radio" name="How Much Paid So Far" value="The booking fee, or part of it"><span class="opt-box">The booking fee, or part of it</span></label>
+                  <label class="opt"><input type="radio" name="How Much Paid So Far" value="The booking fee and part of the camp fee"><span class="opt-box">The booking fee and part of the camp fee</span></label>
+                  <label class="opt"><input type="radio" name="How Much Paid So Far" value="The full camp fee"><span class="opt-box">The full camp fee</span></label>
+                </div>
+              </fieldset>
+              <div class="cond wiz-stack" id="paidDetails" hidden>
+                <div class="field-row">
+                  <div class="field">
+                    <label for="amount">Amount you have paid <span class="lbl-opt">(optional)</span></label>
+                    <input type="text" id="amount" name="Amount Paying Now" placeholder="e.g. UGX 50,000">
+                  </div>
+                  <div class="field">
+                    <label for="txnId">Transaction ID <span class="lbl-opt">(optional)</span></label>
+                    <input type="text" id="txnId" name="Transaction ID" placeholder="From your confirmation message">
+                  </div>
+                </div>
+                <div class="field" id="proofWrap" hidden>
+                  <label for="proofFile">Attach your proof of payment <span class="lbl-opt">(optional)</span></label>
+                  <input type="file" id="proofFile" accept="image/*,application/pdf">
+                  <p class="hint">A screenshot of your confirmation message works well.</p>
+                </div>
+              </div>
+              <div class="cond" id="whoPaysWrap" hidden>
+                <fieldset class="fs">
+                  <legend class="lg">Who will pay the booking fee? <span class="opt-tag">(optional)</span></legend>
+                  <div class="chips">
+                    <label class="chip"><input type="radio" name="Who Is Paying" value="Me"><span>Me</span></label>
+                    <label class="chip"><input type="radio" name="Who Is Paying" value="The parent or guardian"><span>The parent or guardian</span></label>
+                    <label class="chip"><input type="radio" name="Who Is Paying" value="Someone else"><span>Someone else</span></label>
+                  </div>
+                </fieldset>
+              </div>
+              <div class="cond wiz-stack" id="summerWrap" hidden>
+                <hr class="sect-line">
+                <p class="sect-title">For the Summer Camp</p>
+                <div class="field-row">
+                  <div class="field">
+                    <label for="visaHelp">Travelling from abroad? Need travel or visa guidance?</label>
+                    <select id="visaHelp" name="Needs Travel Guidance">
+                      <option value="">Choose one</option>
+                      <option>Yes, please advise</option>
+                      <option>No, we have this covered</option>
+                      <option>Not sure yet</option>
+                      <option>Not travelling from abroad</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label for="currency">Preferred fee currency</label>
+                    <select id="currency" name="Preferred Currency">
+                      <option>USD</option>
+                      <option>UGX (equivalent on request)</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="field">
-              <label for="amount">Amount you have paid (optional)</label>
-              <input type="text" id="amount" name="Amount Paying Now" placeholder="e.g. UGX 50,000">
-            </div>
-          </div>
-          <div class="field" id="proofWrap" hidden>
-            <label for="proofFile">Attach your proof of payment (optional)</label>
-            <input type="file" id="proofFile" accept="image/*,application/pdf">
-            <p class="form-note">A screenshot of your confirmation message works well.</p>
-          </div>
+          </section>
+
+          <!-- 6. Review -->
+          <section class="wiz-screen" id="sc-review" hidden>
+            <h3>Check and send</h3>
+            <p class="wiz-sub">Have a quick look. Use Change if anything needs fixing.</p>
+            <div id="reviewMount"></div>
+            <label class="check-row" style="margin-top:18px;"><input type="checkbox" name="Wants Call"> I would like a team member to call me.</label>
+          </section>
         </div>
 
-        <h3 class="mt-lg">Communication preferences</h3>
-        <label class="field check-row"><input type="checkbox" name="Wants Call"> I would like a team member to call me.</label>
-        <label class="field check-row"><input type="checkbox" name="Wants WhatsApp Group"> Add me to the WhatsApp group for camp updates.</label>
-
-        <button class="btn btn-gold mt-lg" type="submit">Submit Registration &rarr;</button>
-        <p class="form-note">After you submit, you will see how to pay the booking fee. We will confirm his place within 24 hours of receiving it.</p>
+        <div class="wiz-foot">
+          <button type="button" class="wiz-back" id="wizBack" hidden>&larr; Back</button>
+          <button type="button" class="btn btn-gold" id="wizNext">Next &rarr;</button>
+          <button type="submit" class="btn btn-gold" id="wizSubmit" hidden>Submit Registration &rarr;</button>
+        </div>
+        <p class="wiz-fine" id="wizFine">After you submit, you will see how to pay the booking fee. We will confirm his place within 24 hours of receiving it.</p>
+        <noscript><p class="wiz-fine">This form needs JavaScript. Please switch it on, or message us on WhatsApp on +256 779 363 354.</p></noscript>
       </form>
 
       <div id="payPanel" hidden>
@@ -486,6 +513,7 @@
     </div>
   </div>
 </footer>
-<script src="main.js?v=20261028d"></script>
+<script src="main.js?v=20261030a"></script>
+<script src="apply-form.js?v=20261030a"></script>
 </body>
 </html>
