@@ -395,6 +395,19 @@ document.addEventListener('DOMContentLoaded', function () {
           }
           form.parentNode.replaceChild(box, form);
 
+          if (id === 'applyForm') {
+            // After registering, show only the thank-you and the payment steps.
+            ['preSubmit', 'wizIntro'].forEach(function (x) { var n = document.getElementById(x); if (n) n.hidden = true; });
+            var h1 = document.querySelector('.page-head h1'); if (h1) h1.textContent = 'Registration received';
+            var lede = document.querySelector('.page-head .lede'); if (lede) lede.textContent = 'Thank you. Here is what happens next.';
+            var names = [];
+            for (var k = 1; k <= boys; k++) { var nm = (data.get('Boy ' + k + ' Name') || '').trim(); if (nm) names.push(nm.replace(/[<>&"]/g, '')); }
+            if (names.length) {
+              var list = names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] : names[0];
+              var firstH = box.querySelector('h3'); if (firstH) firstH.textContent = 'Thank you. We have received the registration of ' + list + '.';
+            }
+          }
+
           var panel = document.getElementById('payPanel');
           if (id === 'applyForm' && panel) {
             var total = data.get('Booking Fee Total') || '';
@@ -407,12 +420,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 ? 'USD 50 secures his place at the Summer Camp. It counts toward the total fee and is non-refundable.'
                 : 'UGX 50,000 secures his place. It counts toward the total fee and is non-refundable.';
             }
+            var bk = document.querySelector('.htp-booking b');
+            if (bk && boys > 1) bk.textContent = 'Booking fee to secure their places';
             var heading = document.getElementById('payHeading');
             if (heading && paid) heading.textContent = 'Paying the balance';
             else if (heading && boys > 1) heading.textContent = 'Pay the booking fee to secure their places';
-            panel.hidden = false;
+            var fullPaid = data.get('How Much Paid So Far') === 'The full camp fee';
+            if (fullPaid) {
+              box.querySelector('p').textContent = 'We have noted your payment of the full camp fee and will confirm ' + his + ' within 24 hours. There is nothing more to pay.';
+            }
+            panel.hidden = fullPaid;
+            var more = document.createElement('div');
+            more.className = 'card';
+            more.style.marginTop = '24px';
+            more.innerHTML = '<h3>Registering more boys?</h3><p class="muted">Another son, a nephew, or a boy from another family. It takes only a few minutes.</p><p><a class="btn btn-gold" href="apply.html">Register another boy or family</a></p>';
+            panel.parentNode.insertBefore(more, panel.nextSibling);
           }
-          box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         })
         .catch(function (err) {
           if (button) { button.disabled = false; button.innerHTML = buttonText; }
