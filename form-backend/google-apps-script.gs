@@ -362,8 +362,6 @@ function sendConfirmation_(f) {
   var his = plural ? 'their places' : 'his place';
   var paid = g('How Much Paid So Far');
   var hasPaid = paid && paid !== 'Nothing yet' && paid !== 'Not yet';
-  var answers = f.boys.map(function (x) { return x.parent.group; }).concat([f.reg.group]).filter(Boolean);
-  var alreadyIn = answers.length > 0 && answers.every(function (a) { return /^Yes/.test(a); });
 
   // The email is written as separate paragraphs. Each block below is one paragraph or box.
   var B = [];
@@ -383,9 +381,8 @@ function sendConfirmation_(f) {
       'After paying, send us the transaction ID or a screenshot on WhatsApp, +256 779 363 354. We will confirm ' + his + ' within 24 hours of receiving it.'] });
   }
 
-  B.push({ button: true, lines: alreadyIn
-    ? ['Thank you for already being in our WhatsApp group. If the other parent or guardian is not in yet, please share this link with them so they can ask to join.']
-    : ['Please also join our WhatsApp group for parents and guardians. Tap the button and ask to join. We approve each request, so it may take a little time.'] });
+  B.push({ button: true, lines: ['If you have not yet joined our WhatsApp group for parents and guardians, please use the button below to ask to join. We approve each request, so it may take a little time.',
+    'If you are already in the group, you are welcome to share the same link with another parent or guardian who needs to be on the platform.'] });
 
   B.push({ lines: ['If any detail is wrong, just reply to this email or message us on WhatsApp.'] });
   B.push({ lines: ['Warm regards,', 'Boys to Men Mentorship Camp'] });
