@@ -122,6 +122,14 @@ document.addEventListener('DOMContentLoaded', function () {
   /* ---------- elements ---------- */
   var body = $('#wizBody');
   var scYou = $('#sc-you'), scCount = $('#sc-count'), scParent = $('#sc-parent'), scPay = $('#sc-pay'), scReview = $('#sc-review');
+  // "How many boys" now sits at the bottom of the first page, so it is not a screen of its own.
+  var countField = $('#boyCount').closest('.field');
+  var countWrap = document.createElement('div'); countWrap.id = 'countWrap'; countWrap.className = 'wiz-stack';
+  countWrap.appendChild(countField);
+  var countHint = document.createElement('p'); countHint.className = 'hint';
+  countHint.textContent = 'Include every boy you are registering now. Each boy gets his own page.';
+  countField.appendChild(countHint);
+  $('#youFields').appendChild(countWrap);
   var btnBack = $('#wizBack'), btnNext = $('#wizNext'), btnSubmit = $('#wizSubmit');
   var fill = $('#wizFill'), lblSection = $('#wizSection'), lblCount = $('#wizCount');
 
@@ -218,7 +226,6 @@ document.addEventListener('DOMContentLoaded', function () {
   /* ---------- screen list and navigation ---------- */
   function screens() {
     var l = [scYou];
-    if (mode() !== 'self') l.push(scCount);
     if (needParentStep()) l.push(scParent);
     boyEls.forEach(function (b) { l.push(b); });
     l.push(scPay, scReview);
@@ -292,6 +299,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (ct) ct.textContent = m === 'self'
       ? 'I confirm these details are correct.'
       : 'I confirm these details are correct.';
+    $('#countWrap').hidden = m === 'self';
     $('#youFields').hidden = !m;
     $('#helperRole').hidden = m !== 'helper';
     $('#sameParentWrap').hidden = !(m === 'helper' && n > 1);
