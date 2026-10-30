@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   function whereBlock(prefix) {
     return '<div class="where" data-prefix="' + prefix + '">' +
-      radioCards(prefix + ' Applying From', 'Where does the family live?', ['Based in Uganda', 'Based elsewhere in Africa', 'Diaspora'], { chips: true, req: true }) +
+      radioCards(prefix + ' Applying From', 'Where does the family live?', ['Based in Uganda', 'Based in another country'], { chips: true, req: true }) +
       '<div class="where-d cond" hidden style="margin-top:14px;">' + selectField(prefix + ' District', 'District', LISTS.districts, { req: true, placeholder: 'Choose district' }) + '</div>' +
       '<div class="where-c cond" hidden style="margin-top:14px;">' + selectField(prefix + ' Country', 'Country', LISTS.countries, { req: true, placeholder: 'Choose country' }) + '</div></div>';
   }
