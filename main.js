@@ -410,16 +410,15 @@ document.addEventListener('DOMContentLoaded', function () {
           }
 
           if (id === 'applyForm') {
-            // Invite to the WhatsApp group straight away, unless everyone said they are already in it.
+            // Always offer the WhatsApp group link. Those already in it can share it with the other parent.
             var answers = [];
             data.forEach(function (v, k) { if (/WhatsApp Group$/.test(k) && v) answers.push(v); });
             var allIn = answers.length > 0 && answers.every(function (a) { return a.indexOf('Yes') === 0; });
-            if (!allIn) {
-              var wa = document.createElement('p');
-              wa.style.marginTop = '14px';
-              wa.innerHTML = '<a class="htp-btn htp-btn-wa" style="display:inline-block;" target="_blank" rel="noopener" href="https://chat.whatsapp.com/FS8ZutpkQDC4DTMvh5pBPc">Join the Boys to Men WhatsApp group</a><br><small class="muted">No need to wait to be added. Tap to join now.</small>';
-              box.appendChild(wa);
-            }
+            var wa = document.createElement('p');
+            wa.style.marginTop = '14px';
+            wa.innerHTML = '<a class="htp-btn htp-btn-wa" style="display:inline-block;" target="_blank" rel="noopener" href="https://chat.whatsapp.com/FS8ZutpkQDC4DTMvh5pBPc">Join the Boys to Men WhatsApp group</a><br><small class="muted">' +
+              (allIn ? 'Already in the group? Share this link with the other parent or guardian so they can ask to join.' : 'Tap to ask to join. We approve each request, so it may take a little time.') + '</small>';
+            box.appendChild(wa);
           }
 
           var panel = document.getElementById('payPanel');

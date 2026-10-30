@@ -359,49 +359,46 @@ function sendConfirmation_(f) {
   var names = f.boys.map(function (x) { return x.boy.name; }).filter(Boolean);
   var nameText = names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] : (names[0] || 'your boy');
   var plural = f.n > 1;
+  var his = plural ? 'their places' : 'his place';
   var paid = g('How Much Paid So Far');
-  var L = [];
-  L.push('Hello ' + (f.reg.name || '') + ',');
-  L.push('');
-  L.push('Thank you for registering ' + nameText + ' for the Boys to Men Mentorship Camp. Your registration has been received.');
-  if (f.n > 1) {
-    L.push('Your reference number is ' + f.id + '. Please quote it when you pay or when you talk to us. Each boy also has his own code.');
-    f.boys.forEach(function (x) { L.push(x.boy.name + ' is ' + x.boy.code); });
-  } else {
-    L.push('Your reference number is ' + f.id + '. Please quote it when you pay or when you talk to us.');
-  }
-  L.push('');
-  if (paid && paid !== 'Nothing yet' && paid !== 'Not yet') {
-    L.push('You told us you have already paid ' + (/full/i.test(paid) ? 'the full camp fee' : 'some of the fee') + '. We will match your payment and confirm ' + (plural ? 'their places' : 'his place') + ' within 24 hours.');
-  } else {
-    L.push('To secure ' + (plural ? 'their places' : 'his place') + ', please pay the booking fee of ' + (g('Booking Fee Total') || 'UGX 50,000 per boy') + '. It counts toward the camp fee and is non refundable.');
-    L.push('');
-    L.push('Bank is Centenary Bank, Wakiso Branch.');
-    L.push('Account name is Potential Unexplored Limited.');
-    L.push('Account number is 3100125782.');
-    L.push('You can also pay by MTN MoMo or Airtel Money. The simple steps are on https://boystomencamp.com/pay.html');
-    L.push('');
-    L.push('After paying, send us the transaction ID or a screenshot on WhatsApp, +256 779 363 354. We will confirm ' + (plural ? 'their places' : 'his place') + ' within 24 hours of receiving it.');
-  }
+  var hasPaid = paid && paid !== 'Nothing yet' && paid !== 'Not yet';
   var answers = f.boys.map(function (x) { return x.parent.group; }).concat([f.reg.group]).filter(Boolean);
-  var showGroup = !(answers.length && answers.every(function (a) { return /^Yes/.test(a); }));
-  if (showGroup) {
-    L.push('');
-    L.push('@@WAGROUP@@');
+  var alreadyIn = answers.length > 0 && answers.every(function (a) { return /^Yes/.test(a); });
+
+  // The email is written as separate paragraphs. Each block below is one paragraph or box.
+  var B = [];
+  B.push({ lines: ['Hello ' + (f.reg.name || '') + ','] });
+
+  var first = ['Thank you for registering ' + nameText + ' for the Boys to Men Mentorship Camp. Your registration has been received.',
+    'Your reference number is ' + f.id + '. Please quote it when you pay or when you talk to us.'];
+  if (f.n > 1) first.push('Each boy also has his own code. ' + f.boys.map(function (x) { return x.boy.name + ' is ' + x.boy.code; }).join(', ') + '.');
+  B.push({ lines: first });
+
+  if (hasPaid) {
+    B.push({ lines: ['You told us you have already paid ' + (/full/i.test(paid) ? 'the full camp fee' : 'some of the fee') + '. We will match your payment and confirm ' + his + ' within 24 hours.'] });
+  } else {
+    B.push({ lines: ['To secure ' + his + ', please pay the booking fee of ' + (g('Booking Fee Total') || 'UGX 50,000 per boy') + '. It counts toward the camp fee and is non refundable. You can pay by bank or by mobile money.'] });
+    B.push({ box: true, lines: ['Bank is Centenary Bank, Wakiso Branch.', 'Account name is Potential Unexplored Limited.', 'Account number is 3100125782.'] });
+    B.push({ lines: ['The simple steps for MTN MoMo, Airtel Money and the bank are on https://boystomencamp.com/pay.html',
+      'After paying, send us the transaction ID or a screenshot on WhatsApp, +256 779 363 354. We will confirm ' + his + ' within 24 hours of receiving it.'] });
   }
-  L.push('');
-  L.push('If any detail is wrong, just reply to this email or message us on WhatsApp.');
-  L.push('');
-  L.push('Warm regards,');
-  L.push('Boys to Men Mentorship Camp');
+
+  B.push({ button: true, lines: alreadyIn
+    ? ['Thank you for already being in our WhatsApp group. If the other parent or guardian is not in yet, please share this link with them so they can ask to join.']
+    : ['Please also join our WhatsApp group for parents and guardians. Tap the button and ask to join. We approve each request, so it may take a little time.'] });
+
+  B.push({ lines: ['If any detail is wrong, just reply to this email or message us on WhatsApp.'] });
+  B.push({ lines: ['Warm regards,', 'Boys to Men Mentorship Camp'] });
+
   var esc = function (t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
-  var plain = L.map(function (x) {
-    return x === '@@WAGROUP@@' ? 'Join the Boys to Men WhatsApp group here, you do not need to wait to be added. ' + WHATSAPP_GROUP_LINK : x;
-  }).join('\n');
-  var html = '<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.6;color:#222;">' + L.map(function (x) {
-    if (x === '') return '';
-    if (x === '@@WAGROUP@@') return '<p>You can join our WhatsApp group right now, you do not need to wait to be added.<br><a href="' + WHATSAPP_GROUP_LINK + '" style="display:inline-block;margin-top:8px;background:#25D366;color:#073B1B;font-weight:bold;text-decoration:none;padding:10px 18px;border-radius:999px;">Join the Boys to Men WhatsApp group</a></p>';
-    return '<p style="margin:0 0 8px;">' + esc(x) + '</p>';
+  var plain = B.map(function (b) {
+    return b.lines.join('\n') + (b.button ? '\n' + WHATSAPP_GROUP_LINK : '');
+  }).join('\n\n');
+  var html = '<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.7;color:#222;max-width:560px;">' + B.map(function (b) {
+    var inner = b.lines.map(esc).join('<br>');
+    if (b.box) return '<p style="margin:0 0 18px;padding:12px 16px;background:#f6f1e3;border-left:4px solid #cc9a2e;">' + inner + '</p>';
+    if (b.button) return '<p style="margin:0 0 18px;">' + inner + '</p><p style="margin:0 0 18px;"><a href="' + WHATSAPP_GROUP_LINK + '" style="display:inline-block;background:#25D366;color:#073B1B;font-weight:bold;text-decoration:none;padding:12px 20px;border-radius:999px;">Join the Boys to Men WhatsApp group</a></p>';
+    return '<p style="margin:0 0 18px;">' + inner + '</p>';
   }).join('') + '</div>';
   MailApp.sendEmail(to, 'We have received your registration (' + f.id + ')', plain, { name: 'Boys to Men Camp', htmlBody: html });
 }
