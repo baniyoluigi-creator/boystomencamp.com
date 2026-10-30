@@ -19,6 +19,9 @@
 // Or put one or more addresses here, separated by commas.
 var NOTIFY_EMAIL = '';
 
+// Invite link of the Boys to Men WhatsApp group. Shown in the confirmation email.
+var WHATSAPP_GROUP_LINK = 'https://chat.whatsapp.com/FS8ZutpkQDC4DTMvh5pBPc';
+
 // Sheet (tab) names. They are created automatically on the first submission.
 var TABS = {
   apply: 'Registrations',
@@ -380,12 +383,27 @@ function sendConfirmation_(f) {
     L.push('');
     L.push('After paying, send us the transaction ID or a screenshot on WhatsApp, +256 779 363 354. We will confirm ' + (plural ? 'their places' : 'his place') + ' within 24 hours of receiving it.');
   }
+  var answers = f.boys.map(function (x) { return x.parent.group; }).concat([f.reg.group]).filter(Boolean);
+  var showGroup = !(answers.length && answers.every(function (a) { return /^Yes/.test(a); }));
+  if (showGroup) {
+    L.push('');
+    L.push('@@WAGROUP@@');
+  }
   L.push('');
   L.push('If any detail is wrong, just reply to this email or message us on WhatsApp.');
   L.push('');
   L.push('Warm regards,');
   L.push('Boys to Men Mentorship Camp');
-  MailApp.sendEmail(to, 'We have received your registration (' + f.id + ')', L.join('\n'), { name: 'Boys to Men Camp' });
+  var esc = function (t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
+  var plain = L.map(function (x) {
+    return x === '@@WAGROUP@@' ? 'Join the Boys to Men WhatsApp group here, you do not need to wait to be added. ' + WHATSAPP_GROUP_LINK : x;
+  }).join('\n');
+  var html = '<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.6;color:#222;">' + L.map(function (x) {
+    if (x === '') return '';
+    if (x === '@@WAGROUP@@') return '<p>You can join our WhatsApp group right now, you do not need to wait to be added.<br><a href="' + WHATSAPP_GROUP_LINK + '" style="display:inline-block;margin-top:8px;background:#25D366;color:#073B1B;font-weight:bold;text-decoration:none;padding:10px 18px;border-radius:999px;">Join the Boys to Men WhatsApp group</a></p>';
+    return '<p style="margin:0 0 8px;">' + esc(x) + '</p>';
+  }).join('') + '</div>';
+  MailApp.sendEmail(to, 'We have received your registration (' + f.id + ')', plain, { name: 'Boys to Men Camp', htmlBody: html });
 }
 
 // Saves what a parent typed on the first pages, in case they never finish.

@@ -158,3 +158,9 @@ details.other-parent .wiz-stack{padding:4px 0 18px;}
 .draft-bar .btn{border:0;cursor:pointer;padding:10px 18px;}
 .draft-bar .wiz-back{padding:9px 18px;}
 .check-row .f-err{flex-basis:100%;}
+
+.email-check{background:#FFFCF2;border:2px solid var(--gold-500);border-radius:12px;padding:14px 16px;margin-top:12px;}
+.email-check p{margin:0 0 8px;}
+.email-check .ec-btns{display:flex;gap:10px;flex-wrap:wrap;}
+.email-check .btn{border:0;cursor:pointer;padding:10px 18px;}
+.email-check .wiz-back{padding:9px 18px;}

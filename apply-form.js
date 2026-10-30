@@ -263,9 +263,37 @@ document.addEventListener('DOMContentLoaded', function () {
       if (f && !/radio|checkbox/.test(f.type)) { setTimeout(function () { try { f.focus({ preventScroll: true }); } catch (e) { f.focus(); } }, 350); }
     }
   }
+  /* ---------- check the email before moving on ---------- */
+  var confirmedEmail = '';
+  var DOMAIN_FIX = { 'gmial.com': 'gmail.com', 'gmal.com': 'gmail.com', 'gmail.co': 'gmail.com', 'gmail.con': 'gmail.com', 'gmail.cm': 'gmail.com', 'gnail.com': 'gmail.com', 'gamil.com': 'gmail.com', 'gmai.com': 'gmail.com', 'yahooo.com': 'yahoo.com', 'yaho.com': 'yahoo.com', 'yahoo.co': 'yahoo.com', 'hotmial.com': 'hotmail.com', 'hotmal.com': 'hotmail.com', 'outlok.com': 'outlook.com' };
+  function emailPanel() {
+    var p = $('#emailCheck');
+    if (!p) { p = document.createElement('div'); p.id = 'emailCheck'; p.className = 'email-check'; p.setAttribute('role', 'alert'); p.hidden = true; $('#regEmail').closest('.field').appendChild(p); }
+    return p;
+  }
+  function askEmail(em) {
+    var p = emailPanel(), at = em.lastIndexOf('@'), fix = at > 0 ? DOMAIN_FIX[em.slice(at + 1).toLowerCase()] : '';
+    var better = fix ? em.slice(0, at + 1) + fix : '';
+    p.innerHTML = '<p>We will send your confirmation to <strong>' + esc(em) + '</strong>. Is this exactly right?</p>' +
+      (better ? '<p class="ec-sug">Did you mean <strong>' + esc(better) + '</strong>?</p>' : '') +
+      '<div class="ec-btns">' + (better ? '<button type="button" class="btn btn-gold" data-ec="use" data-v="' + esc(better) + '">Yes, use ' + esc(better) + '</button>' : '<button type="button" class="btn btn-gold" data-ec="ok">Yes, that is right</button>') +
+      '<button type="button" class="wiz-back" data-ec="fix">' + (better ? 'No, keep mine' : 'Let me fix it') + '</button></div>';
+    p.hidden = false; p.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-ec]'); if (!b || !form.contains(b)) return;
+    var a = b.getAttribute('data-ec'), em = $('#regEmail'), p = emailPanel();
+    if (a === 'use') { em.value = b.getAttribute('data-v'); confirmedEmail = em.value.trim().toLowerCase(); p.hidden = true; sync(); next(); }
+    else if (a === 'ok') { confirmedEmail = em.value.trim().toLowerCase(); p.hidden = true; next(); }
+    else { p.hidden = true; try { em.focus(); em.select(); } catch (x) {} }
+  });
   function next() {
     var bad = validate(list[cur]); if (bad) { focusBad(bad); return; }
-    if (list[cur] === scYou) sendPartial('Finished page 1');
+    if (list[cur] === scYou) {
+      var emv = val('Registrant Email').trim();
+      if (emv.toLowerCase() !== confirmedEmail) { askEmail(emv); return; }
+      sendPartial('Finished page 1');
+    }
     show(cur + 1);
   }
   function back() { show(cur - 1); }
