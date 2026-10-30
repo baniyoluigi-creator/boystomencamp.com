@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     { value: 'Summer Camp — Kampala — 7–16 Jul 2027 — USD 300', name: 'Summer Camp, Kampala', dates: '7 to 16 July 2027', fee: 'USD 300', cur: 'USD', book: 50 }
   ];
   var RELATIONS = ['Father', 'Mother', 'Guardian', 'Other'];
-  var HELPER_ROLES = ['Relative', 'Pastor or church leader', 'Teacher or school staff', 'Mentor', 'Family friend', 'Other'];
+  var HELPER_ROLES = ['Relative', 'Friend', 'Mentor', 'Someone else'];
   var GROUP = ['Yes, I am already in the group', 'No, please add me', 'Not sure, please check'];
   var OTHER_GROUP = ['Yes, already in the group', 'No, please add them', 'Not sure, please check'];
   var OUTCOMES = [
@@ -29,6 +29,8 @@ document.addEventListener('DOMContentLoaded', function () {
     ['Finds brotherhood and mentors', 'He leaves with a brotherhood of peers and mentors who hold him to the best version of himself'],
     ['Healthy manhood and force for good', 'He understands what healthy manhood looks like and grows in appreciation for his family, community, nation and Africa, choosing to rise as a force for good']
   ];
+
+  var OUTCOMES_SELF = ["You discover who you truly are, including your values, purpose, gifts and talents, beyond what others have said about you or labelled you", "You grow more focused at school, perform better, and build a lasting love and commitment to education and to learning in its widest sense", "You break free from destructive habits, addictions and patterns that have been controlling you, including bad peer groups and harmful screen use", "You find healing for emotional wounds you have never had space or language to name, and overcome the limiting beliefs that hold you back", "You build a clear vision for your life and write a plan you own and work towards after the camp", "You grow in financial literacy, learn to manage money well, and develop the mindset and skills of an entrepreneur who can create opportunities, either immediately or in the future", "You become confident in who you are as a young man, without being told who to be, and learn to manage your anger well", "You learn to communicate, lead and carry yourself with respect and maturity, including in the way you relate to girls and women", "You leave with a brotherhood of peers and mentors who hold you to the best version of yourself", "You understand what healthy manhood looks like and grow in appreciation for your family, community, nation and Africa, choosing to rise as a force for good"];
 
   /* ---------- small helpers ---------- */
   var uidN = 0;
@@ -143,10 +145,10 @@ document.addEventListener('DOMContentLoaded', function () {
       (n > 1 ? '<button type="button" class="copy-prev" data-copy-prev="' + i + '">↺ Copy camp and changes from Boy ' + (n - 1) + '</button>' : '') +
       '<div class="wiz-stack">' +
       textField(p + 'Name', '<span class="lbl-name">His full name</span>', { req: true, optTag: false, auto: 'off' }) +
-      '<div><fieldset class="fs" data-required><legend class="lg">His age *</legend><div class="chips ages">' +
+      '<div><fieldset class="fs" data-required><legend class="lg"><span class="sw" data-he="His age" data-you="Your age">His age</span> *</legend><div class="chips ages">' +
       ages.map(function (x) { return '<label class="chip"><input type="radio" name="' + p + 'Age" value="' + x + '"><span>' + x + '</span></label>'; }).join('') +
       '</div></fieldset><p class="age-note" aria-live="polite"></p></div>' +
-      radioCards(p + 'Camp', 'Which camp is he joining?', camps, { req: true, one: true }) +
+      radioCards(p + 'Camp', '<span class="sw" data-he="Which camp is he joining?" data-you="Which camp are you joining?">Which camp is he joining?</span>', camps, { req: true, one: true }) +
       '<div class="phone-block"><fieldset class="fs"><legend class="lg">How can we reach him? <span class="opt-tag">(optional, but it helps us prepare him before camp)</span></legend>' +
       '<div class="opt-grid one">' +
       '<label class="opt"><input type="radio" name="' + p + 'Phone Type" value="His own phone"><span class="opt-box">He has his own phone</span></label>' +
@@ -154,10 +156,10 @@ document.addEventListener('DOMContentLoaded', function () {
       '<label class="opt"><input type="radio" name="' + p + 'Phone Type" value="No phone, call the parent"><span class="opt-box">He has no phone, please call the parent</span></label>' +
       '</div></fieldset>' +
       '<div class="cond phone-num" hidden style="margin-top:14px;">' + textField(p + 'Phone', 'A number we can use to speak to him', { type: 'tel', kind: 'phone', inputmode: 'tel', ph: 'e.g. 0775 123 456', hint: 'We may call him to welcome him and prepare him for camp.' }) + '</div></div>' +
-      '<div><fieldset class="fs"><legend class="lg">What change do you hope camp will bring in him? <span class="opt-tag">(tick all that fit)</span></legend><div class="outcomes">' +
-      OUTCOMES.map(function (o) { return '<label class="check-row outcome-row"><input type="checkbox" name="' + p + 'Desired Outcome" value="' + esc(o[0]) + '"> <span>' + esc(o[1]) + '</span></label>'; }).join('') +
+      '<div><fieldset class="fs"><legend class="lg"><span class="sw" data-he="What change do you hope camp will bring in him?" data-you="What change do you hope camp will bring in you?">What change do you hope camp will bring in him?</span> <span class="opt-tag">(tick all that fit)</span></legend><div class="outcomes">' +
+      OUTCOMES.map(function (o, k) { return '<label class="check-row outcome-row"><input type="checkbox" name="' + p + 'Desired Outcome" value="' + esc(o[0]) + '"> <span class="sw" data-he="' + esc(o[1]) + '" data-you="' + esc(OUTCOMES_SELF[k]) + '">' + esc(o[1]) + '</span></label>'; }).join('') +
       '</div></fieldset></div>' +
-      '<div class="field"><label for="' + uid() + '">Tell us about him in your own words <span class="lbl-opt">(optional)</span></label>' +
+      '<div class="field"><label for="' + uid() + '"><span class="sw" data-he="Tell us about him in your own words" data-you="Tell us about yourself in your own words">Tell us about him in your own words</span> <span class="lbl-opt">(optional)</span></label>' +
       '<textarea name="' + p + 'About Him" rows="4" placeholder="His character, his struggles, his strengths, anything that will help his mentors know him."></textarea></div>' +
       '<div class="boy-parent cond" hidden><hr class="sect-line"><p class="sect-title">His parent or guardian</p>' +
       '<p class="hint" style="margin:0 0 14px;">Please give the details of the parent or guardian responsible for this boy.</p>' +
@@ -258,6 +260,8 @@ document.addEventListener('DOMContentLoaded', function () {
       $('.lbl-name', el).textContent = m === 'self' ? 'Your full name' : (m === 'parent' ? 'Your son’s full name' : 'His full name');
       $('.boy-parent', el).hidden = !diffParents();
       var ph = $('.phone-block', el); ph.hidden = (m === 'self');
+      $$('.sw', el).forEach(function (x) { x.textContent = m === 'self' ? x.getAttribute('data-you') : x.getAttribute('data-he'); });
+      var ta = $('textarea', el); ta.placeholder = m === 'self' ? 'Your character, your struggles, your strengths, anything that will help your mentors know you.' : 'His character, his struggles, his strengths, anything that will help his mentors know him.';
     });
     var anySummer = boyEls.some(function (el) { return /^Summer/.test(campOf(el)); });
     $('#summerWrap').hidden = !anySummer;
