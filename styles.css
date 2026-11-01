@@ -845,3 +845,8 @@ nav.main-nav > a.nav-pay{font-weight:700}
 @media (min-width:700px){
   .intake-list{flex-direction:row;justify-content:center;gap:16px;max-width:none;flex-wrap:nowrap}
 }
+
+/* Each intake card has its own brand colour */
+.intake-line:nth-child(1){background:linear-gradient(135deg,var(--green-900) 0%,var(--green-500) 100%)}
+.intake-line:nth-child(2){background:linear-gradient(135deg,#0A3F3D 0%,var(--teal-500) 100%)}
+.intake-line:nth-child(3){background:linear-gradient(135deg,#7A2C14 0%,var(--terracotta-500) 100%)}
