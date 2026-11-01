@@ -746,3 +746,24 @@ nav.main-nav > a.nav-pay{font-weight:700}
 .proof-form label{display:block;font-weight:600;margin-bottom:6px}
 .proof-form input[type=text],.proof-form input[type=tel],.proof-form input[type=email],.proof-form input[type=file]{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font:inherit}
 .proof-error{color:#9b1c1c;font-weight:600;margin:0}
+
+/* Intake buttons, one colour family per camp. Apply is the brightest. */
+.intake-actions{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 4px}
+.intake-actions .ib{display:inline-block;text-align:center;text-decoration:none;font-family:var(--font-display);font-weight:700;border-radius:999px;padding:12px 20px;border:2px solid var(--c1);transition:transform .15s ease,box-shadow .15s ease}
+.intake-actions .ib:hover{transform:translateY(-2px)}
+.intake-actions .ib-apply{background:linear-gradient(120deg,var(--c1),var(--c2));color:#fff;font-size:1.05rem;padding:14px 28px;box-shadow:0 6px 18px var(--cs);text-shadow:0 1px 2px rgba(0,0,0,.25)}
+.intake-actions .ib-pay{background:var(--ct);color:var(--c1);font-size:.95rem}
+.intake-actions .ib-proof{background:transparent;color:var(--c1);font-size:.95rem;border-style:dashed}
+.camp-k{--c1:#0F6B57;--c2:#14A085;--cs:rgba(20,160,133,.45);--ct:#E3F4EF}
+.camp-a{--c1:#9A6A12;--c2:#E0A82E;--cs:rgba(224,168,46,.5);--ct:#FBF1D9}
+.camp-s{--c1:#B5472A;--c2:#E8873A;--cs:rgba(232,135,58,.5);--ct:#FBE6DA}
+/* Read about the camp teaser */
+.camp-teaser-wrap{padding:26px 0 0}
+.camp-teaser{background:var(--cream);border:1px solid var(--line);border-left:5px solid var(--gold-500);border-radius:14px;padding:18px 22px}
+.camp-teaser summary{list-style:none;cursor:pointer;display:block}
+.camp-teaser summary::-webkit-details-marker{display:none}
+.camp-teaser .ct-eyebrow{display:block;font-family:var(--font-display);font-weight:800;font-size:1.15rem;color:var(--green-800);margin-bottom:8px}
+.camp-teaser .ct-lines{display:block;line-height:1.65;color:#2d3a2d}
+.camp-teaser .ct-more{display:inline-block;margin-top:10px;font-weight:700;color:var(--gold-600);text-decoration:underline}
+.camp-teaser[open] .ct-more{display:none}
+.camp-teaser .ct-body{margin-top:12px;border-top:1px solid var(--line);padding-top:12px}
