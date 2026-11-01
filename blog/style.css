@@ -390,3 +390,15 @@ blockquote.pull p {
   .index-grid { grid-template-columns: 1fr; }
   .site-nav { display: none; }
 }
+
+/* ---------- Added: byline, dates box, steps ---------- */
+.byline { font-size: 15px; color: var(--charcoal); opacity: .85; margin: 14px 0 0; font-style: italic; }
+.article-body h2 { font-family: 'Fraunces', serif; font-size: 26px; line-height: 1.25; color: var(--navy); margin: 38px 0 14px; }
+.article-body ol.steps { padding-left: 24px; margin: 0 0 22px; }
+.article-body ol.steps li { font-size: 18px; line-height: 1.7; margin: 0 0 12px; color: var(--charcoal); }
+.dates-box { background: #FBF5E6; border-left: 4px solid #C9A24B; border-radius: 4px; padding: 18px 22px; margin: 36px 0 28px; }
+.dates-box p { font-size: 17px !important; margin: 0 0 10px !important; color: var(--charcoal) !important; line-height: 1.6 !important; }
+.dates-box p.db-lead { font-weight: 700; color: var(--navy) !important; }
+.dates-box ul { margin: 0 0 12px; padding-left: 20px; }
+.dates-box li { font-size: 17px; line-height: 1.6; }
+.dates-box p.db-author { font-weight: 700; margin-bottom: 0 !important; }
