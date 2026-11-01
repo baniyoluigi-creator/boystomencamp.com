@@ -740,3 +740,9 @@ nav.main-nav > a.nav-pay{font-weight:700}
 .story-body .eyebrow{margin-bottom:10px}
 .story-quote{margin-top:28px!important;padding:18px 20px;border-left:5px solid var(--gold-500);background:var(--cream);border-radius:0 10px 10px 0;font-family:var(--font-display);font-weight:600;color:var(--green-800);font-size:1.2rem!important}
 .story-bridge{font-family:var(--font-display);font-weight:700;color:var(--gold-600);letter-spacing:.02em}
+
+/* Attach proof of payment page */
+.proof-form{display:grid;gap:18px;background:var(--white);border:1px solid var(--line);border-top:5px solid var(--gold-500);border-radius:18px;padding:24px 22px;box-shadow:var(--shadow-soft);margin-top:18px}
+.proof-form label{display:block;font-weight:600;margin-bottom:6px}
+.proof-form input[type=text],.proof-form input[type=tel],.proof-form input[type=email],.proof-form input[type=file]{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font:inherit}
+.proof-error{color:#9b1c1c;font-weight:600;margin:0}
