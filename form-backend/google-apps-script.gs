@@ -59,13 +59,6 @@ function doPost(e) {
       return json_({ ok: true });
     }
 
-    // Proof of payment sent from the Attach Proof of Payment page.
-    // It gets its own tab, so it is never mistaken for a registration.
-    if (first_(p._form) === 'proof') {
-      saveProofSubmission_(ss, p);
-      return json_({ ok: true });
-    }
-
     var sheet = ss.getSheetByName(TABS[formType]) || ss.insertSheet(TABS[formType]);
 
     // New style Apply form: several boys in one submission.
@@ -477,75 +470,6 @@ function rebuildMaster_(ss, reg) {
     master.getRange(2, 5, out.length, 1).setNumberFormat('@');
     master.getRange(2, 1, out.length, head.length).setValues(out);
   }
-}
-
-/* ------------------------------------------------------------------ */
-/* Proof of payment page                                               */
-/* ------------------------------------------------------------------ */
-
-// Saves one proof of payment in the "Payment Proofs" tab, keeps the picture in
-// Drive, tries to match it to a registration, and emails the team once.
-function saveProofSubmission_(ss, p) {
-  var sheet = ss.getSheetByName('Payment Proofs') || ss.insertSheet('Payment Proofs');
-  var g = function (n) { return String(first_(p[n]) || '').trim(); };
-  var who = g('Full Name');
-  var ref = g('Boy Name Or Reference');
-  var link = g('Proof File Data') ? proofLink_(p, who || 'Proof') : '';
-  var match = findFamilyForProof_(ss, ref, g('Phone'));
-
-  var row = {
-    'Submitted At': now_(),
-    'Full Name': who,
-    'Phone': g('Phone'),
-    'Email': g('Email'),
-    'Boy Name Or Reference': ref,
-    'Amount Paid': g('Amount Paid'),
-    'Transaction ID': g('Transaction ID'),
-    'Proof of Payment Link': link,
-    'Matched Family ID': match.id,
-    'Matched By': match.by,
-    'Payment Confirmed': '',
-    'Notes': ''
-  };
-  writeRows_(sheet, [row]);
-  notifyProof_(row);
-}
-
-// Looks in the Registrations tab for a BTM code in the reference, then for the same phone number.
-function findFamilyForProof_(ss, ref, phone) {
-  var none = { id: '', by: '' };
-  try {
-    var reg = ss.getSheetByName(TABS.apply);
-    if (!reg || reg.getLastRow() < 2) return none;
-    var vals = reg.getDataRange().getValues(), h = vals[0];
-    var cFam = h.indexOf('Family ID'), cBoy = h.indexOf('Boy ID'), cPh = h.indexOf('Phone'), cRp = h.indexOf('Registrant Phone');
-    if (cFam < 0) return none;
-    var r0 = norm_(ref), ph = d9_(phone), byPhone = '';
-    for (var r = 1; r < vals.length; r++) {
-      var fam = String(vals[r][cFam] || ''), boy = cBoy >= 0 ? String(vals[r][cBoy] || '') : '';
-      if (r0 && ((fam && r0.indexOf(norm_(fam)) !== -1) || (boy && r0.indexOf(norm_(boy)) !== -1))) return { id: fam, by: 'Reference code' };
-      if (!byPhone && ph && ((cPh >= 0 && d9_(vals[r][cPh]) === ph) || (cRp >= 0 && d9_(vals[r][cRp]) === ph))) byPhone = fam;
-    }
-    if (byPhone) return { id: byPhone, by: 'Phone number, please check' };
-  } catch (err) {}
-  return none;
-}
-
-function notifyProof_(row) {
-  var to = NOTIFY_EMAIL || Session.getEffectiveUser().getEmail();
-  if (!to) return;
-  var subject = 'Proof of payment received: ' + (row['Matched Family ID'] || row['Boy Name Or Reference'] || row['Full Name'] || 'Boys to Men');
-  var L = [];
-  L.push(line_('From', row['Full Name'])); L.push(line_('Phone', row['Phone'])); L.push(line_('Email', row['Email']));
-  L.push(line_('Boy or reference', row['Boy Name Or Reference']));
-  L.push(line_('Amount paid', row['Amount Paid'])); L.push(line_('Transaction ID', row['Transaction ID']));
-  L.push(line_('Matched registration', row['Matched Family ID'] ? row['Matched Family ID'] + ' (' + row['Matched By'] + ')' : 'No match found, please check the Registrations tab'));
-  L.push(line_('Receipt', row['Proof of Payment Link'] || 'No file attached'));
-  var options = { name: 'Boys to Men Website' };
-  if (row['Email'] && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(row['Email'])) options.replyTo = row['Email'];
-  try {
-    MailApp.sendEmail(to, subject, L.filter(function (x) { return x !== null; }).join('\n'), options);
-  } catch (err) {}
 }
 
 /* ------------------------------------------------------------------ */
