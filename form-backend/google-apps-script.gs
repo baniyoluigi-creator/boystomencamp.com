@@ -1,3 +1,7 @@
+/* WARNING, 2 NOV 2026. THIS COPY IS OUT OF DATE.
+   The live script is in Apps Script (Extensions > Apps Script in the Boys to Men Registrations sheet).
+   It is further ahead than this file. Do NOT paste this file over the live script. */
+
 /**
  * Boys to Men Mentorship Camp: form receiver
  *
@@ -378,7 +382,7 @@ function sendConfirmation_(f) {
     B.push({ lines: ['To secure ' + his + ', please pay the booking fee of ' + (g('Booking Fee Total') || 'UGX 50,000 per boy') + '. It counts toward the camp fee and is non refundable. You can pay by bank or by mobile money.'] });
     B.push({ box: true, lines: ['Bank is Centenary Bank, Wakiso Branch.', 'Account name is Potential Unexplored Limited.', 'Account number is 3100125782.'] });
     B.push({ lines: ['The simple steps for MTN MoMo, Airtel Money and the bank are on https://boystomencamp.com/pay.html',
-      'After paying, send us the transaction ID or a screenshot on WhatsApp, +256 779 363 354. We will confirm ' + his + ' within 24 hours of receiving it.'] });
+      'After paying, upload your receipt or add the transaction ID on https://boystomencamp.com/attach-proof.html and we will confirm ' + his + ' within 24 hours.'] });
   }
 
   B.push({ button: true, lines: ['If you have not yet joined our WhatsApp group for parents and guardians, please use the button below to ask to join. We approve each request, so it may take a little time.',
