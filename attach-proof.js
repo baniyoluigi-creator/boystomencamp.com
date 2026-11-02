@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
     e.preventDefault();
     err.hidden = true;
     var v = function (id) { return document.getElementById(id).value.trim(); };
-    if (!v('pfName') || !v('pfPhone') || !v('pfBoy')) return fail('Please fill in your name, phone number and the boy\'s name or reference.');
+    if (!v('pfName') || !v('pfPhone') || !v('pfBoy')) return fail('Please fill in your name, phone number and the name or code of each boy this payment is for.');
     if (!v('pfDate')) return fail('Please choose the date you made the payment.');
     var file = document.getElementById('pfFile').files[0];
     if (!file && !v('pfTxn')) return fail('Please upload your receipt, or at least enter the transaction ID.');

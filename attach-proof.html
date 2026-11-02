@@ -85,7 +85,7 @@
       <div class="field"><label for="pfName">Your full name</label><input type="text" id="pfName" name="Full Name" required autocomplete="name"></div>
       <div class="field"><label for="pfPhone">Your phone number</label><input type="tel" id="pfPhone" name="Phone" required autocomplete="tel" placeholder="e.g. 0779 000 000"></div>
       <div class="field"><label for="pfEmail">Your email address <span class="lbl-opt">(optional)</span></label><input type="email" id="pfEmail" name="Email" autocomplete="email"></div>
-      <div class="field"><label for="pfBoy">Boy's full name, or his BTM code or your reference number</label><input type="text" id="pfBoy" name="Boy Name Or Reference" required placeholder="e.g. BTM-2650"></div>
+      <div class="field"><label for="pfBoy">Name or BTM code of each boy this payment is for</label><textarea id="pfBoy" name="Boy Name Or Reference" rows="2" required placeholder="e.g. BTM-2650, BTM-2651, or the boys' full names"></textarea><p class="hint">Paid for more than one boy? Please list every boy this payment covers. If you only have your family reference, which is the first boy's code, you may enter that instead.</p></div>
       <div class="field"><label for="pfDate">Date you made the payment</label><input type="date" id="pfDate" name="Date Paid" required></div>
       <div class="field"><label for="pfAmount">Amount you paid <span class="lbl-opt">(optional)</span></label><input type="text" id="pfAmount" name="Amount Paid" placeholder="e.g. UGX 50,000"></div>
       <div class="field"><label for="pfTxn">Transaction ID <span class="lbl-opt">(or attach a screenshot below)</span></label><input type="text" id="pfTxn" name="Transaction ID" placeholder="From your confirmation message"></div>
@@ -154,6 +154,6 @@
   </div>
 </footer>
 <script src="main.js?v=20261028d"></script>
-<script src="attach-proof.js?v=3"></script>
+<script src="attach-proof.js?v=4"></script>
 </body>
 </html>
