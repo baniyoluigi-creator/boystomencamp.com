@@ -879,3 +879,36 @@ nav.main-nav > a.nav-pay{font-weight:700}
   .m-reveal,.age-band .age-box{opacity:1 !important;transform:none !important;}
   .hero-bg-layer.is-active{animation:none !important;}
 }
+
+/* ---- Countdown badge, booking steps, outcome cards, confirmation ticks ---- */
+.m-countdown{display:inline-block;margin-left:4px;padding:3px 11px;border-radius:999px;background:var(--gold-500);color:var(--green-900);font-family:var(--font-display);font-weight:800;font-size:.8rem;letter-spacing:.02em;white-space:nowrap;vertical-align:baseline;}
+.motion-on .steps-3>div{opacity:0;transform:translateY(20px);transition:opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1);}
+.motion-on .steps-3.m-in>div{opacity:1;transform:none;}
+.motion-on .steps-3.m-in>div:nth-child(2){transition-delay:.35s;}
+.motion-on .steps-3.m-in>div:nth-child(3){transition-delay:.7s;}
+.motion-on .steps-3.m-in .change-n{animation:badgePop .5s cubic-bezier(.2,.9,.3,1.4) both;}
+.motion-on .steps-3.m-in>div:nth-child(1) .change-n{animation-delay:.15s;}
+.motion-on .steps-3.m-in>div:nth-child(2) .change-n{animation-delay:.5s;}
+.motion-on .steps-3.m-in>div:nth-child(3) .change-n{animation-delay:.85s;}
+.motion-on .outcome-card{opacity:0;transform:translateY(16px);transition:opacity .55s ease, transform .55s cubic-bezier(.2,.7,.2,1);}
+.motion-on .outcome-grid.m-in .outcome-card{opacity:1;transform:none;}
+.motion-on .outcome-grid.m-in .outcome-card .oc-num{animation:badgePop .45s cubic-bezier(.2,.9,.3,1.4) both;}
+.motion-on .outcome-grid.m-in .outcome-card:nth-child(2),.motion-on .outcome-grid.m-in .outcome-card:nth-child(2) .oc-num{transition-delay:.12s;animation-delay:.12s;}
+.motion-on .outcome-grid.m-in .outcome-card:nth-child(3),.motion-on .outcome-grid.m-in .outcome-card:nth-child(3) .oc-num{transition-delay:.24s;animation-delay:.24s;}
+.motion-on .outcome-grid.m-in .outcome-card:nth-child(4),.motion-on .outcome-grid.m-in .outcome-card:nth-child(4) .oc-num{transition-delay:.36s;animation-delay:.36s;}
+.motion-on .outcome-grid.m-in .outcome-card:nth-child(5),.motion-on .outcome-grid.m-in .outcome-card:nth-child(5) .oc-num{transition-delay:.48s;animation-delay:.48s;}
+.motion-on .outcome-grid.m-in .outcome-card:nth-child(6),.motion-on .outcome-grid.m-in .outcome-card:nth-child(6) .oc-num{transition-delay:.6s;animation-delay:.6s;}
+.motion-on .outcome-grid.m-in .outcome-card:nth-child(7),.motion-on .outcome-grid.m-in .outcome-card:nth-child(7) .oc-num{transition-delay:.72s;animation-delay:.72s;}
+.motion-on .outcome-grid.m-in .outcome-card:nth-child(8),.motion-on .outcome-grid.m-in .outcome-card:nth-child(8) .oc-num{transition-delay:.84s;animation-delay:.84s;}
+.motion-on .outcome-grid.m-in .outcome-card:nth-child(9),.motion-on .outcome-grid.m-in .outcome-card:nth-child(9) .oc-num{transition-delay:.96s;animation-delay:.96s;}
+.motion-on .outcome-grid.m-in .outcome-card:nth-child(10),.motion-on .outcome-grid.m-in .outcome-card:nth-child(10) .oc-num{transition-delay:1.08s;animation-delay:1.08s;}
+@keyframes badgePop{0%{transform:scale(.4);opacity:0;}100%{transform:scale(1);opacity:1;}}
+/* Confirmation tick on thank-you boxes */
+.card[role="status"]::before{content:"\2713";display:flex;align-items:center;justify-content:center;width:46px;height:46px;margin:0 0 12px;border-radius:50%;background:var(--green-800);color:#fff;font-size:1.5rem;font-weight:800;line-height:1;animation:tickPop .6s cubic-bezier(.2,.9,.3,1.4) both;}
+@keyframes tickPop{0%{transform:scale(.3);opacity:0;}70%{transform:scale(1.12);}100%{transform:scale(1);opacity:1;}}
+.htp-copy.done{animation:tickPop .4s ease both;}
+.htp-copy.done::before{content:"\2713 ";}
+@media (prefers-reduced-motion:reduce){
+  .card[role="status"]::before,.htp-copy.done{animation:none !important;}
+  .outcome-card,.steps-3>div{opacity:1 !important;transform:none !important;}
+}

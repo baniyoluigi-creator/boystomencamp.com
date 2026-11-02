@@ -465,7 +465,7 @@ document.addEventListener('DOMContentLoaded', function () {
     root.classList.add('motion-on');
 
     var targets = [].slice.call(document.querySelectorAll(
-      'main .section-head, main .card, main .stat-band, main .age-band, main .pay-card, main .parent-q, main blockquote, main .faq-item, main figure'
+      'main .section-head, main .card, main .stat-band, main .age-band, main .steps-3, main .outcome-grid, main .pay-card, main .parent-q, main blockquote, main .faq-item, main figure'
     )).filter(function (el) { return !el.closest('.hero') && !el.closest('form'); });
     targets.forEach(function (el) { el.classList.add('m-reveal'); });
 
@@ -501,4 +501,48 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
   } catch (err) { /* motion is optional */ }
+})();
+
+/* ---- Intake countdowns (plain text, no motion needed) ---- */
+(function () {
+  try {
+    var months = { january:0,february:1,march:2,april:3,may:4,june:5,july:6,august:7,september:8,october:9,november:10,december:11 };
+    var re1 = /(\d{1,2})\s+to\s+(\d{1,2})\s+(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{4})/i;
+    var re2 = /(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})\s*[–\-]\s*(\d{1,2}),?\s+(\d{4})/i;
+    function parse(text) {
+      var m = re1.exec(text);
+      if (m) return { s: +m[1], e: +m[2], mo: months[m[3].toLowerCase()], y: +m[4] };
+      m = re2.exec(text);
+      if (m) return { s: +m[2], e: +m[3], mo: months[m[1].toLowerCase()], y: +m[4] };
+      return null;
+    }
+    function badge(d) {
+      var DAY = 86400000, HOUR = 3600000;
+      var start = Date.UTC(d.y, d.mo, d.s) - 3 * HOUR;      /* midnight, Uganda time */
+      var end = Date.UTC(d.y, d.mo, d.e) - 3 * HOUR + DAY;
+      var now = Date.now(), txt = '';
+      if (now < start) {
+        var n = Math.ceil((start - now) / DAY);
+        txt = n === 1 ? 'Starts tomorrow' : 'Starts in ' + n + ' days';
+      } else if (now < end) { txt = 'The camp is on now'; }
+      if (!txt) return null;
+      var s = document.createElement('span');
+      s.className = 'm-countdown'; s.textContent = txt;
+      return s;
+    }
+    [].slice.call(document.querySelectorAll('main p.muted')).forEach(function (p) {
+      if (p.getAttribute('data-cd')) return;
+      var d = parse(p.textContent);
+      if (!d || p.textContent.length > 220) return;
+      var b = badge(d); if (!b) return;
+      p.setAttribute('data-cd', '1'); p.appendChild(document.createTextNode(' ')); p.appendChild(b);
+    });
+    [].slice.call(document.querySelectorAll('main b')).forEach(function (b) {
+      if (b.textContent.indexOf('Next Summer Camp') !== 0 || b.getAttribute('data-cd')) return;
+      var t = b.nextSibling; if (!t || t.nodeType !== 3) return;
+      var d = parse(t.textContent); if (!d) return;
+      var c = badge(d); if (!c) return;
+      b.setAttribute('data-cd', '1'); t.parentNode.insertBefore(document.createTextNode(' '), t.nextSibling); t.parentNode.insertBefore(c, t.nextSibling.nextSibling);
+    });
+  } catch (err) { /* countdown is optional */ }
 })();
