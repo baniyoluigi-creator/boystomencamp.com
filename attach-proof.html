@@ -86,6 +86,7 @@
       <div class="field"><label for="pfPhone">Your phone number</label><input type="tel" id="pfPhone" name="Phone" required autocomplete="tel" placeholder="e.g. 0779 000 000"></div>
       <div class="field"><label for="pfEmail">Your email address <span class="lbl-opt">(optional)</span></label><input type="email" id="pfEmail" name="Email" autocomplete="email"></div>
       <div class="field"><label for="pfBoy">Boy's full name, or his BTM code or your reference number</label><input type="text" id="pfBoy" name="Boy Name Or Reference" required placeholder="e.g. BTM-2650"></div>
+      <div class="field"><label for="pfDate">Date you made the payment</label><input type="date" id="pfDate" name="Date Paid" required></div>
       <div class="field"><label for="pfAmount">Amount you paid <span class="lbl-opt">(optional)</span></label><input type="text" id="pfAmount" name="Amount Paid" placeholder="e.g. UGX 50,000"></div>
       <div class="field"><label for="pfTxn">Transaction ID <span class="lbl-opt">(or attach a screenshot below)</span></label><input type="text" id="pfTxn" name="Transaction ID" placeholder="From your confirmation message"></div>
       <div class="field"><label for="pfFile">Screenshot or photo of your receipt <span class="lbl-opt">(or enter the transaction ID above)</span></label><input type="file" id="pfFile" accept="image/*,application/pdf"><p class="hint">Please give us at least one of the two, the transaction ID or the screenshot. Both is even better. A screenshot of your bank or mobile money confirmation works well. A photo of the bank slip is also fine.</p><p class="hint" id="pfChosen" aria-live="polite"></p></div>
@@ -153,6 +154,6 @@
   </div>
 </footer>
 <script src="main.js?v=20261028d"></script>
-<script src="attach-proof.js?v=2"></script>
+<script src="attach-proof.js?v=3"></script>
 </body>
 </html>

@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', function () {
   var btn = document.getElementById('pfBtn');
   function fail(msg) { err.textContent = msg; err.hidden = false; btn.disabled = false; btn.textContent = 'Send my proof of payment'; }
 
+  var dateBox = document.getElementById('pfDate');
+  if (dateBox) { var t = new Date(); dateBox.max = t.getFullYear() + '-' + ('0' + (t.getMonth() + 1)).slice(-2) + '-' + ('0' + t.getDate()).slice(-2); }
   var chosen = document.getElementById('pfChosen');
   document.getElementById('pfFile').addEventListener('change', function () {
     var f = this.files[0];
@@ -45,13 +47,21 @@ document.addEventListener('DOMContentLoaded', function () {
     err.hidden = true;
     var v = function (id) { return document.getElementById(id).value.trim(); };
     if (!v('pfName') || !v('pfPhone') || !v('pfBoy')) return fail('Please fill in your name, phone number and the boy\'s name or reference.');
+    if (!v('pfDate')) return fail('Please choose the date you made the payment.');
     var file = document.getElementById('pfFile').files[0];
     if (!file && !v('pfTxn')) return fail('Please upload your receipt, or at least enter the transaction ID.');
     btn.disabled = true; btn.textContent = 'Sending...';
     var step = file ? readFile(file) : Promise.resolve(null);
     step.then(function (proof) {
       var body = new URLSearchParams();
-      new FormData(form).forEach(function (val, key) { body.append(key, val); });
+      var dp = v('pfDate').split('-');
+      var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      var niceDate = dp.length === 3 ? (parseInt(dp[2], 10) + ' ' + months[parseInt(dp[1], 10) - 1] + ' ' + dp[0]) : v('pfDate');
+      new FormData(form).forEach(function (val, key) {
+        // The date is also written beside the amount, so it always reaches the team's sheet and email.
+        if (key === 'Amount Paid') val = (val ? val + ' ' : '') + '(paid on ' + niceDate + ')';
+        body.append(key, val);
+      });
       body.append('_form', 'proof');
       body.append('_page', location.pathname);
       if (proof) { body.append('Proof File Name', proof.name); body.append('Proof File Type', proof.type); body.append('Proof File Data', proof.data); }
