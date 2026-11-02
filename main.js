@@ -465,7 +465,7 @@ document.addEventListener('DOMContentLoaded', function () {
     root.classList.add('motion-on');
 
     var targets = [].slice.call(document.querySelectorAll(
-      'main .section-head, main .card, main .stat-band, main .age-band, main .steps-3, main .outcome-grid, main .pay-card, main .parent-q, main blockquote, main .faq-item, main figure'
+      'main .section-head, main .card, main .stat-band, main .age-band, main .steps-3, main .outcome-grid, main .svc-cluster, main .pay-card, main .parent-q, main blockquote, main .faq-item, main figure'
     )).filter(function (el) { return !el.closest('.hero') && !el.closest('form'); });
     targets.forEach(function (el) { el.classList.add('m-reveal'); });
 
