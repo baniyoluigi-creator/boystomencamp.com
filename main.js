@@ -316,9 +316,9 @@ function readProof() {
     var file = input && input.files && input.files[0];
     if (!file) return resolve(null);
     var reader = new FileReader();
-    reader.onerror = function () { reject('We could not read that file. Please try another one, or send your proof on WhatsApp.'); };
+    reader.onerror = function () { reject('We could not read that file. Please try another one, or attach it later on the Attach Proof of Payment page.'); };
     if (file.type === 'application/pdf') {
-      if (file.size > 2 * 1024 * 1024) return reject('That PDF is too large. Please attach a screenshot instead, or send the PDF on WhatsApp.');
+      if (file.size > 2 * 1024 * 1024) return reject('That PDF is too large. Please attach a screenshot or a photo instead.');
       reader.onload = function () {
         resolve({ name: file.name, type: file.type, data: String(reader.result).split(',')[1] });
       };
@@ -326,7 +326,7 @@ function readProof() {
     } else if (file.type.indexOf('image/') === 0) {
       reader.onload = function () {
         var img = new Image();
-        img.onerror = function () { reject('We could not read that picture. Please try another one, or send your proof on WhatsApp.'); };
+        img.onerror = function () { reject('We could not read that picture. Please try another one, or attach it later on the Attach Proof of Payment page.'); };
         img.onload = function () {
           var ratio = Math.min(1, 1400 / Math.max(img.width, img.height));
           var canvas = document.createElement('canvas');
