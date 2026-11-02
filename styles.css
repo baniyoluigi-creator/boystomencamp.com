@@ -856,3 +856,5 @@ nav.main-nav > a.nav-pay{font-weight:700}
 .camp-teaser p{line-height:1.65;color:#2d3a2d;margin:0 0 12px}
 .camp-teaser .ct-actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px;margin:16px 0 0}
 .camp-teaser .ct-skip{font-weight:700;color:var(--green-800);text-decoration:underline}
+.camp-teaser .ct-lead{font-family:var(--font-display);font-weight:700;font-size:1.25rem;line-height:1.35;color:var(--green-800)}
+.camp-teaser .ct-prompt{font-weight:600;color:var(--green-800)}
