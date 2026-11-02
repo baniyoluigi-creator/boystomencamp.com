@@ -87,7 +87,7 @@
       <div class="field"><label for="pfEmail">Your email address <span class="lbl-opt">(optional)</span></label><input type="email" id="pfEmail" name="Email" autocomplete="email"></div>
       <div class="field"><label for="pfBoy">Name or BTM code of each boy this payment is for</label><textarea id="pfBoy" name="Boy Name Or Reference" rows="2" required placeholder="e.g. BTM-2650, BTM-2651, or the boys' full names"></textarea><p class="hint">Paid for more than one boy? Please list every boy this payment covers. If you only have your family reference, which is the first boy's code, you may enter that instead.</p></div>
       <div class="field"><label for="pfDate">Date you made the payment</label><input type="date" id="pfDate" name="Date Paid" required></div>
-      <div class="field"><label for="pfAmount">Amount you paid <span class="lbl-opt">(optional)</span></label><input type="text" id="pfAmount" name="Amount Paid" placeholder="e.g. UGX 50,000"></div>
+      <div class="field"><label for="pfAmount">Amount you paid</label><input type="text" id="pfAmount" name="Amount Paid" required placeholder="e.g. UGX 50,000 or USD 50"><p class="hint">Once you have paid the booking fee or more, we will email the camp requirements, the medical form and our safeguarding policy to the email address you registered with.</p></div>
       <div class="field"><label for="pfTxn">Transaction ID <span class="lbl-opt">(or attach a screenshot below)</span></label><input type="text" id="pfTxn" name="Transaction ID" placeholder="From your confirmation message"></div>
       <div class="field"><label for="pfFile">Screenshot or photo of your receipt <span class="lbl-opt">(or enter the transaction ID above)</span></label><input type="file" id="pfFile" accept="image/*,application/pdf"><p class="hint">Please give us at least one of the two, the transaction ID or the screenshot. Both is even better. A screenshot of your bank or mobile money confirmation works well. A photo of the bank slip is also fine.</p><p class="hint" id="pfChosen" aria-live="polite"></p></div>
       <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;" aria-hidden="true">
@@ -97,7 +97,7 @@
     </form>
     <div class="card card-gold" id="pfDone" role="status" hidden>
       <h3>Thank you. We have received your proof of payment.</h3>
-      <p>Our team will match it to your son's registration and confirm his place. If you have more than one receipt, for example a balance paid later, you are welcome to upload each one here.</p>
+      <p>Our team will match it to your son's registration and confirm his place. If you have paid the booking fee or more, the camp documents are on their way to the email address you registered with. Please check your spam folder too. If you have more than one receipt, for example a balance paid later, you are welcome to upload each one here.</p>
       <p><a class="btn btn-outline-dark" href="attach-proof.html">Attach another receipt</a></p>
     </div>
   </div>
