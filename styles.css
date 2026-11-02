@@ -948,3 +948,14 @@ nav.main-nav > a.nav-pay{font-weight:700}
 .svc-school a{font-weight:700;color:var(--green-800);text-decoration:underline;}
 @media (max-width:760px){.svc-clusters{grid-template-columns:minmax(0,1fr);}.svc-cluster{padding:22px 18px 20px;}.svc-cluster h3{font-size:1.3rem;}}
 @media (prefers-reduced-motion:reduce){.svc-tile,.svc-go{transition:none !important;}}
+
+/* ---- Soft gradients on the flat section backgrounds ---- */
+.section-alt{background:linear-gradient(160deg,var(--cream-dark) 0%,#F9EDC8 55%,var(--cream) 100%);}
+.camp-intro{background:linear-gradient(170deg,#FFF9E8 0%,var(--cream) 60%,#F7EAC6 100%);}
+.pul-band{background:linear-gradient(180deg,var(--white) 0%,#FFFAEE 100%);}
+.section-teal{background:linear-gradient(160deg,var(--teal-100) 0%,#F1FAF9 55%,#D4EEEC 100%);}
+.section-terracotta{background:linear-gradient(160deg,var(--terracotta-100) 0%,#FFF4EE 55%,#F8DACB 100%);}
+.section-blue{background:linear-gradient(160deg,var(--blue-100) 0%,#F3F8FD 55%,#D3E4F5 100%);}
+.section-dark{
+  background:radial-gradient(circle at 88% 8%,rgba(224,180,76,.16) 0%,rgba(224,180,76,0) 42%),linear-gradient(150deg,var(--green-900) 0%,var(--green-800) 50%,var(--green-700) 100%);
+}
