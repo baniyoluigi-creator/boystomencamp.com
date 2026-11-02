@@ -858,3 +858,24 @@ nav.main-nav > a.nav-pay{font-weight:700}
 .camp-teaser .ct-skip{font-weight:700;color:var(--green-800);text-decoration:underline}
 .camp-teaser .ct-lead{font-family:var(--font-display);font-weight:700;font-size:1.25rem;line-height:1.35;color:var(--green-800)}
 .camp-teaser .ct-prompt{font-weight:600;color:var(--green-800)}
+
+/* ---- Gentle motion (only when main.js adds .motion-on) ---- */
+.motion-on .m-reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1);}
+.motion-on .m-reveal.m-in{opacity:1;transform:none;}
+.motion-on .age-band .age-box{opacity:0;transform:translateY(22px) scale(.96);transition:opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1);}
+.motion-on .age-band.m-in .age-box{opacity:1;transform:none;}
+.motion-on .age-band.m-in .age-box:nth-child(2){transition-delay:.15s;}
+.motion-on .age-band.m-in .age-box:nth-child(3){transition-delay:.3s;}
+.motion-on .age-band.m-in .age-box:nth-child(4){transition-delay:.45s;}
+.motion-on .stat-band.m-in .stat-cell{animation:statPop .7s cubic-bezier(.2,.7,.2,1) both;}
+.motion-on .stat-band.m-in .stat-cell:nth-child(2){animation-delay:.08s;}
+.motion-on .stat-band.m-in .stat-cell:nth-child(3){animation-delay:.16s;}
+.motion-on .stat-band.m-in .stat-cell:nth-child(4){animation-delay:.24s;}
+.motion-on .stat-band.m-in .stat-cell:nth-child(5){animation-delay:.32s;}
+@keyframes statPop{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+.hero-bg-layer.is-active{animation:heroDrift 14s ease-out both;}
+@keyframes heroDrift{from{transform:scale(1);}to{transform:scale(1.06);}}
+@media (prefers-reduced-motion:reduce){
+  .m-reveal,.age-band .age-box{opacity:1 !important;transform:none !important;}
+  .hero-bg-layer.is-active{animation:none !important;}
+}

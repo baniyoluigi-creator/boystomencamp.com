@@ -455,3 +455,50 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 });
+
+/* ---- Gentle motion: scroll reveals, counting figures, staggered age boxes ---- */
+(function () {
+  try {
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !('IntersectionObserver' in window)) return;
+    var root = document.documentElement;
+    root.classList.add('motion-on');
+
+    var targets = [].slice.call(document.querySelectorAll(
+      'main .section-head, main .card, main .stat-band, main .age-band, main .pay-card, main .parent-q, main blockquote, main .faq-item, main figure'
+    )).filter(function (el) { return !el.closest('.hero') && !el.closest('form'); });
+    targets.forEach(function (el) { el.classList.add('m-reveal'); });
+
+    function show(el) { el.classList.add('m-in'); }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        show(e.target);
+        io.unobserve(e.target);
+        if (e.target.classList.contains('stat-band')) countUp(e.target);
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
+    targets.forEach(function (el) { io.observe(el); });
+    /* Safety net: never leave content hidden */
+    setTimeout(function () { targets.forEach(show); }, 6000);
+
+    function countUp(band) {
+      [].slice.call(band.querySelectorAll('b')).forEach(function (b) {
+        var txt = b.textContent.trim();
+        var m = /^(\d{1,3}(?:,\d{3})*|\d+)(\+?)$/.exec(txt);
+        if (!m) return;
+        var end = parseInt(m[1].replace(/,/g, ''), 10), plus = m[2], start = null, dur = 1400;
+        b.setAttribute('aria-label', txt);
+        function fmt(n) { return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+        function step(t) {
+          if (start === null) start = t;
+          var p = Math.min((t - start) / dur, 1), eased = 1 - Math.pow(1 - p, 3);
+          b.textContent = fmt(Math.round(end * eased)) + (p === 1 ? plus : '');
+          if (p < 1) requestAnimationFrame(step); else b.textContent = txt;
+        }
+        b.textContent = '0';
+        requestAnimationFrame(step);
+      });
+    }
+  } catch (err) { /* motion is optional */ }
+})();
