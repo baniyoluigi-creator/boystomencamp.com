@@ -915,4 +915,9 @@ nav.main-nav > a.nav-pay{font-weight:700}
 
 /* Outdoor circle photo: lift the picture so the people at its base show in full (sky is trimmed instead) */
 .hero-bg-layer.layer-outdoor{background-position:center 94%;transform-origin:center bottom;}
-@media (max-width:700px){.hero-bg-layer.layer-outdoor{background-position:center 96%;}}
+@media (max-width:740px){
+  /* Phones: show the whole circle of people across the width. The sky and trees above are filled with a soft blur of the same photo. */
+  .hero-bg-layer.layer-outdoor{overflow:hidden;background-size:cover;background-position:center bottom;}
+  .hero-bg-layer.layer-outdoor::before{content:"";position:absolute;inset:-20px;background-image:inherit;background-size:cover;background-position:center bottom;filter:blur(16px);}
+  .hero-bg-layer.layer-outdoor::after{content:"";position:absolute;left:0;right:0;bottom:0;height:93.5vw;background-image:inherit;background-size:125% 100%;background-position:center bottom;background-repeat:no-repeat;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 22%);mask-image:linear-gradient(to bottom,transparent 0,#000 22%);}
+}
