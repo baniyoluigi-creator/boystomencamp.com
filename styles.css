@@ -850,3 +850,9 @@ nav.main-nav > a.nav-pay{font-weight:700}
 .intake-line:nth-child(1){background:linear-gradient(135deg,var(--green-900) 0%,var(--green-500) 100%)}
 .intake-line:nth-child(2){background:linear-gradient(135deg,#0A3F3D 0%,var(--teal-500) 100%)}
 .intake-line:nth-child(3){background:linear-gradient(135deg,#7A2C14 0%,var(--terracotta-500) 100%)}
+
+.camp-teaser .ct-title{font-family:var(--font-display);font-weight:800;font-size:clamp(1.9rem,4.5vw,2.6rem);line-height:1.1;color:var(--green-800);margin:0 0 6px}
+.camp-teaser .ct-ask{font-weight:700;color:var(--gold-600);margin:0 0 14px}
+.camp-teaser p{line-height:1.65;color:#2d3a2d;margin:0 0 12px}
+.camp-teaser .ct-actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px;margin:16px 0 0}
+.camp-teaser .ct-skip{font-weight:700;color:var(--green-800);text-decoration:underline}
