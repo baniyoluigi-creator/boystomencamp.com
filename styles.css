@@ -912,3 +912,7 @@ nav.main-nav > a.nav-pay{font-weight:700}
   .card[role="status"]::before,.htp-copy.done{animation:none !important;}
   .outcome-card,.steps-3>div{opacity:1 !important;transform:none !important;}
 }
+
+/* Outdoor circle photo: lift the picture so the people at its base show in full (sky is trimmed instead) */
+.hero-bg-layer.layer-outdoor{background-position:center 94%;transform-origin:center bottom;}
+@media (max-width:700px){.hero-bg-layer.layer-outdoor{background-position:center 96%;}}
