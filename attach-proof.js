@@ -8,6 +8,12 @@ document.addEventListener('DOMContentLoaded', function () {
   var btn = document.getElementById('pfBtn');
   function fail(msg) { err.textContent = msg; err.hidden = false; btn.disabled = false; btn.textContent = 'Send my proof of payment'; }
 
+  var chosen = document.getElementById('pfChosen');
+  document.getElementById('pfFile').addEventListener('change', function () {
+    var f = this.files[0];
+    if (chosen) chosen.textContent = f ? 'Chosen file: ' + f.name + ' (' + Math.max(1, Math.round(f.size / 1024)) + ' KB)' : '';
+  });
+
   function readFile(file) {
     return new Promise(function (resolve, reject) {
       var reader = new FileReader();
@@ -19,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
       } else if (file.type.indexOf('image/') === 0) {
         reader.onload = function () {
           var img = new Image();
-          img.onerror = function () { reject('We could not read that picture. Please try another one.'); };
+          img.onerror = function () { reject('We could not read that picture. If it is a photo from an iPhone, please take a screenshot of it instead, or choose a JPG or PNG.'); };
           img.onload = function () {
             var ratio = Math.min(1, 1400 / Math.max(img.width, img.height));
             var c = document.createElement('canvas');

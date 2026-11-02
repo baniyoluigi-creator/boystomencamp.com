@@ -48,3 +48,23 @@ PART 3: Switch it on in the website
 
 IMPORTANT: do not switch the upload on before Part 2 is finished. The old
 script cannot handle the picture data and the registration could fail.
+
+
+UPDATE 2 NOVEMBER 2026: PROOFS FROM THE ATTACH PROOF OF PAYMENT PAGE
+
+The Attach Proof of Payment page now has its own tab. Before this, a proof
+sent from that page was saved as a row in the Registrations tab and the alert
+said "New Registration", which looked like a new family.
+
+Now each proof goes to a tab called "Payment Proofs" (created automatically).
+It shows the name, phone, boy or reference, amount, transaction ID and the
+Drive link to the receipt. The script also tries to match the proof to a
+registration, first by a BTM code in the reference and then by phone number,
+and writes the family ID in "Matched Family ID". Matches by phone are marked
+"please check". The team can type in the last two columns, Payment Confirmed
+and Notes. The alert email says "Proof of payment received" and carries the
+receipt link.
+
+To switch it on, repeat PART 1 and PART 2 above with the new
+google-apps-script.gs (paste, save, Deploy, Manage deployments, pencil,
+New version, Deploy). Keep the same link.
