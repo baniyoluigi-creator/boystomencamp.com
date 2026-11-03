@@ -92,7 +92,7 @@ function repeatRegistration_(ss, p, n, hits) {
     'Dear ' + (regName || 'Parent') + ',',
     'Thank you. We already received the registration of ' + nameText + ' on ' + hits[0].on + ', so there is no need to fill the form in again.',
     'Your reference number is ' + family + '. ' + codes + '. These codes stay the same.',
-    'If you meant to register someone else, please fill in the form again with that person\'s details. He will receive his own code.',
+    'If you meant to register someone else, please fill in the form again with that person\'s details using the link below. He will receive his own code.',
     'If something needs to be corrected, just reply to this email and our team will update it.',
     'Warm regards,\nBoys to Men Mentorship Camp Team'
   ];
