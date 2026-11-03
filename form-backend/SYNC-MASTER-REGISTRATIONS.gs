@@ -169,6 +169,24 @@ function mIsTest_(parent, boy, email) {
   return false;
 }
 
+// Writes a phone number with its country code and no spaces, for example +256772123456.
+// A Uganda number typed as 0772123456, 772123456 or 256772123456 becomes +256772123456.
+// A number with a plus or 00 keeps its own country code. If the country cannot be
+// told, the number is left as typed.
+function mPhone_(raw) {
+  var s = String(raw == null ? '' : raw).trim();
+  if (!s || /[a-z]/i.test(s)) return s;
+  var plus = s.charAt(0) === '+';
+  var d = s.replace(/\D/g, '');
+  if (!d || d.length > 15) return s;
+  if (!plus && d.indexOf('00') === 0) { d = d.slice(2); plus = true; }
+  if (plus) return '+' + d;
+  if (d.indexOf('256') === 0 && d.length === 12) return '+' + d;
+  if (d.charAt(0) === '0' && d.length === 10) return '+256' + d.slice(1);
+  if (d.length === 9 && /^[37]/.test(d)) return '+256' + d;
+  return s;
+}
+
 // Turns the rows of the Registrations tab into one record per boy.
 function masterRecords_(headers, rows) {
   var out = [];
@@ -201,7 +219,7 @@ function masterRecords_(headers, rows) {
       age: mGet_(o, ['Boy 1 Age', 'Age']),
       parent: parent,
       email: email,
-      phone: mGet_(o, ['Registrant Phone', 'Phone']),
+      phone: mPhone_(mGet_(o, ['Registrant Phone', 'Phone'])),
       place: place,
       plan: plan,
       camp: mCampOf_(mGet_(o, ['Boy 1 Camp', 'Location'])),
@@ -304,8 +322,23 @@ function masterInsertBoys_(sheet, section, sec, boys) {
   sheet.getRange(first, 1, boys.length, MASTER_COLS).setValues(values);
 }
 
+// Every phone number with its country code, and money with commas.
+function masterTidy_(sheet) {
+  var lay = masterLayout_(sheet);
+  lay.rows.forEach(function (r) {
+    var cell = sheet.getRange(r.row, 7);
+    var cur = String(cell.getValue()).trim();
+    var out = mPhone_(cur);
+    cell.setNumberFormat('@');
+    if (out && out !== cur) cell.setValue(out);
+  });
+  var last = sheet.getLastRow();
+  if (last >= 1) sheet.getRange(1, 10, last, 4).setNumberFormat('#,##0');
+}
+
 // Numbers the rows again and fixes every Subtotal and the TOTAL row.
 function masterFinish_(sheet) {
+  masterTidy_(sheet);
   var lay = masterLayout_(sheet);
   var subtotals = [];
   MASTER_SECTIONS.forEach(function (sec) {
