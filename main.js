@@ -389,8 +389,8 @@ document.addEventListener('DOMContentLoaded', function () {
               ? '<h3>Thank you. Your registration for ' + boys + ' boys has been received.</h3>'
               : '<h3>Thank you. Your registration has been received.</h3>';
             box.innerHTML = paid
-              ? head + '<p>We have noted your payment and will confirm ' + his + ' within 24 hours. If you still have a balance to pay, the details are below. Within 24 hours you will receive a confirmation email from our team, and within 48 hours at most, one of us will call you.</p>'
-              : head + '<p>One more step to secure ' + his + '. Pay the booking fee using the details below, then <a href="attach-proof.html">attach your proof of payment</a> on our website. We will confirm ' + his + ' within 24 hours of receiving it. Within 24 hours you will receive a confirmation email from our team, and within 48 hours at most, one of us will call you.</p>';
+              ? head + '<p>We have noted your payment and will confirm ' + his + ' within 24 hours. If you still have a balance to pay, the details are below. Please check your email now. We have just sent you a confirmation with your next steps. Look in your spam folder too. Within 48 hours at most, one of us will call you.</p>'
+              : head + '<p>One more step to secure ' + his + '. Pay the booking fee using the details below, then <a href="attach-proof.html">attach your proof of payment</a> on our website. We will confirm ' + his + ' within 24 hours of receiving it. Please check your email now. We have just sent you a confirmation with your next steps and a button to upload your proof of payment once you have paid. Look in your spam folder too. Within 48 hours at most, one of us will call you.</p>';
           } else {
             box.innerHTML = '<h3>Thank you. Your message has been received.</h3><p>We will get back to you as soon as we can. For anything urgent, chat with us on WhatsApp using the green button on this page.</p>';
           }
