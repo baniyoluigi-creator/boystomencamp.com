@@ -1,0 +1,48 @@
+KEEP "BOYS TO MEN MASTER REGISTRATIONS" UP TO DATE EVERY 5 MINUTES
+
+This adds new boys to the master sheet by itself, under the right camp, newest first.
+It never deletes a row and never changes anything you typed. It only adds new boys,
+numbers the rows again, fixes the Subtotal and TOTAL rows, and writes each boy's code
+(BTM-2650 and so on) in a new column Q, so every boy is recognised for good.
+Your own test registrations are left out.
+
+
+STEP 1. Add the code
+
+1. Open the sheet "Boys to Men Registrations", then Extensions, then Apps Script.
+2. Scroll to the very bottom of the script.
+3. Open SYNC-MASTER-REGISTRATIONS.gs from this folder, copy ALL of it, and paste it
+   after the last line. Do not delete anything that is already there.
+4. Click the save icon.
+
+
+STEP 2. Look first (changes nothing)
+
+1. In the function list at the top, choose previewMasterSync, then click Run.
+2. Click Execution log. It tells you how many boys it found, and which ones it would add.
+3. If the list looks right, go on. If a boy is missing or in the wrong camp, tell Claude.
+
+
+STEP 3. Start it
+
+1. Choose startMasterSync, then click Run.
+2. It first saves a backup copy of the master sheet in your Drive, then starts the
+   5 minute timer, then does the first update.
+3. Google may ask you to authorise again. Click Authorise access, choose your account,
+   then Advanced, then "Go to (project name) (unsafe)", then Allow.
+
+To stop it at any time, choose stopMasterSync and click Run.
+
+
+GOOD TO KNOW
+
+* It only looks at the Registrations tab, and it skips quickly when nothing is new.
+* A boy is matched to an existing row by his code, or by his name and email. Rows you
+  typed by hand stay as they are. The first time a boy is matched, his code is written in column Q.
+* New rows start with Reply status "New". Fee and Booking fee due are filled for
+  Kampala (UGX 500,000 and 50,000) and Arua (UGX 400,000 and 50,000). The Summer Camp
+  is paid in dollars, so those two cells are left empty for you.
+* Paid so far, Added to WhatsApp and Notes are for you to fill, as before.
+* If a boy shows "Possible duplicate" in Registrations, the Notes cell says so.
+* A boy whose camp cannot be read is not added. The preview lists him.
+* If you ever run setupTriggers and it clears all timers, run startMasterSync again.
