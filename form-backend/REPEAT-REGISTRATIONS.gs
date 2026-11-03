@@ -13,6 +13,7 @@
 
 var REPEAT_WINDOW_DAYS = 14;
 var REPEAT_TAB = 'Repeat Registrations';
+var REPEAT_APPLY_PAGE = 'https://boystomencamp.com/apply.html';
 
 // Returns one entry per boy ({name, code, family, on}) when EVERY boy in this
 // submission was already registered recently by the same person. Otherwise null,
@@ -96,13 +97,15 @@ function repeatRegistration_(ss, p, n, hits) {
     'Warm regards,\nBoys to Men Mentorship Camp Team'
   ];
   var esc = function (s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>'); };
+  var applyButton = '<p style="margin:0 0 18px;"><a href="' + REPEAT_APPLY_PAGE + '" style="display:inline-block;background:#cc9a2e;color:#1f2d1f;font-weight:bold;text-decoration:none;padding:12px 20px;border-radius:999px;">Register someone else</a></p>';
   var html = '<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.7;color:#222;max-width:560px;">' +
-    lines.map(function (t) { return '<p style="margin:0 0 18px;">' + esc(t) + '</p>'; }).join('') + '</div>';
+    lines.map(function (t, i) { return '<p style="margin:0 0 18px;">' + esc(t) + '</p>' + (i === 3 ? applyButton : ''); }).join('') + '</div>';
+  var plain = lines.map(function (t, i) { return t + (i === 3 ? '\n\nThe form is here, ' + REPEAT_APPLY_PAGE : ''); }).join('\n\n');
 
   var mail = {
     to: regEmail, replyTo: REPLY_TO_CONFIRMATION,
     subject: 'BOYS TO MEN | WE ALREADY HAVE THIS REGISTRATION',
-    body: lines.join('\n\n'), htmlBody: html, name: 'Boys to Men Mentorship Camp Team'
+    body: plain, htmlBody: html, name: 'Boys to Men Mentorship Camp Team'
   };
   if (!test) mail.bcc = NOTIFY_EMAIL;
   try { MailApp.sendEmail(mail); } catch (mailErr) {}
