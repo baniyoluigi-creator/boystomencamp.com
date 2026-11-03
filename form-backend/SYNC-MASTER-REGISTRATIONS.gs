@@ -229,7 +229,7 @@ function masterPlan_(records, layout) {
     if (rec.test) return;
     if (!rec.camp) { plan.skipped.push(rec.boy + ': camp not recognised'); return; }
     var b = mNorm_(rec.boy), e = mNorm_(rec.email);
-    var key = rec.code || (b + '|' + e);
+    var key = b + '|' + e + '|' + rec.camp;
     if (seen[key]) return; // the same boy twice in Registrations: one row only
     seen[key] = true;
 
