@@ -962,7 +962,7 @@ nav.main-nav > a.nav-pay{font-weight:700}
 
 /* ---- Participant video testimonials ---- */
 .voice-grid{display:flex;flex-wrap:wrap;gap:28px;justify-content:center;}
-.voice-grid .voice-card{width:300px;max-width:100%;}
+.voice-grid .voice-card{width:250px;max-width:100%;}
 .voice-card{margin:0;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 10px 28px rgba(20,60,35,.14);}
 .voice-card video{display:block;width:100%;height:auto;aspect-ratio:480/852;background:#0f2a1a;}
 .voice-card figcaption{padding:12px 14px;font-family:var(--font-display);font-weight:700;font-size:.85rem;color:var(--green-800);text-align:center;}
