@@ -13,15 +13,13 @@
   var APPLY = '/apply.html';
 
   var css = '' +
-    '.b2m-fab{position:fixed;right:90px;bottom:26px;z-index:998;background:#CC9A2E;color:#0F2E1D;' +
+    '.b2m-fab{position:fixed;right:20px;bottom:26px;z-index:998;background:#CC9A2E;color:#0F2E1D;' +
     'font-family:"Source Sans 3","Segoe UI",sans-serif;font-weight:800;font-size:1.02rem;line-height:1;' +
     'text-decoration:none;padding:14px 22px;border-radius:999px;box-shadow:0 6px 18px rgba(0,0,0,.28);' +
     'transition:transform .18s ease,box-shadow .18s ease,background .18s ease}' +
     '.b2m-fab:hover{background:#E0B44C;transform:scale(1.06);box-shadow:0 8px 22px rgba(0,0,0,.34)}' +
-    '.b2m-fab.b2m-alone{right:20px}' +
     'body.b2m-has-fab .wa-float-tooltip{display:none!important}' +
-    '@media(max-width:640px){.b2m-fab{right:76px;bottom:17px;padding:13px 18px;font-size:.98rem}' +
-    '.b2m-fab.b2m-alone{right:14px}}' +
+    '@media(max-width:640px){.b2m-fab{right:14px;bottom:17px;padding:13px 18px;font-size:.98rem}}' +
     '.b2m-inline{max-width:680px;margin:34px auto;padding:22px 24px;border-radius:12px;background:#FBF2D9;' +
     'border-left:6px solid #CC9A2E;font-family:"Source Sans 3","Segoe UI",sans-serif;clear:both}' +
     '.b2m-inline strong{display:block;font-size:1.2rem;color:#153A24;margin-bottom:6px;line-height:1.3}' +
@@ -57,12 +55,18 @@
     fab.setAttribute('aria-label', 'Apply to the Boys to Men Mentorship Camp');
     document.body.appendChild(fab);
     document.body.classList.add('b2m-has-fab');
+    /* WhatsApp moves to the left of Apply, so Apply sits in the natural thumb spot */
     var place = function () {
-      if (!document.querySelector('.wa-float')) fab.classList.add('b2m-alone');
-      else fab.classList.remove('b2m-alone');
+      var wa = document.querySelector('.wa-float');
+      if (!wa) return;
+      var small = window.innerWidth <= 640;
+      var gap = small ? 10 : 12;
+      var edge = small ? 14 : 20;
+      wa.style.setProperty('right', (edge + fab.offsetWidth + gap) + 'px', 'important');
     };
     place();
     window.addEventListener('load', function () { setTimeout(place, 500); });
+    window.addEventListener('resize', place);
 
     /* 2. Middle of a parent guide */
     var body = document.querySelector('.article-body');
