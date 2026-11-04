@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (document.querySelector('.wa-float')) return; // avoid duplicates
 
   var waNumber = '256775495431'; // +256 775 495 431, international format, no leading +
-  var waMessage = "Hello Boys to Men Mentorship Camp, I'd like to find out more.";
+  var waMessage = 'Hello Boys-to-Men Mentorship Camp team, I have been going through your website (boystomencamp.com) and ';
   var waLink = document.createElement('a');
   waLink.href = 'https://wa.me/' + waNumber + '?text=' + encodeURIComponent(waMessage);
   waLink.className = 'wa-float';
