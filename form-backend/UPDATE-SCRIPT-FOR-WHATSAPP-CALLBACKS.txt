@@ -1,0 +1,99 @@
+UPDATE: SAVE WHATSAPP CALL-BACK REQUESTS IN THE SHEET
+Boys to Men Mentorship Camp (boystomencamp.com)
+
+When someone taps the green WhatsApp button, the website now asks if they
+would like to leave a name and WhatsApp number so the team can reach out
+later. This update lets your Google Sheet receive those details. They go
+into a new tab called "WhatsApp Callbacks", and you get an email alert for
+each one.
+
+IMPORTANT. Do NOT paste the file google-apps-script.gs from this folder over
+your live script. That copy is out of date. You will only ADD two small
+pieces to the live script. Nothing in it is deleted.
+
+Do this once. It keeps the same web app link.
+
+
+PART 1: Add the two pieces to the live script
+
+1. Sign in to Google with baniyoluigi@gmail.com and open the sheet
+   "Boys to Men Registrations".
+2. Click Extensions, then Apps Script.
+3. Find the function called doPost. Inside it, find this line:
+
+      var ss = SpreadsheetApp.getActiveSpreadsheet();
+
+4. Directly UNDER that line, paste this block:
+
+      // WhatsApp call-back requests
+      if (first_(p._form) === 'callback') {
+        saveCallback_(ss, p);
+        return json_({ ok: true });
+      }
+
+5. Scroll to the very bottom of the script, below the last function, and
+   paste this whole piece:
+
+      function saveCallback_(ss, p) {
+        var tab = 'WhatsApp Callbacks';
+        var sheet = ss.getSheetByName(tab) || ss.insertSheet(tab);
+        var headers = ['Submitted At', 'Name', 'WhatsApp Number', 'Consent To Contact',
+                       'Page', 'Page Title', 'Came From', 'Campaign Source',
+                       'Campaign Medium', 'Campaign Name', 'Status', 'Notes'];
+        if (sheet.getLastRow() === 0) {
+          sheet.appendRow(headers);
+          sheet.setFrozenRows(1);
+          sheet.getRange(1, 1, 1, headers.length).setFontWeight('bold');
+          sheet.getRange(2, 3, 1000, 1).setNumberFormat('@');
+        }
+        var g = function (n) { return String((p[n] || [''])[0] || '').trim(); };
+        var values = [
+          Utilities.formatDate(new Date(), 'Africa/Kampala', 'yyyy-MM-dd HH:mm:ss'),
+          g('Name'), g('WhatsApp Number'), g('Consent To Contact'),
+          g('_page'), g('Page Title'), g('Came From'), g('Campaign Source'),
+          g('Campaign Medium'), g('Campaign Name'), 'To contact', ''
+        ];
+        sheet.appendRow(values);
+        sheet.getRange(sheet.getLastRow(), 3).setNumberFormat('@').setValue(g('WhatsApp Number'));
+
+        try {
+          var to = (typeof NOTIFY_EMAIL !== 'undefined' && NOTIFY_EMAIL) ? NOTIFY_EMAIL : Session.getEffectiveUser().getEmail();
+          if (to) {
+            MailApp.sendEmail(to, 'WhatsApp call-back request: ' + g('Name'),
+              'Name: ' + g('Name') + '\nWhatsApp number: ' + g('WhatsApp Number') +
+              '\nPage: ' + g('Page Title') + '\nCame from: ' + (g('Came From') || 'Direct or unknown') +
+              '\n\nPlease contact them on WhatsApp.', { name: 'Boys to Men Website' });
+          }
+        } catch (err) {
+          // If the daily email limit is reached, the request is still safe in the sheet.
+        }
+      }
+
+6. Click the save icon.
+
+
+PART 2: Publish the new version (same link)
+
+1. Click Deploy, then Manage deployments.
+2. Click the pencil (edit) icon on your existing deployment.
+3. Under Version, choose "New version".
+4. Click Deploy.
+
+Please do not click "New deployment". That would create a new link.
+
+
+PART 3: Switch it on in the website
+
+1. Tell Claude that the script is updated, and it will switch the
+   question on. Or open site-tracking.js on GitHub and change this line:
+      var CALLBACK_ENABLED = false;
+   to:
+      var CALLBACK_ENABLED = true;
+2. Wait about a minute, then test. Open boystomencamp.com in a fresh tab,
+   tap the green WhatsApp button, choose "Yes, ask the team to contact me",
+   fill the details and send. A new tab "WhatsApp Callbacks" should appear
+   with the entry, and an email alert should arrive. Delete the test row
+   afterwards.
+
+IMPORTANT: do not switch the question on before Part 2 is finished. The old
+script would not know what to do with the request.
