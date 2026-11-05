@@ -17,7 +17,7 @@
   'use strict';
 
   /* ---------- Settings ---------- */
-  var GA_ID = '';                    // example: 'G-ABC123XYZ9'
+  var GA_ID = 'G-RQ99ZYVL09';        // Boys to Men stream, boystomencamp.com
   var CALLBACK_ENABLED = true;       // the Google script was updated on 5 Nov 2026 (version 31)
   var SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbz4TA60MMwRowFJujLeX_JA_v81z8s4cZI5kKACdZQ01kZDLO1ocpqF6EOyFMQp8XGY/exec';
 
