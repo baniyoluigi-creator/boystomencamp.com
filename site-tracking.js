@@ -2,7 +2,8 @@
    Visitor analytics and the WhatsApp call-back question.
 
    1. Google Analytics 4. Paste the Measurement ID below (it starts with G-).
-      While GA_ID is empty, nothing is sent anywhere.
+      While GA_ID is empty, nothing is sent anywhere and no notice is shown.
+      Once it is set, a short notice asks visitors first. Analytics only starts if they say yes.
    2. Event tracking for WhatsApp taps, the call-back question, Apply clicks
       and finished forms, so the numbers can guide future ad campaigns.
    3. The call-back question. When someone taps the green WhatsApp button, a small
@@ -30,10 +31,17 @@
     return t || location.pathname;
   }
 
-  /* ---------- 1. Google Analytics 4 ---------- */
+  /* ---------- 1. Google Analytics 4, only after the visitor says yes ---------- */
+  var CONSENT_KEY = 'b2m-consent';
+  var consent = null;
+  try { consent = localStorage.getItem(CONSENT_KEY); } catch (e) {}
+  var gaLoaded = false;
   window.dataLayer = window.dataLayer || [];
   function gtag() { window.dataLayer.push(arguments); }
-  if (GA_ID) {
+
+  function loadGA() {
+    if (!GA_ID || gaLoaded) return;
+    gaLoaded = true;
     var s = document.createElement('script');
     s.async = true;
     s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA_ID);
@@ -41,8 +49,45 @@
     gtag('js', new Date());
     gtag('config', GA_ID, { allow_google_signals: true, allow_ad_personalization_signals: true });
   }
+
+  function askConsent() {
+    var cs = document.createElement('style');
+    cs.textContent = '.b2m-consent{position:fixed;left:0;right:0;bottom:0;z-index:1001;background:#0F2E1D;color:#fff;' +
+      'padding:14px 16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center;' +
+      'font-family:"Source Sans 3","Segoe UI",sans-serif;font-size:.96rem;line-height:1.45;box-shadow:0 -6px 20px rgba(0,0,0,.25)}' +
+      '.b2m-consent p{margin:0;max-width:640px}.b2m-consent a{color:#E0B44C}' +
+      '.b2m-consent button{font:inherit;font-weight:700;border-radius:999px;padding:9px 20px;cursor:pointer;border:2px solid #CC9A2E}' +
+      '.b2m-consent .yes{background:#CC9A2E;color:#0F2E1D}.b2m-consent .no{background:transparent;color:#fff}';
+    document.head.appendChild(cs);
+    var b = document.createElement('div');
+    b.className = 'b2m-consent';
+    b.setAttribute('role', 'dialog');
+    b.setAttribute('aria-label', 'Cookie choice');
+    b.innerHTML = '<p>We use simple analytics to learn which pages help parents and how people find us. Is that all right with you? ' +
+      '<a href="https://potentialunexplored.com/privacy-policy.html" target="_blank" rel="noopener">Read how we handle data</a>.</p>' +
+      '<div><button type="button" class="yes" data-v="yes">Yes, that is fine</button> <button type="button" class="no" data-v="no">No, thank you</button></div>';
+    b.addEventListener('click', function (e) {
+      var v = e.target.getAttribute && e.target.getAttribute('data-v');
+      if (!v) return;
+      try { localStorage.setItem(CONSENT_KEY, v); } catch (x) {}
+      consent = v;
+      b.parentNode.removeChild(b);
+      if (v === 'yes') loadGA();
+    });
+    document.body.appendChild(b);
+  }
+
+  if (GA_ID) {
+    if (consent === 'yes') loadGA();
+    else if (consent !== 'no') {
+      if (document.body) askConsent();
+      else document.addEventListener('DOMContentLoaded', askConsent);
+    }
+  }
+
   function track(name, params) {
-    if (!GA_ID) return;
+    if (!GA_ID || consent !== 'yes') return;
+    loadGA();
     try { gtag('event', name, params || {}); } catch (e) {}
   }
   window.b2mTrack = track;
