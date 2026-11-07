@@ -20,8 +20,9 @@ STEP 1. Add the code
 2. Scroll to the very bottom of the script.
 3. Open VERIFY-PAYMENTS.gs from this folder, copy ALL of it, and paste it after the last
    line. Do not delete anything that is already there.
-4. Near the top of what you pasted, fill in RECEIPT_ADDRESS with the full address,
-   including the box number, exactly as it should print on the receipt.
+4. Near the top of what you pasted, check RECEIPT_ADDRESS. It is already set to the address
+   from the approved receipt (Jane Frances Plaza, Room 22, 2nd Floor, Wakiso Town, Uganda,
+   P.O. Box 210680, Kampala GPO). Change it only if it is wrong.
 5. Click the save icon.
 
 
@@ -63,11 +64,19 @@ GOOD TO KNOW
 * Payments in dollars always go to Needs Review, because the bank alerts show shillings only.
 * A parent with no email address on the row is looked up by phone number in the Registrations
   tab. If none is found the receipt is saved in Drive and you are told.
-* Receipt numbers run BTM-R-1001, BTM-R-1002 and so on.
+* The receipt is the cream Finance Department design approved on 6 November, with both logos,
+  the boy codes, the camp fee for the number of boys, the total paid to date, the balance and
+  its due date (or "paid in full"), and the list of earlier payments from the same phone.
+* Receipt numbers run BTM-RCT-000091, BTM-RCT-000092 and so on. Numbers 87 to 90 were made by
+  hand. To start from another number, change FIRST_RECEIPT_NO before the first run.
+* The balance counts only payments this system has verified. If the same phone has earlier
+  proof rows that were not verified here, you get an email asking you to check that balance.
 * CAMP DOCUMENTS. SEND_CAMP_DOCUMENTS is false. Leave it false if the live script already
   sends the documents. If you set it to true, the documents go out straight after the proof
-  is uploaded, and the Camp Guidelines are NEVER sent without an admission letter for every
-  boy the payment covers. If any boy has no letter in Camp Documents yet, nothing is sent,
+  is uploaded, and the guidelines are NEVER sent without the admission letter. Each boy's letter
+  goes with the guidelines every time, and the generic Camp Guidelines file is never sent alone. If any boy has no letter in Camp Documents yet, nothing is sent,
   the row says so, and you get an email. Save the letter, then clear that cell to send.
-  Letters are found by the name "Admission Letter- [Boy's Full Name]- Boys to Men".
+  Letters are found by the name "Admission Letter and Guidelines- [Boy's Full Name]- Boys to Men"
+  or "Admission Letter- [Boy's Full Name]- Boys to Men". The combined file already holds the
+  guidelines. A plain letter is sent together with the Camp Guidelines file.
 * A free Gmail account can send about 100 emails a day. Each receipt is one email.

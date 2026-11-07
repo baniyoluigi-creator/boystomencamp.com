@@ -40,7 +40,11 @@ var VP = {
   ALERT_EMAIL: '',                   // empty means the Google account that owns this script
   REPLY_TO: 'info@potentialunexplored.com',
   SEND_FROM: 'info@potentialunexplored.com', // used only if it is a "Send mail as" address in this Gmail
-  RECEIPT_ADDRESS: '',               // the full address with the box number. Receipts wait until this is filled.
+  RECEIPT_ADDRESS: 'Jane Frances Plaza, Room 22, 2nd Floor, Wakiso Town, Uganda, P.O. Box 210680, Kampala GPO',
+  CAMP_LINE: 'Boys to Men Mentorship Camp, Kampala intake, 13 to 19 December 2026',
+  CAMP_FEE: 500000,                  // per boy
+  BALANCE_DUE_TEXT: '6 Dec 2026',    // seven days before the camp starts
+  FIRST_RECEIPT_NO: 91,              // BTM-RCT-000087 to 000090 were made by hand
   FINANCE_CONTACT: 'Kokora Patricia, +256 775 502 323',
   SEND_CAMP_DOCUMENTS: false,        // leave false if the live script already sends the camp documents. When true, the Camp Guidelines are sent only with an admission letter for every boy.
   DATABASE_FOLDER: 'Potential Unexplored Database',
@@ -213,12 +217,14 @@ function vpRun_(dry) {
 
       if (!regs) regs = vpLoadRegs_(ss);
       try {
+        var hist = vpHistory_(data, head, d.r, phone, tz);
         var out = vpIssueReceipt_(ss, {
-          parent: proof.name, to: email, amount: proof.amount ? proof.amount.value : 0,
-          paidDay: proof.day, boys: vpBoys_(String(get(row, 'Boy Name Or Reference') || ''), regs),
-          bankRef: String(get(row, 'Bank Ref') || '') || (result.alert && result.alert.ref) || '',
-          proofLink: String(get(row, 'Proof of Payment Link') || '')
+          parent: proof.name, phone: phone, to: email, amount: proof.amount ? proof.amount.value : 0,
+          paidDay: proof.day, boys: vpBoyInfo_(vpBoys_(String(get(row, 'Boy Name Or Reference') || ''), regs), regs),
+          bankRef: String(get(row, 'Bank Ref') || '') || (result.alert && result.alert.ref) || '', txnId: proof.txnId,
+          history: hist.paid, proofLink: String(get(row, 'Proof of Payment Link') || '')
         });
+        if (hist.skipped) review.push(item('Receipt ' + out.no + ' sent. Its balance counts only payments this system has already verified. ' + hist.skipped + ' earlier proof row(s) from this phone were not counted, so please check the balance.'));
         write(rowNo, 'Receipt No', out.no);
         write(rowNo, 'Receipt Link', out.link);
         write(rowNo, 'Receipt Sent At', email ? vpNow_() : 'Saved, no email address');
@@ -406,6 +412,31 @@ function vpBoys_(text, regs) {
   return out;
 }
 
+// Adds the registration code to each boy name. Names that are not found get no code.
+function vpBoyInfo_(names, regs) {
+  return names.map(function (n) {
+    var hit = regs.filter(function (r) { return r.name.toLowerCase() === String(n).toLowerCase(); })[0];
+    return { name: n, code: hit ? hit.boyId : '' };
+  });
+}
+
+// Earlier payments from the same phone that this system has verified, in row order, for the receipt history.
+// skipped counts earlier rows from the same phone that were not verified here, so they are not in the balance.
+function vpHistory_(data, head, uptoIndex, phone, tz) {
+  var p9 = String(phone || '').replace(/\D/g, '').slice(-9), out = { paid: [], skipped: 0 };
+  if (!p9) return out;
+  var c = function (n) { return head.indexOf(n); };
+  for (var i = 1; i < uptoIndex; i++) {
+    var row = data[i];
+    if (String(row[c('Phone')] || '').replace(/\D/g, '').slice(-9) !== p9) continue;
+    var st = String(row[c('Verify Status')] || '').trim(), rn = String(row[c('Receipt No')] || '').trim();
+    var amt = vpAmount_(row[c('Amount Paid')]);
+    if ((st === 'Verified' || rn) && amt && amt.value) out.paid.push({ day: vpDay_(row[c('Date Paid')], tz), amount: amt.value });
+    else if (amt && amt.value && st !== 'Needs Review') out.skipped++;
+  }
+  return out;
+}
+
 function vpEmailFromRegs_(ss, phone) {
   var sh = ss.getSheetByName(VP.REGISTRATIONS_TAB);
   var p9 = String(phone || '').replace(/\D/g, '').slice(-9);
@@ -435,36 +466,90 @@ function vpNiceDay_(day) {
   return m ? (parseInt(m[3], 10) + ' ' + mon[parseInt(m[2], 10) - 1] + ' ' + m[1]) : String(day || '');
 }
 
-// Builds the receipt page. d = { no, issued, parent, amount, paidDay, boys[], bankRef, logoPul, logoB2m }
+// Builds the receipt page in the approved Finance Department design (cream page, green and gold).
+// It uses tables so that Google's HTML to PDF converter lays it out the same way every time.
+// d = { no, issued, parent, phone, amount, paidDay, boys[{name,code}], txn, history[{day,amount}], logoPul, logoB2m }
 function vpReceiptHtml_(d) {
-  var green = '#1B5E20', gold = '#C9A227', cream = '#FBF5E6';
-  var logo = function (src, alt, align) { return src ? '<img src="' + src + '" alt="' + alt + '" height="58" style="height:58px;">' : '<b style="color:#fff">' + alt + '</b>'; };
-  var boys = (d.boys && d.boys.length ? d.boys : ['(not stated)']).map(function (n) { return '<div style="padding:2px 0;">' + vpEsc_(n) + '</div>'; }).join('');
-  var row = function (label, value) {
-    return '<tr><td style="padding:9px 12px;width:34%;color:#1B5E20;font-weight:bold;border-bottom:1px solid #E4D9B8;">' + label + '</td><td style="padding:9px 12px;border-bottom:1px solid #E4D9B8;">' + value + '</td></tr>';
+  var green = '#1B5E20', gold = '#C8961E', cream = '#FBF5E6', line = '#d9d2bd', sand = '#e6e0cc', lab = '#8a7a45';
+  var boys = (d.boys && d.boys.length) ? d.boys : [{ name: '(not stated)', code: '' }];
+  var n = boys.length;
+  var fee = VP.CAMP_FEE * n;
+  var prior = 0, hist = d.history || [];
+  hist.forEach(function (h) { prior += h.amount; });
+  var paidToDate = prior + d.amount;
+  var balance = Math.max(0, fee - paidToDate);
+  var names = boys.map(function (b) { return b.name; });
+  var nameText = names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] : names[0];
+  var codes = boys.map(function (b) { return b.code; }).filter(function (c) { return c; });
+  var img = function (src, alt, h) { return src ? '<img src="' + src + '" alt="' + vpEsc_(alt) + '" height="' + h + '" style="height:' + h + 'px;">' : '<b style="color:' + green + ';">' + vpEsc_(alt) + '</b>'; };
+  var label = function (t) { return '<div style="font-size:8pt;letter-spacing:1px;text-transform:uppercase;color:' + lab + ';font-weight:bold;">' + t + '</div>'; };
+  var metaCell = function (l, v, last) {
+    return '<td style="padding:9px 12px;' + (last ? '' : 'border-right:1px solid ' + line + ';') + '">' + label(l) + '<div style="font-size:11pt;font-weight:bold;color:' + green + ';padding-top:2px;">' + v + '</div></td>';
   };
-  return '<html><body style="margin:0;padding:0;background-color:' + cream + ';font-family:Calibri,Arial,sans-serif;font-size:11pt;color:#000;">' +
+  var boyRows = boys.map(function (b) {
+    return '<div style="padding:1px 0;"><b>' + vpEsc_(b.name) + '</b>' + (b.code ? ' <span style="color:#555;">(' + vpEsc_(b.code) + ')</span>' : '') + '</div>';
+  }).join('');
+  var th = function (t, right) { return '<td style="background-color:' + green + ';color:#fff;font-size:8.5pt;letter-spacing:1px;text-transform:uppercase;font-weight:bold;padding:7px 10px;' + (right ? 'text-align:right;' : '') + '">' + t + '</td>'; };
+  var td = function (t, right, bold) { return '<td style="padding:8px 10px;border-bottom:1px solid ' + sand + ';' + (right ? 'text-align:right;white-space:nowrap;' : '') + (bold ? 'font-weight:bold;' : '') + '">' + t + '</td>'; };
+  var histHtml = '';
+  if (hist.length) {
+    histHtml = '<div style="padding:12px 0 0;">' + label('Your payments so far') +
+      '<table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-size:9.5pt;color:#444;">' +
+      hist.map(function (h) { return '<tr>' + td(vpEsc_(vpNiceDay_(h.day)), false) + td('UGX ' + vpMoney_(h.amount), true) + '</tr>'; }).join('') +
+      '<tr>' + td(vpEsc_(vpNiceDay_(d.paidDay)) + ' (this receipt)', false, true) + td('UGX ' + vpMoney_(d.amount), true, true) + '</tr></table></div>';
+  }
+  var tot = function (l, v, cls) {
+    if (cls === 'big') return '<tr><td style="background-color:' + gold + ';color:#fff;font-size:12pt;font-weight:bold;padding:8px 10px;">' + l + '</td><td style="background-color:' + gold + ';color:#fff;font-size:12pt;font-weight:bold;padding:8px 10px;text-align:right;white-space:nowrap;">' + v + '</td></tr>';
+    var st = 'padding:5px 10px;border-bottom:1px solid ' + sand + ';' + (cls === 'bal' ? 'font-weight:bold;color:' + green + ';' : 'color:#444;');
+    return '<tr><td style="' + st + '">' + l + '</td><td style="' + st + 'text-align:right;white-space:nowrap;">' + v + '</td></tr>';
+  };
+  var notes = [
+    'We issue a receipt for every payment, whatever the amount.',
+    balance === 0 ? 'The camp fee for ' + (n > 1 ? 'these boys' : 'this boy') + ' has been paid in full. Thank you.' : 'The balance is due by ' + VP.BALANCE_DUE_TEXT + ', seven days before the camp starts.',
+    'The booking fee counts toward the camp fee and is not refundable.',
+    'Please keep this receipt and quote the reference number whenever you pay or call us.'
+  ];
+  return '<html><body style="margin:0;padding:0;background-color:' + cream + ';font-family:Arial,Helvetica,sans-serif;font-size:10.5pt;color:#222;">' +
     '<table width="100%" cellpadding="0" cellspacing="0" style="background-color:' + cream + ';"><tr><td>' +
-    '<table width="100%" cellpadding="0" cellspacing="0" style="background-color:' + green + ';"><tr>' +
-    '<td style="padding:14px 22px;" align="left">' + logo(d.logoPul, 'Potential Unexplored Ltd') + '</td>' +
-    '<td style="padding:14px 22px;color:#fff;font-size:9.5pt;line-height:1.5;" align="center">potentialunexplored.com<br>info@potentialunexplored.com<br>' + vpEsc_(VP.RECEIPT_ADDRESS) + '</td>' +
-    '<td style="padding:14px 22px;" align="right">' + logo(d.logoB2m, 'Boys to Men') + '</td></tr></table>' +
+    '<table width="100%" cellpadding="0" cellspacing="0"><tr><td height="10" style="background-color:' + green + ';font-size:1px;">&nbsp;</td></tr></table>' +
     '<table width="100%" cellpadding="0" cellspacing="0"><tr><td height="4" width="40%" style="background-color:' + green + ';font-size:1px;">&nbsp;</td><td height="4" width="20%" style="background-color:' + gold + ';font-size:1px;">&nbsp;</td><td height="4" width="40%" style="background-color:' + green + ';font-size:1px;">&nbsp;</td></tr></table>' +
-    '<div style="padding:26px 34px 8px;">' +
-    '<div style="font-size:22pt;font-weight:bold;color:' + green + ';">Official Receipt</div>' +
-    '<div style="font-size:11pt;color:#000;padding-top:2px;">Finance Department, Boys to Men Mentorship Camp</div>' +
-    '<table width="100%" cellpadding="0" cellspacing="0" style="margin-top:14px;"><tr><td><b>Receipt number</b><br>' + vpEsc_(d.no) + '</td><td align="right"><b>Date issued</b><br>' + vpEsc_(d.issued) + '</td></tr></table>' +
+    '<div style="padding:14px 34px 18px;">' +
+    // head
+    '<table width="100%" cellpadding="0" cellspacing="0"><tr><td align="left" valign="middle">' + img(d.logoPul, 'Potential Unexplored Ltd', 62) + '</td>' +
+    '<td align="right" valign="middle" style="font-size:9pt;line-height:1.5;color:#444;"><b style="font-size:11pt;color:' + green + ';">Finance Department</b><br>' + vpEsc_(VP.RECEIPT_ADDRESS).replace(', P.O.', '<br>P.O.') + '<br>info@potentialunexplored.com | www.potentialunexplored.com</td></tr></table>' +
+    // title bar
+    '<table width="100%" cellpadding="0" cellspacing="0" style="margin-top:12px;border-top:1px solid ' + line + ';border-bottom:1px solid ' + line + ';"><tr><td style="padding:10px 0;"><div style="font-size:22pt;font-weight:bold;letter-spacing:2px;color:' + green + ';">OFFICIAL RECEIPT</div><div style="font-size:10pt;color:#555;padding-top:3px;">' + vpEsc_(VP.CAMP_LINE) + '</div></td>' +
+    '<td align="right" valign="middle" style="padding:6px 0;">' + img(d.logoB2m, 'Boys to Men', 66) + '</td></tr></table>' +
+    // meta
+    '<table width="100%" cellpadding="0" cellspacing="0" style="margin-top:12px;border:1px solid ' + line + ';background-color:#FFFCF2;"><tr>' +
+    metaCell('Receipt number', vpEsc_(d.no)) + metaCell('Date issued', vpEsc_(vpNiceDay_(d.issued))) +
+    metaCell(codes.length ? (codes.length > 1 ? 'Boy codes' : 'Boy code') : 'Registered on', codes.length ? vpEsc_(codes.join(', ')) : 'boystomencamp.com') +
+    metaCell('Paid into', 'Centenary Bank', true) + '</tr></table>' +
+    // two columns
+    '<table width="100%" cellpadding="0" cellspacing="0" style="margin-top:12px;"><tr><td width="50%" valign="top">' + label('Received with thanks from') + '<div style="font-size:11.5pt;font-weight:bold;padding-top:2px;">' + vpEsc_(d.parent) + '</div>' + (d.phone ? '<div style="color:#444;">' + vpEsc_(d.phone) + '</div>' : '') + '</td>' +
+    '<td width="50%" valign="top">' + label('In respect of') + '<div style="padding-top:2px;">' + boyRows + '</div></td></tr></table>' +
+    // items
+    '<table width="100%" cellpadding="0" cellspacing="0" style="margin-top:12px;border-collapse:collapse;"><tr>' + th('Description') + th('Transaction ID') + th('Paid on') + th('Amount (UGX)', true) + '</tr>' +
+    '<tr>' + td('Camp fee payment for ' + vpEsc_(nameText)) + td(vpEsc_(d.txn || 'Confirmed by the Finance Department')) + td('<span style="white-space:nowrap;">' + vpEsc_(vpNiceDay_(d.paidDay)) + '</span>') + td(vpMoney_(d.amount), true, true) + '</tr></table>' +
+    histHtml +
+    // totals
+    '<table align="right" cellpadding="0" cellspacing="0" width="400" style="margin-top:12px;border-collapse:collapse;">' +
+    tot('Camp fee for ' + n + (n > 1 ? ' boys' : ' boy'), 'UGX ' + vpMoney_(fee)) +
+    tot('Total paid to date', 'UGX ' + vpMoney_(paidToDate)) +
+    tot(balance === 0 ? 'Balance, paid in full' : 'Balance, due by ' + VP.BALANCE_DUE_TEXT, 'UGX ' + vpMoney_(balance), 'bal') +
+    tot('Amount received', 'UGX ' + vpMoney_(d.amount), 'big') + '</table>' +
+    '<div style="clear:both;"></div>' +
+    // verified band
+    '<table width="100%" cellpadding="0" cellspacing="0" style="margin-top:14px;border:1px solid #c9d3b0;border-left:5px solid ' + green + ';background-color:#F1F3E3;"><tr><td style="padding:9px 14px;font-size:9.5pt;"><b style="color:' + green + ';">&#10003; Payment verified.</b> Checked by the Finance Department against the Centenary Bank record on ' + vpEsc_(vpNiceDay_(d.issued)) + ', and paid into Centenary Bank, Wakiso Branch, account name Potential Unexplored Limited.</td></tr></table>' +
+    // notes
+    '<ul style="margin:10px 0 0;padding-left:18px;font-size:9pt;color:#444;line-height:1.5;">' + notes.map(function (t) { return '<li>' + vpEsc_(t) + '</li>'; }).join('') + '</ul>' +
+    // signature and stamp
+    '<table width="100%" cellpadding="0" cellspacing="0" style="margin-top:14px;"><tr><td valign="bottom" width="55%"><div style="height:22px;"></div><div style="border-top:1px solid #777;width:230px;padding-top:4px;font-size:10pt;"><b style="color:' + green + ';">Finance Department</b><br>Potential Unexplored Ltd</div></td>' +
+    '<td align="right" valign="bottom"><table cellpadding="0" cellspacing="0" style="border:2px solid ' + green + ';"><tr><td style="padding:5px 16px;text-align:center;color:' + green + ';font-weight:bold;font-size:10pt;letter-spacing:1px;">' + (balance === 0 ? 'PAID IN FULL' : 'PAYMENT CONFIRMED') + '<div style="font-size:8pt;font-weight:normal;letter-spacing:0;">' + vpEsc_(vpNiceDay_(d.issued)) + '</div></td></tr></table></td></tr></table>' +
+    // footer
+    '<div style="text-align:center;font-size:9.5pt;color:#333;padding-top:16px;">Questions about this payment? Call <b style="color:' + green + ';">Kokora Patricia</b> on <b style="color:' + green + ';">+256 775 502 323</b>, or write to info@potentialunexplored.com</div>' +
     '</div>' +
-    '<div style="padding:8px 34px 0;"><table width="100%" cellpadding="0" cellspacing="0" style="border-top:2px solid ' + green + ';border-collapse:collapse;">' +
-    row('Received from', vpEsc_(d.parent)) +
-    row('Amount received', '<b>UGX ' + vpMoney_(d.amount) + '</b>') +
-    row('Payment made on', vpEsc_(vpNiceDay_(d.paidDay))) +
-    row('Payment is for', boys) +
-    row('Paid into', 'Centenary Bank, account of Potential Unexplored Limited') +
-    row('Bank reference', vpEsc_(d.bankRef || 'Confirmed by the Finance Department')) +
-    '</table></div>' +
-    '<div style="padding:18px 34px 0;font-size:10.5pt;text-align:justify;">This payment was checked against the bank\'s own transaction record before this receipt was issued. It counts toward the camp fee. The booking fee is not refundable once paid. Please keep this receipt for your records.</div>' +
-    '<div style="padding:46px 34px 18px;" align="center"><div style="border-top:1px solid ' + green + ';padding-top:8px;font-size:10pt;">Finance Department, Boys to Men Mentorship Camp<br>For any question about this receipt, please contact ' + vpEsc_(VP.FINANCE_CONTACT) + '</div></div>' +
+    '<table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="background-color:' + green + ';color:#fff;font-size:8.5pt;padding:7px;">This document is system generated and needs no signature. Potential Unexplored Ltd | Discover | Develop | Deploy</td></tr></table>' +
     '</td></tr></table></body></html>';
 }
 
@@ -477,12 +562,13 @@ function vpLogoData_(url) {
   } catch (e) { return ''; }
 }
 
+// Receipt numbers look like BTM-RCT-000091. Numbers before FIRST_RECEIPT_NO were made by hand.
 function vpNextReceiptNo_() {
   var props = PropertiesService.getScriptProperties();
   var n = parseInt(props.getProperty('NEXT_RECEIPT_NO'), 10);
-  if (!(n >= 1001)) n = 1001;
+  if (!(n >= VP.FIRST_RECEIPT_NO)) n = VP.FIRST_RECEIPT_NO;
   props.setProperty('NEXT_RECEIPT_NO', String(n + 1));
-  return 'BTM-R-' + n;
+  return 'BTM-RCT-' + ('000000' + n).slice(-6);
 }
 
 function vpFolder_(parent, name) {
@@ -501,7 +587,8 @@ function vpIssueReceipt_(ss, d) {
   var no = vpNextReceiptNo_();
   var issued = vpNiceDay_(Utilities.formatDate(new Date(), VP.TZ, 'yyyy-MM-dd'));
   var html = vpReceiptHtml_({
-    no: no, issued: issued, parent: d.parent, amount: d.amount, paidDay: d.paidDay, boys: d.boys, bankRef: d.bankRef,
+    no: no, issued: issued, parent: d.parent, phone: d.phone, amount: d.amount, paidDay: d.paidDay, boys: d.boys,
+    txn: d.bankRef || d.txnId, history: d.history || [],
     logoPul: vpLogoData_(VP.LOGO_PUL), logoB2m: vpLogoData_(VP.LOGO_B2M)
   });
   var fileName = 'Receipt ' + no + ' - ' + String(d.parent).replace(/[^A-Za-z0-9 ]/g, '').trim() + ' - Boys to Men.pdf';
@@ -513,21 +600,27 @@ function vpIssueReceipt_(ss, d) {
     var attachments = [pdf];
     var pid = String(d.proofLink || '').match(/(?:\/d\/|id=)([-\w]{20,})/);
     if (pid) { try { attachments.push(DriveApp.getFileById(pid[1]).getBlob()); } catch (e) {} }
-    var names = (d.boys && d.boys.length) ? d.boys.join(', ') : 'your boy';
+    var bn = (d.boys && d.boys.length) ? d.boys.map(function (x) { return x.name; }) : [];
+    var names = bn.length > 1 ? bn.slice(0, -1).join(', ') + ' and ' + bn[bn.length - 1] : (bn[0] || 'your boy');
+    var nb = Math.max(1, bn.length), fee = VP.CAMP_FEE * nb, prior = 0;
+    (d.history || []).forEach(function (h) { prior += h.amount; });
+    var balance = Math.max(0, fee - prior - d.amount);
+    var first = String(d.parent).trim().split(/\s+/)[0] || 'there';
+    var balanceLine = balance === 0
+      ? 'The camp fee for ' + (nb > 1 ? 'these boys' : 'this boy') + ' has now been paid in full. Thank you.'
+      : 'The camp fee for ' + (nb > 1 ? nb + ' boys' : 'one boy') + ' is UGX ' + vpMoney_(fee) + ', so the balance is UGX ' + vpMoney_(balance) + '. It is due by ' + String(VP.BALANCE_DUE_TEXT).replace(/ Dec /, ' December ') + ', which is seven days before the camp starts.';
     var lines = [
-      'Hello ' + d.parent + ',',
-      'Thank you. We have received your payment of UGX ' + vpMoney_(d.amount) + ' for ' + names + '. We checked it against the bank record and it is confirmed.',
-      'Your official receipt is attached, numbered ' + no + '. We have also attached a copy of the proof of payment you uploaded, for your own records.',
-      'If you are paying in instalments, please remember that the balance of the camp fee is completed 7 days before the camp. If you have not yet had your call from our team, you will get one soon, and you are welcome to call us sooner if you have any question.',
+      'Dear ' + first + ',',
+      'Thank you for your payment of UGX ' + vpMoney_(d.amount) + ' for ' + names + '. We received it on ' + vpNiceDay_(d.paidDay) + ' and checked it against our bank record.',
+      'Your official receipt is attached. The receipt number is ' + no + '. ' + balanceLine + ' We have also attached a copy of the proof of payment you uploaded.',
+      'If you have any question about this payment, please call Kokora Patricia on +256 775 502 323, or write to info@potentialunexplored.com.',
       'Warm regards,',
-      'Finance Department',
-      'Boys to Men Mentorship Camp',
-      VP.FINANCE_CONTACT
+      'Finance Department\nBoys to Men Mentorship Camp\nPotential Unexplored Ltd'
     ];
     var htmlBody = '<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.7;color:#222;max-width:560px;">' +
       lines.map(function (l, i) { return '<p style="margin:0 0 18px;">' + vpEsc_(l).replace(/\n/g, '<br>') + '</p>'; }).join('') + '</div>';
     var opts = { name: 'Boys to Men Camp, Finance', replyTo: VP.REPLY_TO, htmlBody: htmlBody, attachments: attachments };
-    var subject = 'Your Boys to Men payment receipt ' + no;
+    var subject = 'Your official receipt, Boys to Men Camp (' + no + ')';
     try {
       if (VP.SEND_FROM) GmailApp.sendEmail(d.to, subject, lines.join('\n\n'), { name: opts.name, replyTo: opts.replyTo, htmlBody: htmlBody, attachments: attachments, from: VP.SEND_FROM });
       else GmailApp.sendEmail(d.to, subject, lines.join('\n\n'), opts);
@@ -556,7 +649,7 @@ function vpFindLetter_(folders, boyName) {
   return null;
 }
 
-// Sends the camp documents. The Camp Guidelines go out ONLY together with an admission letter for every boy.
+// Sends the camp documents. The guidelines go out ONLY together with an admission letter for every boy.
 // If any boy has no letter yet, nothing is sent. Returns { sent: true } or { sent: false, missing: [names] }.
 function vpSendDocs_(to, parent, boys, sheet, rowNo) {
   var root = DriveApp.getFoldersByName(VP.DATABASE_FOLDER);
@@ -569,28 +662,32 @@ function vpSendDocs_(to, parent, boys, sheet, rowNo) {
 
   var names = (boys && boys.length) ? boys : [];
   if (!names.length) return { sent: false, missing: ['(no boy could be identified from this payment)'] };
-  var letters = [], missing = [];
+  var letters = [], missing = [], needGuidelines = false;
   names.forEach(function (n) {
     var f = vpFindLetter_(searchIn, n);
-    if (f) letters.push(f.getBlob()); else missing.push(n);
+    if (!f) { missing.push(n); return; }
+    letters.push(f.getBlob());
+    if (!/guidelines/i.test(f.getName())) needGuidelines = true;   // a plain letter travels with the generic guidelines
   });
   if (missing.length) return { sent: false, missing: missing };
 
-  var wanted = [/camp information/i, /medical/i, /camp guidelines/i];
+  // Never the generic Camp Guidelines on their own. A combined "Admission Letter and Guidelines" file already has them.
+  var wanted = [/camp information/i, /medical/i];
+  if (needGuidelines) wanted.push(/camp guidelines/i);
   var files = [];
   wanted.forEach(function (re) {
     var it = folder.getFiles();
     while (it.hasNext()) {
       var f = it.next();
-      if (re.test(f.getName()) && /boys to men/i.test(f.getName()) && !/combined/i.test(f.getName())) { files.push(f.getBlob()); break; }
+      if (re.test(f.getName()) && /boys to men/i.test(f.getName()) && !/combined|admission letter/i.test(f.getName())) { files.push(f.getBlob()); break; }
     }
   });
-  if (files.length < 3) throw new Error('Found only ' + files.length + ' of the 3 camp documents');
+  if (files.length < wanted.length) throw new Error('Found only ' + files.length + ' of the ' + wanted.length + ' camp documents');
 
   var nameText = names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] : names[0];
   var lines = [
     'Hello ' + parent + ',',
-    'Thank you for sending your proof of payment. To help you prepare, we have attached ' + (names.length > 1 ? 'the admission letters for ' : 'the admission letter for ') + nameText + ', together with the Camp Information and Requirements, the Basic Medical Examination Form and the Camp Guidelines for Boys.',
+    'Thank you for sending your proof of payment. To help you prepare, we have attached ' + (names.length > 1 ? 'the admission letters for ' : 'the admission letter for ') + nameText + ', together with the camp guidelines, the Camp Information and Requirements and the Basic Medical Examination Form.',
     'Please share ' + (names.length > 1 ? 'each letter with the boy it is addressed to' : 'the letter with him') + ', and reply to this email to say you agree to the camp terms. If you have any question, you are welcome to speak to our team.',
     'Warm regards,', 'Boys to Men Mentorship Camp'
   ];
