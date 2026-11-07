@@ -1,6 +1,6 @@
 /* ===================================================================
    Boys to Men Mentorship Camp — Blog Stylesheet
-   Palette: deep navy, harvest gold, forest green, warm ivory, ember clay
+   Palette: deep forest green (matching the main site), harvest gold, forest green, warm ivory, ember clay
    Type: Fraunces (display serif) + Source Sans 3 (body/utility)
    Signature element: the "ember mark" — a small flame glyph used as a
    section divider, echoing the fireside conversations the posts
@@ -8,10 +8,10 @@
 =================================================================== */
 
 :root {
-  --navy: #0f2340;
-  --navy-2: #16304f;
-  --navy-3: #0a1830;
-  --gold: #c9a24b;
+  --navy: #153A24;
+  --navy-2: #1C4B2E;
+  --navy-3: #0F2A1A;
+  --gold: #CC9A2E;
   --gold-light: #e8cd8a;
   --forest: #2f4a3c;
   --ivory: #fbf7ee;
@@ -19,9 +19,9 @@
   --charcoal: #23262b;
   --charcoal-soft: #4a4f57;
   --ember: #b5502d;
-  --rule: rgba(15, 35, 64, 0.12);
+  --rule: rgba(21, 58, 36, 0.12);
   --max-w: 700px;
-  --shadow: 0 18px 40px -22px rgba(15, 35, 64, 0.35);
+  --shadow: 0 18px 40px -22px rgba(21, 58, 36, 0.35);
 }
 
 * { box-sizing: border-box; }
@@ -59,8 +59,11 @@ button:focus-visible {
 
 /* ---------- Top bar ---------- */
 .site-header {
-  background: var(--navy);
+  background: rgba(250, 246, 236, 0.97);
   border-bottom: 3px solid var(--gold);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 .site-header-inner {
   max-width: 1080px;
@@ -388,7 +391,7 @@ blockquote.pull p {
 }
 @media (max-width: 620px) {
   .index-grid { grid-template-columns: 1fr; }
-  .site-nav { display: none; }
+  .site-nav { display: flex; }
 }
 
 /* ---------- Added: byline, dates box, steps ---------- */
@@ -402,3 +405,39 @@ blockquote.pull p {
 .dates-box ul { margin: 0 0 12px; padding-left: 20px; }
 .dates-box li { font-size: 17px; line-height: 1.6; }
 .dates-box p.db-author { font-weight: 700; margin-bottom: 0 !important; }
+
+
+/* ---------- Header matched to the main site (logo, tagline, nav) ---------- */
+.site-header-inner { padding: 10px 24px; flex-wrap: wrap; }
+.brand-group { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.brand img { height: 56px; width: auto; display: block; }
+.pul-tagline {
+  font-family: "Source Sans 3", sans-serif;
+  font-size: 11px;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+  color: var(--navy-2);
+  font-weight: 700;
+  text-decoration: none;
+  border-left: 2px solid var(--gold);
+  padding-left: 12px;
+}
+.pul-tagline:hover { color: var(--gold); }
+.site-nav { align-items: center; flex-wrap: wrap; gap: 18px; }
+.site-nav a { color: var(--navy-2); }
+.site-nav a:hover { color: var(--gold); }
+.site-nav a.nav-apply {
+  background: var(--gold);
+  color: var(--navy-3);
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+}
+.site-nav a.nav-apply:hover { background: var(--gold-light); color: var(--navy-3); }
+@media (max-width: 760px) {
+  .pul-tagline { display: none; }
+  .brand img { height: 46px; }
+  .site-nav { gap: 12px; }
+  .site-nav a { font-size: 13px; }
+  .site-nav a:not(.nav-apply) { display: none; }
+}
