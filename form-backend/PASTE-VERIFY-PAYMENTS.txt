@@ -1,0 +1,73 @@
+CHECK EVERY PAYMENT AGAINST THE BANK AND SEND THE RECEIPT BY ITSELF
+
+This watches the proof of payment tab. Every minute it looks at payments that are at least
+3 minutes old, finds the matching Centenary alert in your Gmail, and when everything agrees
+it makes the Finance Department receipt and emails it to the parent with a copy of their proof.
+Nothing is ever deleted, and the live script is not changed.
+
+What "everything agrees" means
+The bank reference the parent typed, the amount and the date all match one alert. If a parent
+gave no reference, the amount, the date and the depositor's name must match one alert only.
+If nothing matches yet, it tries again after 10 minutes, 30 minutes and 2 hours. After that
+the row is marked Needs Review and you get one email.
+Each bank reference can be used once only, so one payment can never confirm two families.
+
+
+STEP 1. Add the code
+
+1. Sign in with baniyoluigi@gmail.com, open the sheet "Boys to Men Registrations", then
+   Extensions, then Apps Script.
+2. Scroll to the very bottom of the script.
+3. Open VERIFY-PAYMENTS.gs from this folder, copy ALL of it, and paste it after the last
+   line. Do not delete anything that is already there.
+4. Near the top of what you pasted, fill in RECEIPT_ADDRESS with the full address,
+   including the box number, exactly as it should print on the receipt.
+5. Click the save icon.
+
+
+STEP 2. Look first (changes nothing)
+
+1. In the function list at the top, choose vpPreview, then click Run.
+2. Google will ask you to authorise. Click Authorise access, choose your account, then
+   Advanced, then "Go to (project name) (unsafe)", then Allow. It needs Gmail to read the
+   bank alerts and send receipts, and Drive to save the receipts.
+3. Click Execution log. It says what it would do with each payment, and sends nothing.
+4. If a payment you know is genuine shows Needs Review, tell Claude what the log says.
+
+
+STEP 3. Start it
+
+1. Choose vpStart, then click Run.
+2. It starts the one minute timer and remembers this moment as the start. Payments uploaded
+   before this moment are left alone, so nobody gets a surprise receipt for an old payment.
+   To include older payments too, write a date in INCLUDE_ROWS_FROM, for example
+   '2026-11-01 00:00', before you run vpStart.
+
+To stop it at any time, choose vpStop and click Run. It stops only this check.
+
+
+WHAT YOU WILL SEE IN THE PROOF TAB
+
+New columns appear on the right. Verify Status is Pending, Verified or Needs Review. Verify
+Note says why. Bank Ref, Bank Amount and Bank Time show the alert that was matched. Receipt No,
+Receipt Link and Receipt Sent At show the receipt. A new tab called Bank Refs Used keeps every
+bank reference that has been matched. Receipts are saved in Finance Receipts inside Potential
+Unexplored Database in your Drive.
+
+To confirm a payment yourself, type Approved in its Verify Status cell. If you have the bank
+reference, type it in Bank Ref. Within a minute the receipt goes out.
+
+
+GOOD TO KNOW
+
+* Payments in dollars always go to Needs Review, because the bank alerts show shillings only.
+* A parent with no email address on the row is looked up by phone number in the Registrations
+  tab. If none is found the receipt is saved in Drive and you are told.
+* Receipt numbers run BTM-R-1001, BTM-R-1002 and so on.
+* CAMP DOCUMENTS. SEND_CAMP_DOCUMENTS is false. Leave it false if the live script already
+  sends the documents. If you set it to true, the documents go out straight after the proof
+  is uploaded, and the Camp Guidelines are NEVER sent without an admission letter for every
+  boy the payment covers. If any boy has no letter in Camp Documents yet, nothing is sent,
+  the row says so, and you get an email. Save the letter, then clear that cell to send.
+  Letters are found by the name "Admission Letter- [Boy's Full Name]- Boys to Men".
+* A free Gmail account can send about 100 emails a day. Each receipt is one email.
