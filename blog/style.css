@@ -441,3 +441,5 @@ blockquote.pull p {
   .site-nav a { font-size: 13px; }
   .site-nav a:not(.nav-apply) { display: none; }
 }
+
+.short-answer{background:#f6efe1;border-left:4px solid #c9a227;padding:14px 18px;border-radius:8px;margin:0 0 1.4em}
