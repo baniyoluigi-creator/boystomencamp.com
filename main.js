@@ -148,11 +148,33 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Homepage hero: rotate background photos with a gentle crossfade
   var heroLayers = document.querySelectorAll('#homeHero .hero-bg-layer');
+  // Extra photos load only after the page has finished, so phones show the page first.
+  // A photo joins the rotation only once it has fully downloaded.
   if (heroLayers.length > 1) {
     var heroIndex = 0;
+    var startHeroPhotos = function () {
+      heroLayers.forEach(function (layer) {
+        var src = layer.getAttribute('data-bg');
+        if (!src) return;
+        var pic = new Image();
+        pic.onload = function () {
+          layer.style.backgroundImage = "url('" + src + "')";
+          layer.removeAttribute('data-bg');
+        };
+        pic.src = src;
+      });
+    };
+    if (document.readyState === 'complete') { startHeroPhotos(); }
+    else { window.addEventListener('load', startHeroPhotos); }
     setInterval(function () {
+      var next = heroIndex;
+      for (var i = 0; i < heroLayers.length; i++) {
+        next = (next + 1) % heroLayers.length;
+        if (!heroLayers[next].hasAttribute('data-bg')) break;
+      }
+      if (next === heroIndex) return;
       heroLayers[heroIndex].classList.remove('is-active');
-      heroIndex = (heroIndex + 1) % heroLayers.length;
+      heroIndex = next;
       heroLayers[heroIndex].classList.add('is-active');
     }, 3000);
   }
