@@ -115,7 +115,7 @@
         var card = document.createElement('div');
         card.className = 'b2m-inline';
         card.innerHTML = '<strong>Is your son ready for the camp?</strong>' +
-          '<p>Apply now and our team will call you within 72 hours to answer your questions and guide you through the next steps.</p>' +
+          '<p>Apply now. Your confirmation email will guide you through the next steps, and you are welcome to contact us with any questions.</p>' +
           '<a href="' + APPLY + '">Apply Now</a>';
         at.parentNode.insertBefore(card, at.nextSibling);
       }
@@ -137,7 +137,7 @@
     var band = document.createElement('section');
     band.className = 'b2m-band';
     band.innerHTML = '<h2>Ready to enrol your son?</h2>' +
-      '<p>Apply now and our team will call you within 72 hours to answer your questions and guide you through the next steps.</p>' +
+      '<p>Apply now. Your confirmation email will guide you through the next steps, and you are welcome to contact us with any questions.</p>' +
       '<a href="' + APPLY + '">Apply Now</a>';
     footer.parentNode.insertBefore(band, footer);
   });
